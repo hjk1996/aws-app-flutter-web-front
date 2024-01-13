@@ -1,0 +1,28 @@
+version: 0.2
+
+
+env:
+  variables:
+    FLUTTER_VERSION: flutter_linux_3.16.7-stable
+
+phases:
+  install:
+    commands:
+      - echo "Install Flutter SDK"
+      - wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/${FLUTTER_VERSION}.tar.xz
+      - tar xf ${FLUTTER_VERSION}.tar.xz
+      - export PATH="$PATH:`pwd`/flutter/bin"
+  pre_build:
+    commands:
+      - echo "Fetch dependencies"
+      - flutter pub get
+  build:
+    commands:
+      - echo "Run tests"
+      - flutter test
+      - echo "Build Flutter Web"
+      - flutter build web
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'build/web'

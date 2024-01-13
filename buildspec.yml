@@ -1,5 +1,9 @@
 version: 0.2
 
+
+env:
+  variables:
+    DISTRIBUTION_ID: EIGSPS7FJIW8B
 phases:
   install:
     commands:
@@ -17,6 +21,10 @@ phases:
     commands:
       - echo "Build Flutter Web"
       - flutter build web
+  post_build:
+    commands:
+      - echo "Invalidate CloudFront cache"
+      - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
 artifacts:
   files:
     - "**/*"

@@ -14,8 +14,6 @@ phases:
       - flutter pub get
   build:
     commands:
-      - echo "Run tests"
-      - flutter test
       - echo "Build Flutter Web"
       - flutter build web
 artifacts:

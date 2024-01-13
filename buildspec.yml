@@ -1,11 +1,12 @@
 version: 0.2
 
-
-env:
-  variables:
-    FLUTTER_VERSION: flutter_linux_3.16.7-stable
-
 phases:
+  install:
+    commands:
+      - echo "Install aws cli"
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - unzip awscliv2.zip
+      - ./aws/install
   pre_build:
     commands:
       - echo "Checking flutter version"
@@ -18,5 +19,5 @@ phases:
       - flutter build web
 artifacts:
   files:
-    - '**/*'
-  base-directory: 'build/web'
+    - "**/*"
+  base-directory: "build/web"

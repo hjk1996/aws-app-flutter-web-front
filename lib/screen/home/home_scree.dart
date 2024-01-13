@@ -38,7 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: ListView(
-                children: [],
+                children: [
+                  Text("testing")
+                ],
               ),
             )
           ],

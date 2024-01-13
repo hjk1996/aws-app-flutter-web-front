@@ -8,6 +8,8 @@ env:
 phases:
   pre_build:
     commands:
+      - echo "Checking flutter version"
+      - flutter --version
       - echo "Fetch dependencies"
       - flutter pub get
   build:

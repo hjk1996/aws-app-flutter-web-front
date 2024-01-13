@@ -3,7 +3,7 @@ version: 0.2
 
 env:
   variables:
-    DISTRIBUTION_ID: EIGSPS7FJIW8B
+    DISTRIBUTION_ID: EM5V6FWU3M6C
 phases:
   install:
     commands:

@@ -185,6 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     TextFormField(
                                       controller: _passwordController,
                                       focusNode: _passwordFocusNode,
+                                      obscureText: true,
                                       decoration: const InputDecoration(
                                         filled: true,
                                         hintText: "Password",
@@ -219,6 +220,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     TextFormField(
                                       controller: _confirmPasswordController,
                                       focusNode: _confirmPasswordFocusNode,
+                                      obscureText: true,
                                       decoration: const InputDecoration(
                                         filled: true,
                                         hintText: "Confirm Password",

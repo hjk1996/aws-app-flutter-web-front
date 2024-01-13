@@ -153,6 +153,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                     TextFormField(
                                       controller: _passwordController,
                                       focusNode: _passwordFocusNode,
+                                      obscureText: true,
                                       decoration: const InputDecoration(
                                         filled: true,
                                         hintText: "Password",

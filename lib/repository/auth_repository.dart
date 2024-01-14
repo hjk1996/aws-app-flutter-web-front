@@ -57,4 +57,8 @@ class AuthRepository {
       {required String email}) async {
     return Amplify.Auth.resendSignUpCode(username: email);
   }
+
+  Future<SignOutResult> signOut() async {
+    return Amplify.Auth.signOut();
+  }
 }

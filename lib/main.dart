@@ -74,20 +74,15 @@ class AuthWrapper extends StatefulWidget {
 
 class _AuthWrapperState extends State<AuthWrapper> {
   @override
-  void initState() {
-    super.initState();
-    Future.microtask(
-      () => context.read<AppAuthProvider>().getCurrentUser(),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final authProvider = context.watch<AppAuthProvider>();
-    if (authProvider.state.isSignedIn && authProvider.state.user != null) {
-      return HomeScreen();
-    } else {
-      return const SignInScreen();
-    }
+    return Consumer<AppAuthProvider>(
+      builder: (context, authProvider, child) {
+        if (authProvider.state.isSignedIn && authProvider.state.user != null) {
+          return const HomeScreen();
+        } else {
+          return const SignInScreen();
+        }
+      },
+    );
   }
 }

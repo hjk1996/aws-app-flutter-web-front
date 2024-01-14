@@ -7,7 +7,12 @@ import 'package:provider/single_child_widget.dart';
 Future<List<SingleChildWidget>> getProviders() async {
   final amplifyAuth = Amplify.Auth;
   final authRepo = AuthRepository(amplifyAuth: amplifyAuth);
-  final authProvider = ChangeNotifierProvider(create:(context) =>  AppAuthProvider(authRepository: authRepo),);
+  final authProvider = AppAuthProvider(authRepository: authRepo);
+  await authProvider.getCurrentUser();
 
-  return [authProvider];
+  return [
+    ChangeNotifierProvider<AppAuthProvider>(
+      create: (_) => authProvider,
+    ),
+  ];
 }

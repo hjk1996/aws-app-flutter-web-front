@@ -65,13 +65,19 @@ class AppAuthProvider with ChangeNotifier {
 
   Future<void> signIn({required String email, required String password}) async {
     try {
-      toggleLoading();
       _state = _state.copyWith(email: email);
+      toggleLoading();
       final result =
           await _authRepository.signInUser(email: email, password: password);
       _handleSignInResult(result);
+    } on InvalidStateException catch (_) {
+      await getCurrentUser();
     } on AuthException catch (err) {
+      _authEventController.sink
+          .add(AuthEvent.error("something went wrong while signing in: $err"));
     } on Exception catch (err) {
+      _authEventController.sink
+          .add(AuthEvent.error("something went wrong: $err"));
     } finally {
       toggleLoading();
     }
@@ -105,6 +111,19 @@ class AppAuthProvider with ChangeNotifier {
     }
   }
 
+  Future<void> signOut() async {
+    try {
+      toggleLoading();
+      await _authRepository.signOut();
+      _state = _state.copyWith(isSignedIn: false, user: null);
+    } on Exception catch (err) {
+      _authEventController.sink
+          .add(AuthEvent.error("something went wrong: $err"));
+    } finally {
+      toggleLoading();
+    }
+  }
+
   Future<void> confirmUser({
     required String confirmationCode,
   }) async {
@@ -132,16 +151,15 @@ class AppAuthProvider with ChangeNotifier {
   Future<void> resendSignUpCode() async {
     try {
       toggleLoading();
-      final result = await _authRepository.sendEmailVerificationCode(
+      await _authRepository.sendEmailVerificationCode(
         email: _state.email!,
       );
     } on AuthException catch (err) {
       _authEventController.sink
-          .add(const AuthEvent.error("failed to resend code"));
+          .add(AuthEvent.error("failed to resend code: $err"));
     } on Exception catch (err) {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));
-      print(err);
     } finally {
       toggleLoading();
     }
@@ -154,6 +172,7 @@ class AppAuthProvider with ChangeNotifier {
         _authEventController.sink.add(const AuthEvent.confirmSignUp());
         break;
       case AuthSignInStep.done:
+        await getCurrentUser();
         _authEventController.sink.add(const AuthEvent.onSignInSuccess());
         break;
       default:
@@ -168,9 +187,6 @@ class AppAuthProvider with ChangeNotifier {
             AuthEvent.onCodeDelivery(result.nextStep.codeDeliveryDetails!));
         break;
       case AuthSignUpStep.done:
-        print("sign up success");
-        await getCurrentUser();
-
         _authEventController.sink.add(const AuthEvent.onSignUpSuccess());
         break;
     }

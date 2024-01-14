@@ -4,6 +4,7 @@ version: 0.2
 env:
   variables:
     DISTRIBUTION_ID: EM5V6FWU3M6C
+    S3: www.khj-image-app.com
 phases:
   install:
     commands:
@@ -23,6 +24,10 @@ phases:
       - flutter build web
   post_build:
     commands:
+      - ecoh "Delete S3 files"
+      - aws s3 rm s3://$S3 --recursive
+      - echo "Sync S3"
+      - aws s3 sync build/web/ s3://$S3/ 
       - echo "Invalidate CloudFront cache"
       - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
 artifacts:

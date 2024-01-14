@@ -67,12 +67,7 @@ class _SignInScreenState extends State<SignInScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: null,
         title: const Text(
           "Login",
           style: TextStyle(

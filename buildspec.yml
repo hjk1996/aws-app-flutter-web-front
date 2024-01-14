@@ -24,7 +24,7 @@ phases:
       - flutter build web
   post_build:
     commands:
-      - ecoh "Delete S3 files"
+      - echo "Delete S3 files"
       - aws s3 rm s3://$S3 --recursive
       - echo "Sync S3"
       - aws s3 sync build/web/ s3://$S3/ 

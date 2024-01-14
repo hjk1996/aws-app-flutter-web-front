@@ -34,4 +34,4 @@ artifacts:
   files:
     - "**/*"
   base-directory: "build/web"
-  name: flutter-frontend-artifact-$(date +%Y-%m-%d)
+  name: flutter-frontend-artifact-$(date +%Y-%m-%d-%H-%M-%S)

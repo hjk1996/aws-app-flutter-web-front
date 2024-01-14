@@ -6,7 +6,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter_web/di.dart';
 import 'package:flutter_web/providers/app_auth_provider.dart';
 import 'package:flutter_web/screen/email_verification/email_verification_screen.dart';
-import 'package:flutter_web/screen/home/home_scree.dart';
+import 'package:flutter_web/screen/home/home_screen.dart';
 import 'package:flutter_web/screen/sign_in/sign_in_screen.dart';
 import 'package:flutter_web/screen/sign_up/sign_up_screen.dart';
 import 'package:provider/provider.dart';

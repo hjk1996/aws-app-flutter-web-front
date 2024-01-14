@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web/providers/app_auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -32,22 +33,16 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               children: [
                 Flexible(
-                  child: SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Home"),
-                    ),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const AutoSizeText("Home"),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Flexible(
-                  child: SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("My Photo"),
-                    ),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const AutoSizeText("My Photo"),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -81,15 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Selector<AppAuthProvider, bool>(
                     builder: (context, loading, child) => loading
                         ? const CircularProgressIndicator()
-                        : SizedBox(
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: () async => await context
-                                  .read<AppAuthProvider>()
-                                  .signOut(),
-                              child: const Text(
-                                "Sign Out",
-                              ),
+                        : ElevatedButton(
+                            onPressed: () async =>
+                                await context.read<AppAuthProvider>().signOut(),
+                            child: const AutoSizeText(
+                              "Sign Out",
                             ),
                           ),
                     selector: (context, authProvider) =>

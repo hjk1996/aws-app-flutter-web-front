@@ -31,22 +31,22 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Row(
               children: [
-                SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Home",
+                Flexible(
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text("Home"),
                     ),
                   ),
                 ),
                 const SizedBox(width: 10),
-                SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "My Photo",
+                Flexible(
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text("My Photo"),
                     ),
                   ),
                 ),
@@ -77,21 +77,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Selector<AppAuthProvider, bool>(
-                  builder: (context, loading, child) => loading
-                      ? const CircularProgressIndicator()
-                      : SizedBox(
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () async =>
-                                await context.read<AppAuthProvider>().signOut(),
-                            child: const Text(
-                              "Sign Out",
+                Flexible(
+                  child: Selector<AppAuthProvider, bool>(
+                    builder: (context, loading, child) => loading
+                        ? const CircularProgressIndicator()
+                        : SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () async => await context
+                                  .read<AppAuthProvider>()
+                                  .signOut(),
+                              child: const Text(
+                                "Sign Out",
+                              ),
                             ),
                           ),
-                        ),
-                  selector: (context, authProvider) =>
-                      authProvider.state.loading,
+                    selector: (context, authProvider) =>
+                        authProvider.state.loading,
+                  ),
                 )
               ],
             ),

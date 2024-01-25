@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web/event/auth_event.dart';
+import 'package:flutter_web/model/repository/auth_repository.dart';
 import 'package:flutter_web/model/state_model/auth_state.dart';
-import 'package:flutter_web/repository/auth_repository.dart';
 
 class AppAuthProvider with ChangeNotifier {
   AppAuthProvider({required AuthRepository authRepository}) {

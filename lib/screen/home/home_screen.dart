@@ -1,7 +1,10 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_web/providers/app_auth_provider.dart';
-import 'package:flutter_web/screen/home/page_views/home_page_view.dart';
+import 'package:flutter_web/model/state_model/image_item.dart';
+import 'package:flutter_web/providers/app_image_provider.dart';
+import 'package:flutter_web/screen/gallery/gallery_screen.dart';
+import 'package:flutter_web/screen/search/search_screen.dart';
+import 'package:flutter_web/screen/setting/setting_screen.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,10 +21,24 @@ class _HomeScreenState extends State<HomeScreen> {
   );
   int _selectedIndex = 0;
 
+  late final PagingController<int, ImageItem> pagingController;
+
+  @override
+  void initState() {
+    pagingController = PagingController<int, ImageItem>(firstPageKey: 1);
+    pagingController.addPageRequestListener(
+        (pageKey) => context.read<AppImageProvider>().getNextPage(
+              pagingController: pagingController,
+              pageKey: pageKey,
+            ));
+    super.initState();
+  }
+
   @override
   void dispose() {
     _queryController.dispose();
     _pageViewController.dispose();
+    pagingController.dispose();
     super.dispose();
   }
 
@@ -31,9 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
         body: PageView(
           controller: _pageViewController,
           children: [
-            const HomePageView(),
-            Container(color: Colors.blue),
-            Container(color: Colors.green),
+            GalleryScreen(
+              pagingController: pagingController,
+            ),
+            const SearchScreen(),
+            const SettingScreen(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -47,10 +66,10 @@ class _HomeScreenState extends State<HomeScreen> {
             });
           },
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.photo), label: 'My Photo'),
+            BottomNavigationBarItem(icon: Icon(Icons.image), label: 'Gallery'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: 'Settings'),
+                icon: Icon(Icons.settings), label: 'Setting'),
           ],
         ));
   }

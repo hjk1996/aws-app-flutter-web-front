@@ -7,6 +7,7 @@ import 'package:flutter_web/di.dart';
 import 'package:flutter_web/providers/app_auth_provider.dart';
 import 'package:flutter_web/screen/email_verification/email_verification_screen.dart';
 import 'package:flutter_web/screen/home/home_screen.dart';
+import 'package:flutter_web/screen/image/image_screen.dart';
 import 'package:flutter_web/screen/sign_in/sign_in_screen.dart';
 import 'package:flutter_web/screen/sign_up/sign_up_screen.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
         SignInScreen.routeName: (context) => const SignInScreen(),
         SignUpScreen.routeName: (context) => const SignUpScreen(),
         EmailVerificationScreen.routeName: (context) =>
-            EmailVerificationScreen()
+            EmailVerificationScreen(),
       },
       home: const AuthWrapper(),
     );

@@ -39,9 +39,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
           childAspectRatio: 1,
         ),
         builderDelegate: PagedChildBuilderDelegate<ImageItem>(
-          itemBuilder: (context, item, index) => ThumnailWidget(
-            index: index,
-            imageItem: item,
+          itemBuilder: (context, item, index) => Hero(
+            tag:  item.imageMetadata.id,
+            child: ThumnailWidget(
+              key: ValueKey(item.imageMetadata.id),
+              index: index,
+              imageItem: item,
+            ),
           ),
         ),
       ),

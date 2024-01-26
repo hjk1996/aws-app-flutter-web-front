@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web/model/state_model/image_item.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
+import 'package:flutter_web/screen/image/image_screen.dart';
 import 'package:provider/provider.dart';
 
 class ThumnailWidget extends StatefulWidget {
@@ -22,6 +23,7 @@ class _ThumnailWidgetState extends State<ThumnailWidget> {
     return Selector<AppImageProvider, bool>(
       selector: (_, provider) => provider.state.selectedMode,
       builder: (context, selectMode, child) {
+        // select 모드일 때
         if (selectMode) {
           return GestureDetector(
               onTap: () {
@@ -60,9 +62,17 @@ class _ThumnailWidgetState extends State<ThumnailWidget> {
                     ),
                 ],
               ));
+          // select mode 아닐 때
         } else {
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              context
+                  .read<AppImageProvider>()
+                  .setCurrentImageIndex(widget.index);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ImageScreen(index: widget.index),
+              ));
+            },
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(

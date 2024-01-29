@@ -32,6 +32,8 @@ class _GalleryScreenState extends State<GalleryScreen> {
         () => widget.pagingController.refresh(),
       ),
       child: PagedGridView<int, ImageItem>(
+        physics: const AlwaysScrollableScrollPhysics(),
+        shrinkWrap: false,
         pagingController: widget.pagingController,
         padding: const EdgeInsets.all(8),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -40,7 +42,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
         ),
         builderDelegate: PagedChildBuilderDelegate<ImageItem>(
           itemBuilder: (context, item, index) => Hero(
-            tag:  item.imageMetadata.id,
+            tag: item.imageMetadata.id,
             child: ThumnailWidget(
               key: ValueKey(item.imageMetadata.id),
               index: index,

@@ -1,5 +1,4 @@
-import 'dart:typed_data';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web/model/data_model/image_metadata.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
@@ -31,14 +30,16 @@ class AppImageProvider with ChangeNotifier {
 
   GalleryState get state => _state;
 
-  Future<void> getNextPage(
-      {required PagingController<int, ImageItem> pagingController,
-      required int pageKey}) async {
+  Future<void> getNextPage({
+    required PagingController<int, ImageItem> pagingController,
+    required int pageKey,
+    int? limit,
+  }) async {
     try {
       final (newImageMetadataList, newImageDataList) =
           await _imageRepository.getImages(
-        limit: 20,
-        lastImageId: _state.imageMetadataList.isNotEmpty
+        limit: limit ?? 20,
+        afterThisImageId: _state.imageMetadataList.isNotEmpty
             ? _state.imageMetadataList.last.id
             : null,
       );
@@ -152,6 +153,52 @@ class AppImageProvider with ChangeNotifier {
         imageMetadataList: newImageMetadataList,
       );
     } on Exception catch (err) {
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> uploadFiles(
+      {required PagingController<int, ImageItem> pagingController,
+      required List<PlatformFile> files}) async {
+    try {
+      final res = await _imageRepository.uploadFiles(
+        imageDataList: files,
+      );
+
+      if (!res) {
+        throw Exception("upload failed");
+      }
+
+      final (newImageMetadataList, newImageDataList) =
+          await _imageRepository.getImages(
+        limit: files.length,
+        afterThisImageId: _state.imageMetadataList.isNotEmpty
+            ? _state.imageMetadataList.first.id
+            : null,
+      );
+
+      _state = _state.copyWith(
+        imageMetadataList: [
+          ...newImageMetadataList,
+          ..._state.imageMetadataList,
+        ],
+      );
+      _imageDataList.insertAll(0, newImageDataList);
+
+      pagingController.itemList ??= [];
+      pagingController.itemList!.insertAll(
+        0,
+        List.generate(
+          newImageMetadataList.length,
+          (index) => ImageItem(
+            imageMetadata: newImageMetadataList[index],
+            imageData: newImageDataList[index],
+          ),
+        ),
+      );
+    } on Exception catch (err) {
+      print(err);
     } finally {
       notifyListeners();
     }

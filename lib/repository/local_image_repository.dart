@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_web/model/data_model/image_metadata.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/image_data.dart';
@@ -11,7 +12,7 @@ class LocalImageRepository implements ImageRepository {
   @override
   Future<(List<ImageMetadata>, List<ImageData>)> getImages({
     required int limit,
-    int? lastImageId,
+    int? afterThisImageId,
   }) async {
     Random random = Random();
 
@@ -69,6 +70,13 @@ class LocalImageRepository implements ImageRepository {
     }
 
     return (imageMetadataList, imageDataList);
+  }
+
+  @override
+  Future<bool> uploadFiles({
+    required List<PlatformFile> imageDataList,
+  }) async {
+    throw UnimplementedError();
   }
 
   @override

@@ -1,27 +1,17 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 
 abstract class AuthRepository {
-  Future<bool> isUserSignedIn();
-
-  Future<AuthUser> getCurrentUser();
-
-  Future<SignUpResult> signUpUser({
-    required String username,
+  Future<bool> signUp({
+    required String email,
     required String password,
-    required String email,
-    String? phoneNumber,
   });
 
-  Future<SignUpResult> confirmUser({
+  Future<bool> confirmUser({
     required String email,
-    required String confirmationCode,
+    required String code,
   });
 
-  Future<SignInResult> signInUser(
+  Future<bool> signIn(
       {required String email, required String password});
 
-  Future<ResendSignUpCodeResult> sendEmailVerificationCode(
-      {required String email});
-
-  Future<SignOutResult> signOut();
+  Future<bool> signOut();
 }

@@ -19,12 +19,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final FocusNode _emailFocusNode = FocusNode();
-  final FocusNode _userNameFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _confirmPasswordFocusNode = FocusNode();
 
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -43,7 +41,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             .showSnackBar(SnackBar(content: Text(e))),
         onCodeDelivery: (codeDeliveryDetails) => Navigator.of(context)
             .pushReplacementNamed(EmailVerificationScreen.routeName),
-        onSignUpSuccess: () => Navigator.of(context).pushReplacementNamed("/"),
+        onSignUpSuccess: () => Navigator.of(context)
+            .pushReplacementNamed(EmailVerificationScreen.routeName),
       );
     });
   }
@@ -51,7 +50,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void dispose() {
     _emailController.dispose();
-    _userNameController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _streamSubscription.cancel();
@@ -142,40 +140,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       onFieldSubmitted: (value) {
                                         _emailFocusNode.unfocus();
                                         FocusScope.of(context)
-                                            .requestFocus(_userNameFocusNode);
-                                      },
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    TextFormField(
-                                      controller: _userNameController,
-                                      focusNode: _userNameFocusNode,
-                                      decoration: const InputDecoration(
-                                        filled: true,
-                                        hintText: "Username",
-                                        prefixIcon: Icon(Icons.text_fields),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide.none,
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(30),
-                                          ),
-                                        ),
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "enter username";
-                                        }
-
-                                        if (value.length < 4) {
-                                          return "too short";
-                                        }
-
-                                        return null;
-                                      },
-                                      onFieldSubmitted: (value) {
-                                        _userNameFocusNode.unfocus();
-                                        FocusScope.of(context)
                                             .requestFocus(_passwordFocusNode);
                                       },
                                     ),
@@ -259,15 +223,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 .validate()) {
                                               await context
                                                   .read<AppAuthProvider>()
-                                                  .signUpUser(
-                                                    username:
-                                                        _userNameController
-                                                            .text,
+                                                  .signUp(
+                                                    email:
+                                                        _emailController.text,
                                                     password:
                                                         _passwordController
                                                             .text,
-                                                    email:
-                                                        _emailController.text,
                                                   );
                                             }
                                           },

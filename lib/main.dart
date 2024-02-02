@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
 // Amplify Flutter Packages
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter_web/di.dart';
 import 'package:flutter_web/providers/app_auth_provider.dart';
 import 'package:flutter_web/screen/email_verification/email_verification_screen.dart';
 import 'package:flutter_web/screen/home/home_screen.dart';
-import 'package:flutter_web/screen/image/image_screen.dart';
 import 'package:flutter_web/screen/sign_in/sign_in_screen.dart';
 import 'package:flutter_web/screen/sign_up/sign_up_screen.dart';
 import 'package:provider/provider.dart';
 
 // Generated in previous step
-import 'amplifyconfiguration.dart';
+// import 'amplifyconfiguration.dart';
 
 void main() async {
-  await _configureAmplify();
+  // await _configureAmplify();
   final providers = await getProviders();
 
   runApp(MultiProvider(
@@ -25,23 +22,23 @@ void main() async {
   ));
 }
 
-Future<void> _configureAmplify() async {
-  // Add any Amplify plugins you want to use
-  final authPlugin = AmplifyAuthCognito();
-  await Amplify.addPlugin(authPlugin);
+// Future<void> _configureAmplify() async {
+//   // Add any Amplify plugins you want to use
+//   final authPlugin = AmplifyAuthCognito();
+//   await Amplify.addPlugin(authPlugin);
 
-  // You can use addPlugins if you are going to be adding multiple plugins
-  // await Amplify.addPlugins([authPlugin, analyticsPlugin]);
+//   // You can use addPlugins if you are going to be adding multiple plugins
+//   // await Amplify.addPlugins([authPlugin, analyticsPlugin]);
 
-  // Once Plugins are added, configure Amplify
-  // Note: Amplify can only be configured once.
-  try {
-    await Amplify.configure(amplifyconfig);
-  } on AmplifyAlreadyConfiguredException {
-    safePrint(
-        "Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
-  }
-}
+//   // Once Plugins are added, configure Amplify
+//   // Note: Amplify can only be configured once.
+//   try {
+//     await Amplify.configure(amplifyconfig);
+//   } on AmplifyAlreadyConfiguredException {
+//     safePrint(
+//         "Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+//   }
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -75,10 +72,15 @@ class AuthWrapper extends StatefulWidget {
 
 class _AuthWrapperState extends State<AuthWrapper> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<AppAuthProvider>(
       builder: (context, authProvider, child) {
-        if (authProvider.state.isSignedIn && authProvider.state.user != null) {
+        if (authProvider.state.isSignedIn) {
           return const HomeScreen();
         } else {
           return const SignInScreen();

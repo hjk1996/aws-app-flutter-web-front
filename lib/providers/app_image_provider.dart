@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web/event/image_event.dart';
 import 'package:flutter_web/model/data_model/image_metadata.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/gallery_state.dart';
@@ -10,28 +13,37 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class AppImageProvider with ChangeNotifier {
   AppImageProvider({
     required ImageRepository imageRepository,
+    required GalleryState initialState,
   }) {
     _imageRepository = imageRepository;
   }
   late final ImageRepository _imageRepository;
-  GalleryState _state = GalleryState(
-    imageMetadataList: [],
-    selectedMode: false,
-    currentImageIndex: 0,
-    totalPage: 0,
-    currentPage: 0,
-  );
+  late final GalleryState _state;
 
-  late PagingController<int, ImageItem>? pagingController;
+  final PagingController<int, ImageItem> pagingController =
+      PagingController(firstPageKey: 1);
+
   final List<ImageData> _imageDataList = [];
   List<ImageData> get imageDataList => _imageDataList;
   Set<int> _selectedImageIndexes = {};
   Set<int> get selectedImageIndexes => _selectedImageIndexes;
 
+  final _imageEventController = StreamController<ImageEvent>.broadcast();
+  Stream<ImageEvent> get imageEventStream => _imageEventController.stream;
+
   GalleryState get state => _state;
 
+  void initPagingController() {
+    pagingController.addPageRequestListener((pageKey) {
+      getNextPage(pageKey: pageKey);
+    });
+  }
+
+  void disposePagingController() {
+    pagingController.dispose();
+  }
+
   Future<void> getNextPage({
-    required PagingController<int, ImageItem> pagingController,
     required int pageKey,
     int? limit,
   }) async {
@@ -83,9 +95,9 @@ class AppImageProvider with ChangeNotifier {
         );
       }
 
-      print("pagingController.itemList: ${pagingController.itemList!.length}");
+      print("pagingController.itemList: ${pagingController!.itemList!.length}");
     } on Exception catch (err) {
-      pagingController.error = err;
+      pagingController!.error = err;
       print(err);
     } finally {
       notifyListeners();
@@ -116,7 +128,7 @@ class AppImageProvider with ChangeNotifier {
         ],
       );
       _imageDataList.removeAt(_state.currentImageIndex!);
-      pagingController!.itemList!.removeAt(_state.currentImageIndex!);
+      pagingController.itemList!.removeAt(_state.currentImageIndex!);
     } on Exception catch (err) {
     } finally {
       notifyListeners();
@@ -158,47 +170,55 @@ class AppImageProvider with ChangeNotifier {
     }
   }
 
-  Future<void> uploadFiles(
-      {required PagingController<int, ImageItem> pagingController,
-      required List<PlatformFile> files}) async {
+  Future<void> uploadFiles() async {
     try {
-      final res = await _imageRepository.uploadFiles(
-        imageDataList: files,
+        var picked = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png', 'jpeg', 'zip'],
+        allowMultiple: true,
       );
 
+      if (picked == null) {
+        return;
+      }
+
+      final res = await _imageRepository.uploadFiles(
+        imageDataList: picked.files,
+      );
       if (!res) {
         throw Exception("upload failed");
       }
 
-      final (newImageMetadataList, newImageDataList) =
-          await _imageRepository.getImages(
-        limit: files.length,
-        afterThisImageId: _state.imageMetadataList.isNotEmpty
-            ? _state.imageMetadataList.first.id
-            : null,
-      );
+      _imageEventController.sink.add(const ImageEvent.onImageUploadSuccess());
 
-      _state = _state.copyWith(
-        imageMetadataList: [
-          ...newImageMetadataList,
-          ..._state.imageMetadataList,
-        ],
-      );
-      _imageDataList.insertAll(0, newImageDataList);
+      // final (newImageMetadataList, newImageDataList) =
+      //     await _imageRepository.getImages(
+      //   limit: files.length,
+      //   afterThisImageId: _state.imageMetadataList.isNotEmpty
+      //       ? _state.imageMetadataList.first.id
+      //       : null,
+      // );
 
-      pagingController.itemList ??= [];
-      pagingController.itemList!.insertAll(
-        0,
-        List.generate(
-          newImageMetadataList.length,
-          (index) => ImageItem(
-            imageMetadata: newImageMetadataList[index],
-            imageData: newImageDataList[index],
-          ),
-        ),
-      );
+      // _state = _state.copyWith(
+      //   imageMetadataList: [
+      //     ...newImageMetadataList,
+      //     ..._state.imageMetadataList,
+      //   ],
+      // );
+      // _imageDataList.insertAll(0, newImageDataList);
+
+      // pagingController.itemList ??= [];
+      // pagingController.itemList!.insertAll(
+      //   0,
+      //   List.generate(
+      //     newImageMetadataList.length,
+      //     (index) => ImageItem(
+      //       imageMetadata: newImageMetadataList[index],
+      //       imageData: newImageDataList[index],
+      //     ),
+      //   ),
+      // );
     } on Exception catch (err) {
-      print(err);
     } finally {
       notifyListeners();
     }

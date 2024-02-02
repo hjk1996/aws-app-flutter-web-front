@@ -13,5 +13,6 @@ abstract class AuthEvent with _$AuthEvent {
       AuthCodeDeliveryDetails codeDeliveryDetails) = AuthEventCodeDelivery;
   const factory AuthEvent.onSignUpSuccess() = AuthEventSignUpSuccess;
   const factory AuthEvent.onSignInSuccess() = AuthEventSignInSuccess;
+  const factory AuthEvent.onConfirmUserSuccess() = AuthEventConfirmUserSuccess;
   const factory AuthEvent.confirmSignUp() = AuthEventConfirmSignUp;
 }

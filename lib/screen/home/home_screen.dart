@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web/event/image_event.dart';
 import 'package:flutter_web/model/state_model/image_item.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
 import 'package:flutter_web/screen/gallery/gallery_screen.dart';
@@ -24,18 +27,35 @@ class _HomeScreenState extends State<HomeScreen> {
   );
   int _selectedIndex = 0;
 
-  late final PagingController<int, ImageItem> imagePagingController;
+  late StreamSubscription<ImageEvent> _imageEventstreamSubscription;
 
   @override
   void initState() {
-    imagePagingController = PagingController<int, ImageItem>(firstPageKey: 1);
     _pageController.addListener(_updatePageIndex);
-    imagePagingController.addPageRequestListener(
-        (pageKey) => context.read<AppImageProvider>().getNextPage(
-              pagingController: imagePagingController,
-              pageKey: pageKey,
-            ));
+
+    _imageEventstreamSubscription =
+        context.read<AppImageProvider>().imageEventStream.listen((event) {
+      event.whenOrNull(
+        error: (e) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.toString()),
+          ),
+        ),
+        onImageUploadSuccess: () => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Image upload success')),
+        ),
+      );
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _queryController.dispose();
+    _pageController.removeListener(_updatePageIndex);
+    _pageController.dispose();
+    _imageEventstreamSubscription.cancel();
+    super.dispose();
   }
 
   void _updatePageIndex() {
@@ -61,44 +81,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  void dispose() {
-    _queryController.dispose();
-    _pageController.removeListener(_updatePageIndex);
-    _pageController.dispose();
-    imagePagingController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
-          children: [
-            GalleryScreen(
-              pagingController: imagePagingController,
-            ),
-            const SearchScreen(),
-            const SettingScreen(),
+          children: const [
+            GalleryScreen(),
+            SearchScreen(),
+            SettingScreen(),
           ],
         ),
         floatingActionButton: _currentPageIndex == 0
             ? FloatingActionButton(
                 child: const Icon(Icons.add),
-                onPressed: () async {
-                  var picked = await FilePicker.platform.pickFiles(
-                    type: FileType.custom,
-                    allowedExtensions: ['jpg', 'png', 'jpeg', 'zip'],
-                    allowMultiple: true,
-                  );
-                  if (picked != null) {
-                    await context.read<AppImageProvider>().uploadFiles(
-                          pagingController: imagePagingController,
-                          files: picked.files,
-                        );
-                  }
-                },
+                onPressed: () async =>
+                    await context.read<AppImageProvider>().uploadFiles(),
               )
             : null,
         bottomNavigationBar: BottomNavigationBar(

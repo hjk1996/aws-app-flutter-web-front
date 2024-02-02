@@ -1,19 +1,17 @@
 import 'dart:async';
 
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web/event/auth_event.dart';
 import 'package:flutter_web/model/repository/auth_repository.dart';
 import 'package:flutter_web/model/state_model/auth_state.dart';
+import 'package:flutter_web/utils/token_manager.dart';
 
 class AppAuthProvider with ChangeNotifier {
-  AppAuthProvider({required AuthRepository authRepository}) {
+  AppAuthProvider(
+      {required AuthRepository authRepository,
+      required AuthState initialState}) {
     _authRepository = authRepository;
-    _state = AuthState(
-      loading: false,
-      isSignedIn: false,
-      user: null,
-    );
+    _state = initialState;
   }
 
   late final AuthRepository _authRepository;
@@ -29,52 +27,39 @@ class AppAuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> isUserSignedIn() async {
+  Future<void> checkUserSignedIn() async {
     try {
-      toggleLoading();
-      final result = await _authRepository.isUserSignedIn();
-      _state = _state.copyWith(isSignedIn: result);
+      var tokenManager = TokenManager();
+      tokenManager.loadTokensFromCookie();
+      if (tokenManager.refreshToken == null || tokenManager.idToken == null) {
+        _state = _state.copyWith(isSignedIn: false);
+        return;
+      } else {
+        await tokenManager.renewTokens();
+        _state = _state.copyWith(isSignedIn: true);
+        return;
+      }
     } on Exception catch (err) {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));
-    } finally {
-      toggleLoading();
-    }
-  }
-
-  Future<void> getCurrentUser() async {
-    try {
-      toggleLoading();
-
-      final user = await _authRepository.getCurrentUser();
-      _state = _state.copyWith(
-        user: user,
-        isSignedIn: true,
-      );
-    } on SignedOutException catch (_) {
-      _authEventController.sink
-          .add(const AuthEvent.error("user not signed in"));
-      _state = _state.copyWith(user: null);
-    } on Exception catch (err) {
-      _authEventController.sink
-          .add(AuthEvent.error("something went wrong: $err"));
-    } finally {
-      toggleLoading();
-    }
+    } finally {}
   }
 
   Future<void> signIn({required String email, required String password}) async {
     try {
-      _state = _state.copyWith(email: email);
+      _state = _state.copyWith(username: email);
       toggleLoading();
-      final result =
-          await _authRepository.signInUser(email: email, password: password);
-      _handleSignInResult(result);
-    } on InvalidStateException catch (_) {
-      await getCurrentUser();
-    } on AuthException catch (err) {
-      _authEventController.sink
-          .add(AuthEvent.error("something went wrong while signing in: $err"));
+      final ok = await _authRepository.signIn(email: email, password: password);
+      print(ok);
+
+      if (ok) {
+        _state = _state.copyWith(isSignedIn: true);
+        notifyListeners();
+        _authEventController.sink.add(const AuthEvent.onSignInSuccess());
+      } else {
+        _authEventController.sink
+            .add(const AuthEvent.error("user not signed in"));
+      }
     } on Exception catch (err) {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));
@@ -83,29 +68,27 @@ class AppAuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> signUpUser({
-    required String username,
-    required String password,
+  Future<void> signUp({
     required String email,
-    String? phoneNumber,
+    required String password,
   }) async {
     try {
       toggleLoading();
-      final result = await _authRepository.signUpUser(
-        username: username,
-        password: password,
+      _state = _state.copyWith(username: email);
+      final ok = await _authRepository.signUp(
         email: email,
+        password: password,
       );
-      print(result);
-      _state = _state.copyWith(email: email);
-      _handleSignUpResult(result);
-    } on AuthException catch (err) {
-      print(err);
-      _authEventController.sink
-          .add(const AuthEvent.error("user not signed in"));
-      print("something went wrong while signing up");
+
+      if (ok) {
+        _authEventController.sink.add(const AuthEvent.onSignUpSuccess());
+      } else {
+        _authEventController.sink
+            .add(const AuthEvent.error("user not signed in"));
+      }
     } on Exception catch (err) {
-      print(err);
+      _authEventController.sink
+          .add(AuthEvent.error("something went wrong: $err"));
     } finally {
       toggleLoading();
     }
@@ -115,7 +98,7 @@ class AppAuthProvider with ChangeNotifier {
     try {
       toggleLoading();
       await _authRepository.signOut();
-      _state = _state.copyWith(isSignedIn: false, user: null);
+      _state = _state.copyWith(isSignedIn: false);
     } on Exception catch (err) {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));
@@ -129,66 +112,22 @@ class AppAuthProvider with ChangeNotifier {
   }) async {
     try {
       toggleLoading();
-      final result = await _authRepository.confirmUser(
-        email: _state.email!,
-        confirmationCode: confirmationCode,
+      final ok = await _authRepository.confirmUser(
+        email: _state.username!,
+        code: confirmationCode,
       );
-      _handleSignUpResult(result);
-    } on AuthException catch (err) {
-      print(err);
-      _authEventController.sink
-          .add(const AuthEvent.error("user not signed in"));
-      print("something went wrong while signing up");
+      if (ok) {
+        _authEventController.sink.add(const AuthEvent.onConfirmUserSuccess());
+      } else {
+        _authEventController.sink
+            .add(const AuthEvent.error("user not signed in"));
+      }
     } on Exception catch (err) {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));
       print(err);
     } finally {
       toggleLoading();
-    }
-  }
-
-  Future<void> resendSignUpCode() async {
-    try {
-      toggleLoading();
-      await _authRepository.sendEmailVerificationCode(
-        email: _state.email!,
-      );
-    } on AuthException catch (err) {
-      _authEventController.sink
-          .add(AuthEvent.error("failed to resend code: $err"));
-    } on Exception catch (err) {
-      _authEventController.sink
-          .add(AuthEvent.error("something went wrong: $err"));
-    } finally {
-      toggleLoading();
-    }
-  }
-
-  Future<void> _handleSignInResult(SignInResult result) async {
-    switch (result.nextStep.signInStep) {
-      case AuthSignInStep.confirmSignUp:
-        await resendSignUpCode();
-        _authEventController.sink.add(const AuthEvent.confirmSignUp());
-        break;
-      case AuthSignInStep.done:
-        await getCurrentUser();
-        _authEventController.sink.add(const AuthEvent.onSignInSuccess());
-        break;
-      default:
-        break;
-    }
-  }
-
-  Future<void> _handleSignUpResult(SignUpResult result) async {
-    switch (result.nextStep.signUpStep) {
-      case AuthSignUpStep.confirmSignUp:
-        _authEventController.sink.add(
-            AuthEvent.onCodeDelivery(result.nextStep.codeDeliveryDetails!));
-        break;
-      case AuthSignUpStep.done:
-        _authEventController.sink.add(const AuthEvent.onSignUpSuccess());
-        break;
     }
   }
 }

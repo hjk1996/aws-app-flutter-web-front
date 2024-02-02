@@ -29,7 +29,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         error: (e) => ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e)),
         ),
-        onSignUpSuccess: () => Navigator.of(context).pushReplacementNamed("/"),
+        onConfirmUserSuccess: () =>
+            Navigator.of(context).pushReplacementNamed("/"),
       );
     });
   }
@@ -78,7 +79,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 child: ElevatedButton(
                   onPressed: () async =>
                       await context.read<AppAuthProvider>().confirmUser(
-                          
                             confirmationCode: _codeController.text,
                           ),
                   child: const Text("Submit"),

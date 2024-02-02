@@ -25,6 +25,7 @@ mixin _$AuthEvent {
         onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
+    required TResult Function() onConfirmUserSuccess,
     required TResult Function() confirmSignUp,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,6 +38,7 @@ mixin _$AuthEvent {
         onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
+    TResult? Function()? onConfirmUserSuccess,
     TResult? Function()? confirmSignUp,
   }) =>
       throw _privateConstructorUsedError;
@@ -49,6 +51,7 @@ mixin _$AuthEvent {
         onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
+    TResult Function()? onConfirmUserSuccess,
     TResult Function()? confirmSignUp,
     required TResult orElse(),
   }) =>
@@ -61,6 +64,8 @@ mixin _$AuthEvent {
     required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
+    required TResult Function(AuthEventConfirmUserSuccess value)
+        onConfirmUserSuccess,
     required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
   }) =>
       throw _privateConstructorUsedError;
@@ -72,6 +77,7 @@ mixin _$AuthEvent {
     TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
   }) =>
       throw _privateConstructorUsedError;
@@ -83,6 +89,7 @@ mixin _$AuthEvent {
     TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
     required TResult orElse(),
   }) =>
@@ -188,6 +195,7 @@ class _$AuthEventErrorImpl
         onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
+    required TResult Function() onConfirmUserSuccess,
     required TResult Function() confirmSignUp,
   }) {
     return error(e);
@@ -203,6 +211,7 @@ class _$AuthEventErrorImpl
         onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
+    TResult? Function()? onConfirmUserSuccess,
     TResult? Function()? confirmSignUp,
   }) {
     return error?.call(e);
@@ -218,6 +227,7 @@ class _$AuthEventErrorImpl
         onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
+    TResult Function()? onConfirmUserSuccess,
     TResult Function()? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -236,6 +246,8 @@ class _$AuthEventErrorImpl
     required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
+    required TResult Function(AuthEventConfirmUserSuccess value)
+        onConfirmUserSuccess,
     required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
   }) {
     return error(this);
@@ -250,6 +262,7 @@ class _$AuthEventErrorImpl
     TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
   }) {
     return error?.call(this);
@@ -264,6 +277,7 @@ class _$AuthEventErrorImpl
     TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -336,6 +350,7 @@ class _$AuthEventLoadingImpl
         onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
+    required TResult Function() onConfirmUserSuccess,
     required TResult Function() confirmSignUp,
   }) {
     return loading();
@@ -351,6 +366,7 @@ class _$AuthEventLoadingImpl
         onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
+    TResult? Function()? onConfirmUserSuccess,
     TResult? Function()? confirmSignUp,
   }) {
     return loading?.call();
@@ -366,6 +382,7 @@ class _$AuthEventLoadingImpl
         onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
+    TResult Function()? onConfirmUserSuccess,
     TResult Function()? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -384,6 +401,8 @@ class _$AuthEventLoadingImpl
     required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
+    required TResult Function(AuthEventConfirmUserSuccess value)
+        onConfirmUserSuccess,
     required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
   }) {
     return loading(this);
@@ -398,6 +417,7 @@ class _$AuthEventLoadingImpl
     TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
   }) {
     return loading?.call(this);
@@ -412,6 +432,7 @@ class _$AuthEventLoadingImpl
     TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -479,6 +500,7 @@ class _$AuthEventtLoadedImpl
         onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
+    required TResult Function() onConfirmUserSuccess,
     required TResult Function() confirmSignUp,
   }) {
     return loaded();
@@ -494,6 +516,7 @@ class _$AuthEventtLoadedImpl
         onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
+    TResult? Function()? onConfirmUserSuccess,
     TResult? Function()? confirmSignUp,
   }) {
     return loaded?.call();
@@ -509,6 +532,7 @@ class _$AuthEventtLoadedImpl
         onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
+    TResult Function()? onConfirmUserSuccess,
     TResult Function()? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -527,6 +551,8 @@ class _$AuthEventtLoadedImpl
     required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
+    required TResult Function(AuthEventConfirmUserSuccess value)
+        onConfirmUserSuccess,
     required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
   }) {
     return loaded(this);
@@ -541,6 +567,7 @@ class _$AuthEventtLoadedImpl
     TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
   }) {
     return loaded?.call(this);
@@ -555,6 +582,7 @@ class _$AuthEventtLoadedImpl
     TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -653,6 +681,7 @@ class _$AuthEventCodeDeliveryImpl
         onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
+    required TResult Function() onConfirmUserSuccess,
     required TResult Function() confirmSignUp,
   }) {
     return onCodeDelivery(codeDeliveryDetails);
@@ -668,6 +697,7 @@ class _$AuthEventCodeDeliveryImpl
         onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
+    TResult? Function()? onConfirmUserSuccess,
     TResult? Function()? confirmSignUp,
   }) {
     return onCodeDelivery?.call(codeDeliveryDetails);
@@ -683,6 +713,7 @@ class _$AuthEventCodeDeliveryImpl
         onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
+    TResult Function()? onConfirmUserSuccess,
     TResult Function()? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -701,6 +732,8 @@ class _$AuthEventCodeDeliveryImpl
     required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
+    required TResult Function(AuthEventConfirmUserSuccess value)
+        onConfirmUserSuccess,
     required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
   }) {
     return onCodeDelivery(this);
@@ -715,6 +748,7 @@ class _$AuthEventCodeDeliveryImpl
     TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
   }) {
     return onCodeDelivery?.call(this);
@@ -729,6 +763,7 @@ class _$AuthEventCodeDeliveryImpl
     TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -806,6 +841,7 @@ class _$AuthEventSignUpSuccessImpl
         onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
+    required TResult Function() onConfirmUserSuccess,
     required TResult Function() confirmSignUp,
   }) {
     return onSignUpSuccess();
@@ -821,6 +857,7 @@ class _$AuthEventSignUpSuccessImpl
         onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
+    TResult? Function()? onConfirmUserSuccess,
     TResult? Function()? confirmSignUp,
   }) {
     return onSignUpSuccess?.call();
@@ -836,6 +873,7 @@ class _$AuthEventSignUpSuccessImpl
         onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
+    TResult Function()? onConfirmUserSuccess,
     TResult Function()? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -854,6 +892,8 @@ class _$AuthEventSignUpSuccessImpl
     required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
+    required TResult Function(AuthEventConfirmUserSuccess value)
+        onConfirmUserSuccess,
     required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
   }) {
     return onSignUpSuccess(this);
@@ -868,6 +908,7 @@ class _$AuthEventSignUpSuccessImpl
     TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
   }) {
     return onSignUpSuccess?.call(this);
@@ -882,6 +923,7 @@ class _$AuthEventSignUpSuccessImpl
     TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -952,6 +994,7 @@ class _$AuthEventSignInSuccessImpl
         onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
+    required TResult Function() onConfirmUserSuccess,
     required TResult Function() confirmSignUp,
   }) {
     return onSignInSuccess();
@@ -967,6 +1010,7 @@ class _$AuthEventSignInSuccessImpl
         onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
+    TResult? Function()? onConfirmUserSuccess,
     TResult? Function()? confirmSignUp,
   }) {
     return onSignInSuccess?.call();
@@ -982,6 +1026,7 @@ class _$AuthEventSignInSuccessImpl
         onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
+    TResult Function()? onConfirmUserSuccess,
     TResult Function()? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -1000,6 +1045,8 @@ class _$AuthEventSignInSuccessImpl
     required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
+    required TResult Function(AuthEventConfirmUserSuccess value)
+        onConfirmUserSuccess,
     required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
   }) {
     return onSignInSuccess(this);
@@ -1014,6 +1061,7 @@ class _$AuthEventSignInSuccessImpl
     TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
   }) {
     return onSignInSuccess?.call(this);
@@ -1028,6 +1076,7 @@ class _$AuthEventSignInSuccessImpl
     TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -1040,6 +1089,161 @@ class _$AuthEventSignInSuccessImpl
 
 abstract class AuthEventSignInSuccess implements AuthEvent {
   const factory AuthEventSignInSuccess() = _$AuthEventSignInSuccessImpl;
+}
+
+/// @nodoc
+abstract class _$$AuthEventConfirmUserSuccessImplCopyWith<$Res> {
+  factory _$$AuthEventConfirmUserSuccessImplCopyWith(
+          _$AuthEventConfirmUserSuccessImpl value,
+          $Res Function(_$AuthEventConfirmUserSuccessImpl) then) =
+      __$$AuthEventConfirmUserSuccessImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$AuthEventConfirmUserSuccessImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$AuthEventConfirmUserSuccessImpl>
+    implements _$$AuthEventConfirmUserSuccessImplCopyWith<$Res> {
+  __$$AuthEventConfirmUserSuccessImplCopyWithImpl(
+      _$AuthEventConfirmUserSuccessImpl _value,
+      $Res Function(_$AuthEventConfirmUserSuccessImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$AuthEventConfirmUserSuccessImpl
+    with DiagnosticableTreeMixin
+    implements AuthEventConfirmUserSuccess {
+  const _$AuthEventConfirmUserSuccessImpl();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AuthEvent.onConfirmUserSuccess()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+        .add(DiagnosticsProperty('type', 'AuthEvent.onConfirmUserSuccess'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AuthEventConfirmUserSuccessImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String e) error,
+    required TResult Function() loading,
+    required TResult Function() loaded,
+    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
+        onCodeDelivery,
+    required TResult Function() onSignUpSuccess,
+    required TResult Function() onSignInSuccess,
+    required TResult Function() onConfirmUserSuccess,
+    required TResult Function() confirmSignUp,
+  }) {
+    return onConfirmUserSuccess();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String e)? error,
+    TResult? Function()? loading,
+    TResult? Function()? loaded,
+    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
+        onCodeDelivery,
+    TResult? Function()? onSignUpSuccess,
+    TResult? Function()? onSignInSuccess,
+    TResult? Function()? onConfirmUserSuccess,
+    TResult? Function()? confirmSignUp,
+  }) {
+    return onConfirmUserSuccess?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String e)? error,
+    TResult Function()? loading,
+    TResult Function()? loaded,
+    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
+        onCodeDelivery,
+    TResult Function()? onSignUpSuccess,
+    TResult Function()? onSignInSuccess,
+    TResult Function()? onConfirmUserSuccess,
+    TResult Function()? confirmSignUp,
+    required TResult orElse(),
+  }) {
+    if (onConfirmUserSuccess != null) {
+      return onConfirmUserSuccess();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AuthEventError value) error,
+    required TResult Function(AuthEventLoading value) loading,
+    required TResult Function(AuthEventtLoaded value) loaded,
+    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
+    required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
+    required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
+    required TResult Function(AuthEventConfirmUserSuccess value)
+        onConfirmUserSuccess,
+    required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
+  }) {
+    return onConfirmUserSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AuthEventError value)? error,
+    TResult? Function(AuthEventLoading value)? loading,
+    TResult? Function(AuthEventtLoaded value)? loaded,
+    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
+    TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
+    TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
+    TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
+  }) {
+    return onConfirmUserSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AuthEventError value)? error,
+    TResult Function(AuthEventLoading value)? loading,
+    TResult Function(AuthEventtLoaded value)? loaded,
+    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
+    TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
+    TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
+    TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
+    required TResult orElse(),
+  }) {
+    if (onConfirmUserSuccess != null) {
+      return onConfirmUserSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AuthEventConfirmUserSuccess implements AuthEvent {
+  const factory AuthEventConfirmUserSuccess() =
+      _$AuthEventConfirmUserSuccessImpl;
 }
 
 /// @nodoc
@@ -1098,6 +1302,7 @@ class _$AuthEventConfirmSignUpImpl
         onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
+    required TResult Function() onConfirmUserSuccess,
     required TResult Function() confirmSignUp,
   }) {
     return confirmSignUp();
@@ -1113,6 +1318,7 @@ class _$AuthEventConfirmSignUpImpl
         onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
+    TResult? Function()? onConfirmUserSuccess,
     TResult? Function()? confirmSignUp,
   }) {
     return confirmSignUp?.call();
@@ -1128,6 +1334,7 @@ class _$AuthEventConfirmSignUpImpl
         onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
+    TResult Function()? onConfirmUserSuccess,
     TResult Function()? confirmSignUp,
     required TResult orElse(),
   }) {
@@ -1146,6 +1353,8 @@ class _$AuthEventConfirmSignUpImpl
     required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
+    required TResult Function(AuthEventConfirmUserSuccess value)
+        onConfirmUserSuccess,
     required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
   }) {
     return confirmSignUp(this);
@@ -1160,6 +1369,7 @@ class _$AuthEventConfirmSignUpImpl
     TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
   }) {
     return confirmSignUp?.call(this);
@@ -1174,6 +1384,7 @@ class _$AuthEventConfirmSignUpImpl
     TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
+    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
     TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
     required TResult orElse(),
   }) {

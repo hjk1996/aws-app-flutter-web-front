@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web/event/auth_event.dart';
 import 'package:flutter_web/model/repository/auth_repository.dart';
@@ -50,16 +51,18 @@ class AppAuthProvider with ChangeNotifier {
       _state = _state.copyWith(username: email);
       toggleLoading();
       final ok = await _authRepository.signIn(email: email, password: password);
-      print(ok);
 
       if (ok) {
         _state = _state.copyWith(isSignedIn: true);
-        notifyListeners();
         _authEventController.sink.add(const AuthEvent.onSignInSuccess());
       } else {
         _authEventController.sink
             .add(const AuthEvent.error("user not signed in"));
       }
+      _state = _state.copyWith(loading: false);
+      notifyListeners();
+    } on DioException catch (err) {
+      _authEventController.sink.add(AuthEvent.error("${err.response?.data}"));
     } on Exception catch (err) {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));
@@ -86,6 +89,8 @@ class AppAuthProvider with ChangeNotifier {
         _authEventController.sink
             .add(const AuthEvent.error("user not signed in"));
       }
+    } on DioException catch (err) {
+      _authEventController.sink.add(AuthEvent.error("${err.response?.data}"));
     } on Exception catch (err) {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));

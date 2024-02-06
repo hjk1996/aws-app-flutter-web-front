@@ -5,8 +5,9 @@ import 'package:flutter_web/providers/app_auth_provider.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
 import 'package:flutter_web/repository/k8s_auth_repository.dart';
 import 'package:flutter_web/repository/k8s_image_repository.dart';
-import 'package:flutter_web/utils/dio_interceptor.dart';
+import 'package:flutter_web/utils/serializers/interceptors/dio_interceptor.dart';
 import 'package:flutter_web/utils/domain.dart';
+import 'package:flutter_web/utils/serializers/interceptors/s3_interceptor.dart';
 import 'package:flutter_web/utils/token_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -18,19 +19,30 @@ Future<List<SingleChildWidget>> getProviders() async {
   tokenManager.loadTokensFromCookie();
   final username = prefs.getString('username');
 
-  final CustomInterceptor customInterceptor = CustomInterceptor();
+
+
+
+  final CustomInterceptor authInterceptor = CustomInterceptor();
+  final CustomInterceptor apiInterceptor = CustomInterceptor();
+  final S3Interceptor s3Interceptor = S3Interceptor();
   final apiHttpClient = Dio(
     BaseOptions(
       baseUrl: "${DomainManager.apiDomain}/",
     ),
   );
-  apiHttpClient.interceptors.add(customInterceptor);
+  final s3HttpClient = Dio(
+    BaseOptions(
+      baseUrl: "${DomainManager.s3Domain}/",
+    ),
+  );
+  apiHttpClient.interceptors.add(apiInterceptor);
+  s3HttpClient.interceptors.add(s3Interceptor);
   final authHttpClient = Dio(
     BaseOptions(
       baseUrl: "${DomainManager.authDomain}/",
     ),
   );
-  authHttpClient.interceptors.add(customInterceptor);
+  authHttpClient.interceptors.add(authInterceptor);
   final k8sAuthRepo = K8sAuthRepository(httpClient: authHttpClient);
   final authProvider = AppAuthProvider(
       authRepository: k8sAuthRepo,
@@ -38,7 +50,10 @@ Future<List<SingleChildWidget>> getProviders() async {
           isSignedIn: tokenManager.idToken != null,
           loading: false,
           username: username));
-  final remoteImageRepo = K8sImageRepository(httpClient: apiHttpClient);
+  final remoteImageRepo = K8sImageRepository(
+    apiHttpClient: apiHttpClient,
+    s3HttpClient: s3HttpClient,
+  );
   final imageProvider = AppImageProvider(
       imageRepository: remoteImageRepo,
       initialState: GalleryState(
@@ -55,6 +70,8 @@ Future<List<SingleChildWidget>> getProviders() async {
     ChangeNotifierProvider<AppAuthProvider>(
       create: (_) => authProvider,
     ),
-    ChangeNotifierProvider(create: (_) => imageProvider)
+    ChangeNotifierProvider<AppImageProvider>(
+      create: (_) => imageProvider,
+    )
   ];
 }

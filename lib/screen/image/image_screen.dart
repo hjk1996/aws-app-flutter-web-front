@@ -58,7 +58,7 @@ class _ImageScreenState extends State<ImageScreen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: provider.state.imageMetadataList.length,
                 itemBuilder: (context, index) => Hero(
-                  tag: provider.state.imageMetadataList[index].id,
+                  tag: provider.state.imageMetadataList[index].pictureId,
                   child: Image.memory(
                     provider.imageDataList[index].thumbnail!,
                   ),
@@ -71,7 +71,7 @@ class _ImageScreenState extends State<ImageScreen> {
                 children: [
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(currentImageMetadata.bookmark
+                    icon: Icon(currentImageMetadata.bookmarked
                         ? Icons.bookmark
                         : Icons.bookmark_border),
                   ),

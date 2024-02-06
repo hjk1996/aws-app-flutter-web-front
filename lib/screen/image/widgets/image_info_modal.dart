@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web/model/data_model/image_metadata.dart';
+import 'package:flutter_web/model/data_model/app_image_metadata.dart';
 
 class ImageInfoDialog extends StatelessWidget {
   const ImageInfoDialog({super.key, required this.imageMetadata});
-  final ImageMetadata imageMetadata;
+  final AppImageMetadata imageMetadata;
 
   @override
   Widget build(BuildContext context) {

@@ -179,42 +179,48 @@ class _SignInScreenState extends State<SignInScreen> {
                                       height: 15,
                                     ),
                                     Selector<AppAuthProvider, bool>(
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            FocusScope.of(context).unfocus();
-                                            if (_formKey.currentState!
-                                                .validate()) {
-                                              await context
-                                                  .read<AppAuthProvider>()
-                                                  .signIn(
-                                                    email:
-                                                        _emailController.text,
-                                                    password:
-                                                        _passwordController
-                                                            .text,
-                                                  );
-                                            }
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.blue,
-                                          ),
-                                          child: Text(
-                                            "Login",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium!
-                                                .copyWith(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
+                                      selector: (context, provider) =>
+                                          provider.state.loading,
+                                      builder: (context, loading, child) =>
+                                          loading
+                                              ? const CircularProgressIndicator()
+                                              : ElevatedButton(
+                                                  onPressed: () async {
+                                                    FocusScope.of(context)
+                                                        .unfocus();
+                                                    if (_formKey.currentState!
+                                                        .validate()) {
+                                                      await context
+                                                          .read<
+                                                              AppAuthProvider>()
+                                                          .signIn(
+                                                            email:
+                                                                _emailController
+                                                                    .text,
+                                                            password:
+                                                                _passwordController
+                                                                    .text,
+                                                          );
+                                                    }
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.blue,
+                                                  ),
+                                                  child: Text(
+                                                    "Login",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleMedium!
+                                                        .copyWith(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                  ),
                                                 ),
-                                          ),
-                                        ),
-                                        builder: (context, loading, child) =>
-                                            loading
-                                                ? const CircularProgressIndicator()
-                                                : child!,
-                                        selector: (context, provider) =>
-                                            provider.state.loading),
+                                    ),
                                     const SizedBox(
                                       height: 10,
                                     ),

@@ -47,6 +47,7 @@ dependencies:
   file_picker: ^6.1.1
   dio: ^5.4.0
   shared_preferences: ^2.2.2
+  amazon_cognito_identity_dart_2: ^3.6.2
 
 dev_dependencies:
   flutter_test:

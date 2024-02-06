@@ -1,13 +1,14 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web/event/image_event.dart';
-import 'package:flutter_web/model/data_model/image_metadata.dart';
+import 'package:flutter_web/model/data_model/app_image_metadata.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/gallery_state.dart';
-import 'package:flutter_web/model/state_model/image_data.dart';
-import 'package:flutter_web/model/state_model/image_item.dart';
+import 'package:flutter_web/model/state_model/app_image_data.dart';
+import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class AppImageProvider with ChangeNotifier {
@@ -16,15 +17,13 @@ class AppImageProvider with ChangeNotifier {
     required GalleryState initialState,
   }) {
     _imageRepository = imageRepository;
+    _state = initialState;
   }
   late final ImageRepository _imageRepository;
-  late final GalleryState _state;
+  late GalleryState _state;
 
-  final PagingController<int, ImageItem> pagingController =
-      PagingController(firstPageKey: 1);
-
-  final List<ImageData> _imageDataList = [];
-  List<ImageData> get imageDataList => _imageDataList;
+  final List<AppImageData> _imageDataList = [];
+  List<AppImageData> get imageDataList => _imageDataList;
   Set<int> _selectedImageIndexes = {};
   Set<int> get selectedImageIndexes => _selectedImageIndexes;
 
@@ -33,35 +32,42 @@ class AppImageProvider with ChangeNotifier {
 
   GalleryState get state => _state;
 
-  void initPagingController() {
-    pagingController.addPageRequestListener((pageKey) {
-      getNextPage(pageKey: pageKey);
-    });
-  }
-
-  void disposePagingController() {
-    pagingController.dispose();
-  }
-
   Future<void> getNextPage({
+    required PagingController<int, AppImageItem> pagingController,
     required int pageKey,
     int? limit,
   }) async {
     try {
-      final (newImageMetadataList, newImageDataList) =
-          await _imageRepository.getImages(
+      print("getNextPage: $pageKey");
+      final newImageMetadataList = await _imageRepository.getImageMetadataList(
         limit: limit ?? 20,
         afterThisImageId: _state.imageMetadataList.isNotEmpty
-            ? _state.imageMetadataList.last.id
+            ? _state.imageMetadataList.last.pictureId
             : null,
       );
 
-      _state = _state.copyWith(
-        imageMetadataList: [
-          ..._state.imageMetadataList,
-          ...newImageMetadataList,
-        ],
+      print("newImageMetadataList: $newImageMetadataList");
+
+      if (newImageMetadataList == null) {
+        throw Exception("get images failed");
+      }
+
+      print("getting images: ${newImageMetadataList.length}");
+
+      final newImageDataList = await _imageRepository.getImageDataList(
+        imageMetadataList: newImageMetadataList,
       );
+
+      print("newImageDataList: $newImageDataList");
+
+      if (newImageDataList == null) {
+        throw Exception("get images failed");
+      }
+
+      _state = _state.copyWith(imageMetadataList: [
+        ..._state.imageMetadataList,
+        ...newImageMetadataList,
+      ]);
 
       _imageDataList.addAll(newImageDataList);
       print("newImageMetadataList: ${_state.imageMetadataList.length}");
@@ -75,7 +81,7 @@ class AppImageProvider with ChangeNotifier {
         pagingController.appendLastPage(
           List.generate(
             newImageMetadataList.length,
-            (index) => ImageItem(
+            (index) => AppImageItem(
               imageMetadata: newImageMetadataList[index],
               imageData: newImageDataList[index],
             ),
@@ -86,7 +92,7 @@ class AppImageProvider with ChangeNotifier {
         pagingController.appendPage(
           List.generate(
             newImageMetadataList.length,
-            (index) => ImageItem(
+            (index) => AppImageItem(
               imageMetadata: newImageMetadataList[index],
               imageData: newImageDataList[index],
             ),
@@ -95,16 +101,18 @@ class AppImageProvider with ChangeNotifier {
         );
       }
 
-      print("pagingController.itemList: ${pagingController!.itemList!.length}");
+      print("pagingController.itemList: ${pagingController.itemList!.length}");
+    } on DioException catch (err) {
+      pagingController.error = err;
+      print("${err.response?.data}");
     } on Exception catch (err) {
-      pagingController!.error = err;
+      pagingController.error = err;
       print(err);
-    } finally {
-      notifyListeners();
-    }
+    } finally {}
   }
 
-  Future<void> deleteCurrentImage() async {
+  Future<void> deleteCurrentImage(
+      PagingController<int, AppImageItem> pagingController) async {
     try {
       if (_state.imageMetadataList.isEmpty ||
           _state.currentImageIndex == null) {
@@ -116,10 +124,6 @@ class AppImageProvider with ChangeNotifier {
           _state.imageMetadataList[_state.currentImageIndex!]
         ],
       );
-
-      if (!okay) {
-        throw Exception("delete failed");
-      }
 
       _state = _state.copyWith(
         imageMetadataList: [
@@ -135,44 +139,56 @@ class AppImageProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteSelectedImage() async {
+  Future<void> deleteSelectedImage(
+      PagingController<int, AppImageItem> pagingController) async {
     try {
-      if (selectedImageIndexes.isEmpty) return;
+      if (_selectedImageIndexes.isEmpty) return;
 
+      // 선택된 이미지 인덱스를 내림차순으로 정렬
       final selectedImageIndexList = _selectedImageIndexes.toList()
         ..sort((a, b) => b.compareTo(a));
 
-      final okay = await _imageRepository.deleteImages(
-        imageMetadataList: selectedImageIndexList
-            .map((index) => _state.imageMetadataList[index])
-            .toList(),
-      );
+      // 삭제할 이미지 메타데이터 리스트 생성
+      final imagesToDelete = selectedImageIndexList
+          .map((index) => _state.imageMetadataList[index])
+          .toList();
 
-      if (!okay) {
-        throw Exception("delete failed");
+      final newImageMetadataList = <AppImageMetadata>[];
+
+      for (var i = 0; i < _state.imageMetadataList.length; i++) {
+        if (!selectedImageIndexes.contains(i)) {
+          newImageMetadataList.add(_state.imageMetadataList[i]);
+        }
+      }
+      // 이미지 삭제 실행
+      await _imageRepository.deleteImages(imageMetadataList: imagesToDelete);
+
+      _state = _state.copyWith(imageMetadataList: newImageMetadataList);
+
+      // 삭제된 이미지를 상태와 pagingController에서 제거
+      for (var index in selectedImageIndexList) {
+        pagingController.itemList!.removeAt(index);
       }
 
-      final newImageMetadataList = <ImageMetadata>[];
-
-      for (var i = 0; i < selectedImageIndexList.length; i++) {
-        newImageMetadataList
-            .add(_state.imageMetadataList[selectedImageIndexList[i]]);
-        final backIndex = selectedImageIndexList.length - 1 - i;
-        _imageDataList.removeAt(selectedImageIndexList[backIndex]);
-        pagingController!.itemList!.removeAt(backIndex);
-      }
+      // 상태 업데이트
       _state = _state.copyWith(
-        imageMetadataList: newImageMetadataList,
-      );
-    } on Exception catch (err) {
+          imageMetadataList: List.from(_state.imageMetadataList));
+    } on DioException catch (err) {
+      // Dio 오류 처리
+      pagingController.error = err;
+      print("${err.response?.data}");
+    } catch (err) {
+      // 기타 예외 처리
+      print("An error occurred: $err");
     } finally {
+      // 상태 변경 알림
       notifyListeners();
     }
   }
 
   Future<void> uploadFiles() async {
     try {
-        var picked = await FilePicker.platform.pickFiles(
+      var picked = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpg', 'png', 'jpeg', 'zip'],
         allowMultiple: true,
@@ -182,43 +198,33 @@ class AppImageProvider with ChangeNotifier {
         return;
       }
 
-      final res = await _imageRepository.uploadFiles(
+      print("uploadFiles: ${picked.files.length}");
+      final imageMetadataList = await _imageRepository.uploadFiles(
         imageDataList: picked.files,
       );
-      if (!res) {
+      if (imageMetadataList == null) {
         throw Exception("upload failed");
       }
 
+      _state = _state.copyWith(
+        imageMetadataList: [
+          ...imageMetadataList,
+          ..._state.imageMetadataList,
+        ],
+      );
+
+      for (PlatformFile file in picked.files) {
+        final imageData = AppImageData(
+          selected: false,
+          thumbnail: file.bytes,
+          original: null,
+        );
+        _imageDataList.insert(0, imageData);
+      }
+
       _imageEventController.sink.add(const ImageEvent.onImageUploadSuccess());
-
-      // final (newImageMetadataList, newImageDataList) =
-      //     await _imageRepository.getImages(
-      //   limit: files.length,
-      //   afterThisImageId: _state.imageMetadataList.isNotEmpty
-      //       ? _state.imageMetadataList.first.id
-      //       : null,
-      // );
-
-      // _state = _state.copyWith(
-      //   imageMetadataList: [
-      //     ...newImageMetadataList,
-      //     ..._state.imageMetadataList,
-      //   ],
-      // );
-      // _imageDataList.insertAll(0, newImageDataList);
-
-      // pagingController.itemList ??= [];
-      // pagingController.itemList!.insertAll(
-      //   0,
-      //   List.generate(
-      //     newImageMetadataList.length,
-      //     (index) => ImageItem(
-      //       imageMetadata: newImageMetadataList[index],
-      //       imageData: newImageDataList[index],
-      //     ),
-      //   ),
-      // );
     } on Exception catch (err) {
+      print(err);
     } finally {
       notifyListeners();
     }
@@ -263,7 +269,7 @@ class AppImageProvider with ChangeNotifier {
     final newImageMetadata =
         _state.imageMetadataList[_state.currentImageIndex!];
     final newCurrentImageMetadata = newImageMetadata.copyWith(
-      bookmark: !newImageMetadata.bookmark,
+      bookmarked: !newImageMetadata.bookmarked,
     );
 
     final okay = await _imageRepository.toggleFavorite(
@@ -274,7 +280,7 @@ class AppImageProvider with ChangeNotifier {
       throw Exception("toggle bookmark failed");
     }
 
-    final List<ImageMetadata> newImageMetadataList = [
+    final List<AppImageMetadata> newImageMetadataList = [
       ..._state.imageMetadataList.sublist(0, _state.currentImageIndex),
       newCurrentImageMetadata,
       ..._state.imageMetadataList.sublist(_state.currentImageIndex! + 1),

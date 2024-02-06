@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$GalleryState {
   bool get loading => throw _privateConstructorUsedError;
-  List<ImageMetadata> get imageMetadataList =>
+  List<AppImageMetadata> get imageMetadataList =>
       throw _privateConstructorUsedError;
   bool get selectedMode => throw _privateConstructorUsedError;
   int get totalPage => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $GalleryStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool loading,
-      List<ImageMetadata> imageMetadataList,
+      List<AppImageMetadata> imageMetadataList,
       bool selectedMode,
       int totalPage,
       int currentPage,
@@ -72,7 +72,7 @@ class _$GalleryStateCopyWithImpl<$Res, $Val extends GalleryState>
       imageMetadataList: null == imageMetadataList
           ? _value.imageMetadataList
           : imageMetadataList // ignore: cast_nullable_to_non_nullable
-              as List<ImageMetadata>,
+              as List<AppImageMetadata>,
       selectedMode: null == selectedMode
           ? _value.selectedMode
           : selectedMode // ignore: cast_nullable_to_non_nullable
@@ -103,7 +103,7 @@ abstract class _$$GalleryStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool loading,
-      List<ImageMetadata> imageMetadataList,
+      List<AppImageMetadata> imageMetadataList,
       bool selectedMode,
       int totalPage,
       int currentPage,
@@ -136,7 +136,7 @@ class __$$GalleryStateImplCopyWithImpl<$Res>
       imageMetadataList: null == imageMetadataList
           ? _value._imageMetadataList
           : imageMetadataList // ignore: cast_nullable_to_non_nullable
-              as List<ImageMetadata>,
+              as List<AppImageMetadata>,
       selectedMode: null == selectedMode
           ? _value.selectedMode
           : selectedMode // ignore: cast_nullable_to_non_nullable
@@ -162,7 +162,7 @@ class __$$GalleryStateImplCopyWithImpl<$Res>
 class _$GalleryStateImpl extends _GalleryState {
   _$GalleryStateImpl(
       {required this.loading,
-      required final List<ImageMetadata> imageMetadataList,
+      required final List<AppImageMetadata> imageMetadataList,
       required this.selectedMode,
       required this.totalPage,
       required this.currentPage,
@@ -172,9 +172,9 @@ class _$GalleryStateImpl extends _GalleryState {
 
   @override
   final bool loading;
-  final List<ImageMetadata> _imageMetadataList;
+  final List<AppImageMetadata> _imageMetadataList;
   @override
-  List<ImageMetadata> get imageMetadataList {
+  List<AppImageMetadata> get imageMetadataList {
     if (_imageMetadataList is EqualUnmodifiableListView)
       return _imageMetadataList;
     // ignore: implicit_dynamic_type
@@ -233,7 +233,7 @@ class _$GalleryStateImpl extends _GalleryState {
 abstract class _GalleryState extends GalleryState {
   factory _GalleryState(
       {required final bool loading,
-      required final List<ImageMetadata> imageMetadataList,
+      required final List<AppImageMetadata> imageMetadataList,
       required final bool selectedMode,
       required final int totalPage,
       required final int currentPage,
@@ -243,7 +243,7 @@ abstract class _GalleryState extends GalleryState {
   @override
   bool get loading;
   @override
-  List<ImageMetadata> get imageMetadataList;
+  List<AppImageMetadata> get imageMetadataList;
   @override
   bool get selectedMode;
   @override

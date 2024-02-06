@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web/model/state_model/image_item.dart';
+import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
 import 'package:flutter_web/screen/image/image_screen.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,7 @@ class ThumnailWidget extends StatefulWidget {
       {super.key, required this.index, required this.imageItem});
 
   final int index;
-  final ImageItem imageItem;
+  final AppImageItem imageItem;
 
   @override
   State<ThumnailWidget> createState() => _ThumnailWidgetState();

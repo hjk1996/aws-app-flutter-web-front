@@ -6,7 +6,6 @@ class CustomInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     var tokenManager = TokenManager();
     options.headers['Authorization'] = tokenManager.accessToken;
-    options.headers['IdToken'] = tokenManager.idToken;
     return handler.next(options);
   }
 
@@ -27,9 +26,8 @@ class CustomInterceptor extends Interceptor {
         }
         await tokenManager.renewTokens();
       default:
-        print("에러 발생: $err");
-        print(err.response?.statusCode);
-        break;
+        print("에러 발생: [${err.response?.statusCode}]: ${err.response?.data}");
+        return handler.next(err);
     }
   }
 }

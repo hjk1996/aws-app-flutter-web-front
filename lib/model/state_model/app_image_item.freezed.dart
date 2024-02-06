@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'image_item.dart';
+part of 'app_image_item.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,30 +15,31 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$ImageItem {
-  ImageMetadata get imageMetadata => throw _privateConstructorUsedError;
-  ImageData get imageData => throw _privateConstructorUsedError;
+mixin _$AppImageItem {
+  AppImageMetadata get imageMetadata => throw _privateConstructorUsedError;
+  AppImageData get imageData => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $ImageItemCopyWith<ImageItem> get copyWith =>
+  $AppImageItemCopyWith<AppImageItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ImageItemCopyWith<$Res> {
-  factory $ImageItemCopyWith(ImageItem value, $Res Function(ImageItem) then) =
-      _$ImageItemCopyWithImpl<$Res, ImageItem>;
+abstract class $AppImageItemCopyWith<$Res> {
+  factory $AppImageItemCopyWith(
+          AppImageItem value, $Res Function(AppImageItem) then) =
+      _$AppImageItemCopyWithImpl<$Res, AppImageItem>;
   @useResult
-  $Res call({ImageMetadata imageMetadata, ImageData imageData});
+  $Res call({AppImageMetadata imageMetadata, AppImageData imageData});
 
-  $ImageMetadataCopyWith<$Res> get imageMetadata;
-  $ImageDataCopyWith<$Res> get imageData;
+  $AppImageMetadataCopyWith<$Res> get imageMetadata;
+  $AppImageDataCopyWith<$Res> get imageData;
 }
 
 /// @nodoc
-class _$ImageItemCopyWithImpl<$Res, $Val extends ImageItem>
-    implements $ImageItemCopyWith<$Res> {
-  _$ImageItemCopyWithImpl(this._value, this._then);
+class _$AppImageItemCopyWithImpl<$Res, $Val extends AppImageItem>
+    implements $AppImageItemCopyWith<$Res> {
+  _$AppImageItemCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -55,53 +56,53 @@ class _$ImageItemCopyWithImpl<$Res, $Val extends ImageItem>
       imageMetadata: null == imageMetadata
           ? _value.imageMetadata
           : imageMetadata // ignore: cast_nullable_to_non_nullable
-              as ImageMetadata,
+              as AppImageMetadata,
       imageData: null == imageData
           ? _value.imageData
           : imageData // ignore: cast_nullable_to_non_nullable
-              as ImageData,
+              as AppImageData,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ImageMetadataCopyWith<$Res> get imageMetadata {
-    return $ImageMetadataCopyWith<$Res>(_value.imageMetadata, (value) {
+  $AppImageMetadataCopyWith<$Res> get imageMetadata {
+    return $AppImageMetadataCopyWith<$Res>(_value.imageMetadata, (value) {
       return _then(_value.copyWith(imageMetadata: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ImageDataCopyWith<$Res> get imageData {
-    return $ImageDataCopyWith<$Res>(_value.imageData, (value) {
+  $AppImageDataCopyWith<$Res> get imageData {
+    return $AppImageDataCopyWith<$Res>(_value.imageData, (value) {
       return _then(_value.copyWith(imageData: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$ImageItemImplCopyWith<$Res>
-    implements $ImageItemCopyWith<$Res> {
-  factory _$$ImageItemImplCopyWith(
-          _$ImageItemImpl value, $Res Function(_$ImageItemImpl) then) =
-      __$$ImageItemImplCopyWithImpl<$Res>;
+abstract class _$$AppImageItemImplCopyWith<$Res>
+    implements $AppImageItemCopyWith<$Res> {
+  factory _$$AppImageItemImplCopyWith(
+          _$AppImageItemImpl value, $Res Function(_$AppImageItemImpl) then) =
+      __$$AppImageItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ImageMetadata imageMetadata, ImageData imageData});
+  $Res call({AppImageMetadata imageMetadata, AppImageData imageData});
 
   @override
-  $ImageMetadataCopyWith<$Res> get imageMetadata;
+  $AppImageMetadataCopyWith<$Res> get imageMetadata;
   @override
-  $ImageDataCopyWith<$Res> get imageData;
+  $AppImageDataCopyWith<$Res> get imageData;
 }
 
 /// @nodoc
-class __$$ImageItemImplCopyWithImpl<$Res>
-    extends _$ImageItemCopyWithImpl<$Res, _$ImageItemImpl>
-    implements _$$ImageItemImplCopyWith<$Res> {
-  __$$ImageItemImplCopyWithImpl(
-      _$ImageItemImpl _value, $Res Function(_$ImageItemImpl) _then)
+class __$$AppImageItemImplCopyWithImpl<$Res>
+    extends _$AppImageItemCopyWithImpl<$Res, _$AppImageItemImpl>
+    implements _$$AppImageItemImplCopyWith<$Res> {
+  __$$AppImageItemImplCopyWithImpl(
+      _$AppImageItemImpl _value, $Res Function(_$AppImageItemImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -110,39 +111,39 @@ class __$$ImageItemImplCopyWithImpl<$Res>
     Object? imageMetadata = null,
     Object? imageData = null,
   }) {
-    return _then(_$ImageItemImpl(
+    return _then(_$AppImageItemImpl(
       imageMetadata: null == imageMetadata
           ? _value.imageMetadata
           : imageMetadata // ignore: cast_nullable_to_non_nullable
-              as ImageMetadata,
+              as AppImageMetadata,
       imageData: null == imageData
           ? _value.imageData
           : imageData // ignore: cast_nullable_to_non_nullable
-              as ImageData,
+              as AppImageData,
     ));
   }
 }
 
 /// @nodoc
 
-class _$ImageItemImpl implements _ImageItem {
-  _$ImageItemImpl({required this.imageMetadata, required this.imageData});
+class _$AppImageItemImpl implements _AppImageItem {
+  _$AppImageItemImpl({required this.imageMetadata, required this.imageData});
 
   @override
-  final ImageMetadata imageMetadata;
+  final AppImageMetadata imageMetadata;
   @override
-  final ImageData imageData;
+  final AppImageData imageData;
 
   @override
   String toString() {
-    return 'ImageItem(imageMetadata: $imageMetadata, imageData: $imageData)';
+    return 'AppImageItem(imageMetadata: $imageMetadata, imageData: $imageData)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ImageItemImpl &&
+            other is _$AppImageItemImpl &&
             (identical(other.imageMetadata, imageMetadata) ||
                 other.imageMetadata == imageMetadata) &&
             (identical(other.imageData, imageData) ||
@@ -155,21 +156,21 @@ class _$ImageItemImpl implements _ImageItem {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ImageItemImplCopyWith<_$ImageItemImpl> get copyWith =>
-      __$$ImageItemImplCopyWithImpl<_$ImageItemImpl>(this, _$identity);
+  _$$AppImageItemImplCopyWith<_$AppImageItemImpl> get copyWith =>
+      __$$AppImageItemImplCopyWithImpl<_$AppImageItemImpl>(this, _$identity);
 }
 
-abstract class _ImageItem implements ImageItem {
-  factory _ImageItem(
-      {required final ImageMetadata imageMetadata,
-      required final ImageData imageData}) = _$ImageItemImpl;
+abstract class _AppImageItem implements AppImageItem {
+  factory _AppImageItem(
+      {required final AppImageMetadata imageMetadata,
+      required final AppImageData imageData}) = _$AppImageItemImpl;
 
   @override
-  ImageMetadata get imageMetadata;
+  AppImageMetadata get imageMetadata;
   @override
-  ImageData get imageData;
+  AppImageData get imageData;
   @override
   @JsonKey(ignore: true)
-  _$$ImageItemImplCopyWith<_$ImageItemImpl> get copyWith =>
+  _$$AppImageItemImplCopyWith<_$AppImageItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

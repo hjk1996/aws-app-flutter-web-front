@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web/screen/search/widgets/chat_message_widget.dart';
 
 class SearchScreen extends StatefulWidget {
+  static const routeName = 'search';
+
   const SearchScreen({super.key});
 
   @override

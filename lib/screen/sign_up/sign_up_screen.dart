@@ -41,8 +41,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
             .showSnackBar(SnackBar(content: Text(e))),
         onCodeDelivery: (codeDeliveryDetails) => Navigator.of(context)
             .pushReplacementNamed(EmailVerificationScreen.routeName),
-        onSignUpSuccess: () => Navigator.of(context)
-            .pushReplacementNamed(EmailVerificationScreen.routeName),
+        onSignUpSuccess: () {
+          Navigator.of(context)
+              .pushReplacementNamed(EmailVerificationScreen.routeName);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Email verified. Please sign in."),
+            ),
+          );
+        },
       );
     });
   }

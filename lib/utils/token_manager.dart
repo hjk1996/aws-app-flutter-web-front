@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_web/model/data_model/sign_in_result.dart';
 import 'package:flutter_web/utils/domain.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:html' as html;
 
 enum TokenType { access, id, refresh }
@@ -15,6 +14,7 @@ class TokenManager {
   String? _accessToken;
   String? _idToken;
   String? _refreshToken;
+  String? _userId;
 
   factory TokenManager() {
     return _instance;
@@ -25,6 +25,7 @@ class TokenManager {
   String? get accessToken => _accessToken;
   String? get idToken => _idToken;
   String? get refreshToken => _refreshToken;
+  String? get userId => _userId;
 
   set accessToken(String? token) {
     _accessToken = token;
@@ -118,6 +119,8 @@ class TokenManager {
           idToken = value;
         } else if (key == 'refresh_token') {
           refreshToken = value;
+        } else if (key == 'user_id') {
+          _userId = value;
         }
       }
     }
@@ -127,12 +130,16 @@ class TokenManager {
     accessToken = signInResult.accessToken;
     idToken = signInResult.idToken;
     refreshToken = signInResult.refreshToken;
-    final expiryDate = DateTime.now().add(Duration(days: 1));
+    final decodedIdToken = _parseJwt(signInResult.idToken);
+    final userId = decodedIdToken['cognito:username'];
+    print("userId: $userId");
+    final expiryDate = DateTime.now().add(const Duration(days: 1));
     final expires = '; expires=${expiryDate.toUtc().toIso8601String()}';
     // set cookies from signInResult
     html.window.document
       ..cookie = 'access_token=${signInResult.accessToken}$expires'
       ..cookie = 'id_token=${signInResult.idToken}$expires'
-      ..cookie = 'refresh_token=${signInResult.refreshToken}$expires';
+      ..cookie = 'refresh_token=${signInResult.refreshToken}$expires'
+      ..cookie = 'user_id=$userId$expires';
   }
 }

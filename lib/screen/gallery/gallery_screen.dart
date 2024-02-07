@@ -36,7 +36,11 @@ class _GalleryScreenState extends State<GalleryScreen> {
           ),
         ),
         onImageUploadSuccess: () => ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Image upload success')),
+          const SnackBar(
+              backgroundColor: Colors.green,
+              content: Text(
+                'Image upload success',
+              )),
         ),
       );
     });
@@ -64,8 +68,9 @@ class _GalleryScreenState extends State<GalleryScreen> {
         title: const Text("Gallery"),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async =>
-            await context.read<AppImageProvider>().uploadFiles(),
+        onPressed: () async => await context
+            .read<AppImageProvider>()
+            .uploadFiles(pagingController),
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(

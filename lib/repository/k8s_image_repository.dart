@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_web/model/data_model/app_image_metadata.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/app_image_data.dart';
+import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/utils/token_manager.dart';
 
 class K8sImageRepository implements ImageRepository {
@@ -32,7 +34,6 @@ class K8sImageRepository implements ImageRepository {
         if (afterThisImageId != null) "last": afterThisImageId,
       },
     );
-    print("getImageMetadataList: ${response.data}");
 
     if (response.statusCode != 200) {
       throw DioException(
@@ -46,24 +47,22 @@ class K8sImageRepository implements ImageRepository {
     } else {
       return (response.data["pictures"] as List)
           .map((e) => AppImageMetadata.fromJson(e))
-          .toList();
+          .toList()
+        ..sort((a, b) => b.pictureId.compareTo(a.pictureId));
     }
   }
 
   @override
-  Future<List<AppImageData>?> getImageDataList({
+  Future<List<AppImageData>?> getThumbnailImageDataList({
     required List<AppImageMetadata> imageMetadataList,
   }) async {
-    apiHttpClient.options.headers['Content-Type'] = 'application/json';
     final responses = await Future.wait(
       imageMetadataList.map((imageMetadata) {
         return s3HttpClient.get(
-          "/thumbnail/${imageMetadata.imageUrl}",
+          "/original/${imageMetadata.imageUrl}",
         );
       }).toList(),
     );
-
-    print(responses.map((e) => e.statusCode).toList());
 
     return responses
         .map(
@@ -74,6 +73,25 @@ class K8sImageRepository implements ImageRepository {
           ),
         )
         .toList();
+  }
+
+  @override
+  Future<List<Uint8List?>> getOriginalImageByteList({
+    required List<AppImageItem> originalImageDataList,
+  }) async {
+    apiHttpClient.options.headers['Content-Type'] = 'application/json';
+
+    final responses = await Future.wait(
+      originalImageDataList.map((imageItem) {
+        return s3HttpClient.get(
+          "/original/${imageItem.imageMetadata.imageUrl}",
+        );
+      }).toList(),
+    );
+
+    return responses
+        .map((res) => res.statusCode == 200 ? res.data : null)
+        .toList() as List<Uint8List?>;
   }
 
   @override

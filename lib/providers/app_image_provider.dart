@@ -54,7 +54,7 @@ class AppImageProvider with ChangeNotifier {
 
       print("getting images: ${newImageMetadataList.length}");
 
-      final newImageDataList = await _imageRepository.getImageDataList(
+      final newImageDataList = await _imageRepository.getThumbnailImageDataList(
         imageMetadataList: newImageMetadataList,
       );
 
@@ -186,7 +186,8 @@ class AppImageProvider with ChangeNotifier {
     }
   }
 
-  Future<void> uploadFiles() async {
+  Future<void> uploadFiles(
+      PagingController<int, AppImageItem> pagingController) async {
     try {
       var picked = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -213,13 +214,21 @@ class AppImageProvider with ChangeNotifier {
         ],
       );
 
-      for (PlatformFile file in picked.files) {
+      for (var i = 0; i < picked.files.length; i++) {
         final imageData = AppImageData(
           selected: false,
-          thumbnail: file.bytes,
+          thumbnail: picked.files[i].bytes,
           original: null,
         );
         _imageDataList.insert(0, imageData);
+        pagingController.itemList!.insert(
+          0,
+          AppImageItem(
+            imageMetadata: imageMetadataList[i],
+            imageData: imageData,
+          ),
+        );
+        pagingController.refresh();
       }
 
       _imageEventController.sink.add(const ImageEvent.onImageUploadSuccess());

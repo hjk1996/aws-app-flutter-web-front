@@ -22,8 +22,10 @@ class AppImageProvider with ChangeNotifier {
   late final ImageRepository _imageRepository;
   late GalleryState _state;
 
-  final List<AppImageData> _imageDataList = [];
-  List<AppImageData> get imageDataList => _imageDataList;
+  final pagingController = PagingController<int, AppImageItem>(
+    firstPageKey: 1,
+  );
+
   Set<int> _selectedImageIndexes = {};
   Set<int> get selectedImageIndexes => _selectedImageIndexes;
 
@@ -32,13 +34,28 @@ class AppImageProvider with ChangeNotifier {
 
   GalleryState get state => _state;
 
-  Future<void> getNextPage({
-    required PagingController<int, AppImageItem> pagingController,
+  void toggleLoading() {
+    _state = _state.copyWith(loading: !_state.loading);
+    notifyListeners();
+  }
+
+  void init() {
+    pagingController.addPageRequestListener((pageKey) {
+      getNextImages(pageKey: pageKey);
+    });
+    pagingController.addStatusListener((status) {
+    });
+  }
+
+  Future<void> getNextImages({
     required int pageKey,
     int? limit,
   }) async {
     try {
-      print("getNextPage: $pageKey");
+      print("getNextPage called");
+      print(
+          "old imageMetadataList: ${_state.imageMetadataList.map((e) => e.pictureId).toList()}");
+      // image metadata list 가져오기
       final newImageMetadataList = await _imageRepository.getImageMetadataList(
         limit: limit ?? 20,
         afterThisImageId: _state.imageMetadataList.isNotEmpty
@@ -46,19 +63,17 @@ class AppImageProvider with ChangeNotifier {
             : null,
       );
 
-      print("newImageMetadataList: $newImageMetadataList");
-
       if (newImageMetadataList == null) {
         throw Exception("get images failed");
       }
 
-      print("getting images: ${newImageMetadataList.length}");
+      print(
+          "newImageMetadataList: ${newImageMetadataList.map((e) => e.pictureId).toList()}");
 
+      // image data list 가져오기
       final newImageDataList = await _imageRepository.getThumbnailImageDataList(
         imageMetadataList: newImageMetadataList,
       );
-
-      print("newImageDataList: $newImageDataList");
 
       if (newImageDataList == null) {
         throw Exception("get images failed");
@@ -68,10 +83,6 @@ class AppImageProvider with ChangeNotifier {
         ..._state.imageMetadataList,
         ...newImageMetadataList,
       ]);
-
-      _imageDataList.addAll(newImageDataList);
-      print("newImageMetadataList: ${_state.imageMetadataList.length}");
-      print("newImageDataList: ${_imageDataList.length}");
 
       final isLastPage = newImageMetadataList.isEmpty ||
           newImageDataList.isEmpty ||
@@ -88,7 +99,7 @@ class AppImageProvider with ChangeNotifier {
           ),
         );
       } else {
-        final nextPageKey = pageKey + 1;
+        final nextPageKey = pageKey + newImageMetadataList.length;
         pagingController.appendPage(
           List.generate(
             newImageMetadataList.length,
@@ -100,8 +111,6 @@ class AppImageProvider with ChangeNotifier {
           nextPageKey,
         );
       }
-
-      print("pagingController.itemList: ${pagingController.itemList!.length}");
     } on DioException catch (err) {
       pagingController.error = err;
       print("${err.response?.data}");
@@ -111,8 +120,78 @@ class AppImageProvider with ChangeNotifier {
     } finally {}
   }
 
-  Future<void> deleteCurrentImage(
-      PagingController<int, AppImageItem> pagingController) async {
+
+  Future<void> uploadFiles() async {
+    try {
+      toggleLoading();
+      var picked = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png', 'jpeg', 'zip'],
+        allowMultiple: true,
+      );
+
+      if (picked == null) {
+        return;
+      }
+
+      final newImageMetadataList = await _imageRepository.uploadFiles(
+        imageDataList: picked.files,
+      );
+      if (newImageMetadataList == null) {
+        throw Exception("upload failed");
+      }
+
+      _state = _state.copyWith(
+        imageMetadataList: [
+          ...newImageMetadataList,
+          ..._state.imageMetadataList,
+        ],
+      );
+
+      final newImageItemList = <AppImageItem>[];
+
+      for (var i = 0; i < picked.files.length; i++) {
+        final imageData = AppImageData(
+          selected: false,
+          thumbnail: picked.files[i].bytes,
+          original: null,
+        );
+        final newImageItem = AppImageItem(
+          imageMetadata: newImageMetadataList[i],
+          imageData: imageData,
+        );
+        newImageItemList.add(newImageItem);
+      }
+
+      pagingController.itemList!.insertAll(0, newImageItemList);
+      pagingController.notifyStatusListeners(PagingStatus.completed);
+
+      // for (var i = 0; i < picked.files.length; i++) {
+      //   final imageData = AppImageData(
+      //     selected: false,
+      //     thumbnail: picked.files[i].bytes,
+      //     original: null,
+      //   );
+      //   _imageDataList.insert(0, imageData);
+      //   pagingController.itemList!.insert(
+      //     0,
+      //     AppImageItem(
+      //       imageMetadata: newImageMetadataList[i],
+      //       imageData: imageData,
+      //     ),
+      //   );
+      // }
+
+      _imageEventController.sink.add(const ImageEvent.onImageUploadSuccess());
+    } on Exception catch (err) {
+      print(err);
+    } finally {
+      toggleLoading();
+    }
+  }
+
+
+  Future<void> deleteCurrentImage() async {
     try {
       if (_state.imageMetadataList.isEmpty ||
           _state.currentImageIndex == null) {
@@ -131,7 +210,6 @@ class AppImageProvider with ChangeNotifier {
           ..._state.imageMetadataList.sublist(_state.currentImageIndex! + 1),
         ],
       );
-      _imageDataList.removeAt(_state.currentImageIndex!);
       pagingController.itemList!.removeAt(_state.currentImageIndex!);
     } on Exception catch (err) {
     } finally {
@@ -139,8 +217,7 @@ class AppImageProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteSelectedImage(
-      PagingController<int, AppImageItem> pagingController) async {
+  Future<void> deleteSelectedImage() async {
     try {
       if (_selectedImageIndexes.isEmpty) return;
 
@@ -176,7 +253,6 @@ class AppImageProvider with ChangeNotifier {
     } on DioException catch (err) {
       // Dio 오류 처리
       pagingController.error = err;
-      print("${err.response?.data}");
     } catch (err) {
       // 기타 예외 처리
       print("An error occurred: $err");
@@ -186,59 +262,7 @@ class AppImageProvider with ChangeNotifier {
     }
   }
 
-  Future<void> uploadFiles(
-      PagingController<int, AppImageItem> pagingController) async {
-    try {
-      var picked = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['jpg', 'png', 'jpeg', 'zip'],
-        allowMultiple: true,
-      );
-
-      if (picked == null) {
-        return;
-      }
-
-      print("uploadFiles: ${picked.files.length}");
-      final imageMetadataList = await _imageRepository.uploadFiles(
-        imageDataList: picked.files,
-      );
-      if (imageMetadataList == null) {
-        throw Exception("upload failed");
-      }
-
-      _state = _state.copyWith(
-        imageMetadataList: [
-          ...imageMetadataList,
-          ..._state.imageMetadataList,
-        ],
-      );
-
-      for (var i = 0; i < picked.files.length; i++) {
-        final imageData = AppImageData(
-          selected: false,
-          thumbnail: picked.files[i].bytes,
-          original: null,
-        );
-        _imageDataList.insert(0, imageData);
-        pagingController.itemList!.insert(
-          0,
-          AppImageItem(
-            imageMetadata: imageMetadataList[i],
-            imageData: imageData,
-          ),
-        );
-        pagingController.refresh();
-      }
-
-      _imageEventController.sink.add(const ImageEvent.onImageUploadSuccess());
-    } on Exception catch (err) {
-      print(err);
-    } finally {
-      notifyListeners();
-    }
-  }
-
+  
   void toggleSelectedMode() {
     if (_state.selectedMode) {
       _state = _state.copyWith(selectedMode: !_state.selectedMode);

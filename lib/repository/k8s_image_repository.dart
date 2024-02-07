@@ -22,7 +22,6 @@ class K8sImageRepository implements ImageRepository {
     required int limit,
     int? afterThisImageId,
   }) async {
-    print("getImageMetadataList: $limit, $afterThisImageId");
     apiHttpClient.options.headers['Content-Type'] = 'application/json';
     final tokenManager = TokenManager();
     final idToken = tokenManager.getDecodedToken(TokenType.id);
@@ -58,10 +57,15 @@ class K8sImageRepository implements ImageRepository {
   }) async {
     final responses = await Future.wait(
       imageMetadataList.map((imageMetadata) {
-        return s3HttpClient.get(
-          "/original/${imageMetadata.imageUrl}",
-        );
+        return s3HttpClient
+            .get("/original/${imageMetadata.imageUrl}")
+            .then((response) => response)
+            .catchError((error) {
+          // 오류 로깅 또는 기본 데이터 처리
+          return null; // 실패한 경우 null 반환 또는 기본 값 설정
+        });
       }).toList(),
+      eagerError: false, // 하나의 Future가 실패해도 다른 Future의 결과를 기다립니다.
     );
 
     return responses
@@ -100,7 +104,6 @@ class K8sImageRepository implements ImageRepository {
   }) async {
     apiHttpClient.options.headers['Content-Type'] = 'multipart/form-data';
     final tokenManager = TokenManager();
-    print("upload file, user id: ${tokenManager.userId}"); // userId 변수 사용
     final String jsonData =
         jsonEncode({"user_id": tokenManager.userId}); // userId 변수 사용
 
@@ -134,11 +137,10 @@ class K8sImageRepository implements ImageRepository {
       );
     }
 
-    print(response.data["pictures"]);
-
     return (response.data["pictures"] as List)
         .map((e) => AppImageMetadata.fromJson(e))
-        .toList();
+        .toList()
+      ..sort((a, b) => b.pictureId.compareTo(a.pictureId));
   }
 
   @override

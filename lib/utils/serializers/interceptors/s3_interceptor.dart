@@ -28,7 +28,7 @@ class S3Interceptor extends Interceptor {
         await tokenManager.renewTokens();
       default:
         print("에러 헤더: ${err.response?.headers}");
-        print("에러 발생: [${err.response?.statusCode}]: ${err.response?.data}");
+        print("에러 발생: [${err.response?.statusCode}]");
         print("에러 내용: ${err.message}");
         return handler.next(err);
     }

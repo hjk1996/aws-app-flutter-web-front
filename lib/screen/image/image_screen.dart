@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
 import 'package:flutter_web/screen/image/widgets/image_info_modal.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ImageScreen extends StatefulWidget {
@@ -36,7 +37,7 @@ class _ImageScreenState extends State<ImageScreen> {
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            currentImageMetadata.createdAt.toIso8601String(),
+            DateFormat.yMd().add_jm().format(currentImageMetadata.createdAt),
           ),
           actions: [
             IconButton(
@@ -60,7 +61,8 @@ class _ImageScreenState extends State<ImageScreen> {
                 itemBuilder: (context, index) => Hero(
                   tag: provider.state.imageMetadataList[index].pictureId,
                   child: Image.memory(
-                    provider.imageDataList[index].thumbnail!,
+                    provider
+                        .pagingController.itemList![index].imageData.thumbnail!,
                   ),
                 ),
               ),

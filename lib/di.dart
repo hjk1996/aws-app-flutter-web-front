@@ -19,9 +19,6 @@ Future<List<SingleChildWidget>> getProviders() async {
   tokenManager.loadTokensFromCookie();
   final username = prefs.getString('username');
 
-
-
-
   final CustomInterceptor authInterceptor = CustomInterceptor();
   final CustomInterceptor apiInterceptor = CustomInterceptor();
   final S3Interceptor s3Interceptor = S3Interceptor();
@@ -64,6 +61,7 @@ Future<List<SingleChildWidget>> getProviders() async {
         totalPage: 0,
         currentPage: 0,
       ));
+  imageProvider.init();
   await authProvider.checkUserSignedIn();
 
   return [

@@ -20,9 +20,6 @@ class GalleryScreen extends StatefulWidget {
 }
 
 class _GalleryScreenState extends State<GalleryScreen> {
-  final PagingController<int, AppImageItem> pagingController = PagingController(
-    firstPageKey: 1,
-  );
   late StreamSubscription<ImageEvent> _imageEventstreamSubscription;
 
   @override
@@ -32,45 +29,42 @@ class _GalleryScreenState extends State<GalleryScreen> {
       event.whenOrNull(
         error: (e) => ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+            backgroundColor: Colors.red,
             content: Text(e.toString()),
           ),
         ),
-        onImageUploadSuccess: () => ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              backgroundColor: Colors.green,
-              content: Text(
-                'Image upload success',
-              )),
-        ),
+        onImageUploadSuccess: () {
+          setState(() {});
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                backgroundColor: Colors.green,
+                content: Text(
+                  'Image upload success',
+                )),
+          );
+        },
       );
     });
 
-    pagingController.addPageRequestListener((pageKey) {
-      context.read<AppImageProvider>().getNextPage(
-            pagingController: pagingController,
-            pageKey: pageKey,
-          );
-    });
     super.initState();
   }
 
   @override
   void dispose() {
     _imageEventstreamSubscription.cancel();
-    pagingController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final pagingController = context.read<AppImageProvider>().pagingController;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Gallery"),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async => await context
-            .read<AppImageProvider>()
-            .uploadFiles(pagingController),
+        onPressed: () async =>
+            await context.read<AppImageProvider>().uploadFiles(),
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(

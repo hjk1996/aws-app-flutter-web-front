@@ -4,43 +4,39 @@ import 'package:flutter_web/providers/app_image_provider.dart';
 import 'package:flutter_web/screen/image/image_screen.dart';
 import 'package:provider/provider.dart';
 
-class ThumnailWidget extends StatefulWidget {
-  const ThumnailWidget(
+class ThumbnailWidget extends StatefulWidget {
+  const ThumbnailWidget(
       {super.key, required this.index, required this.imageItem});
 
   final int index;
   final AppImageItem imageItem;
 
   @override
-  State<ThumnailWidget> createState() => _ThumnailWidgetState();
+  State<ThumbnailWidget> createState() => _ThumbnailWidgetState();
 }
 
-class _ThumnailWidgetState extends State<ThumnailWidget> {
-  bool _selected = false;
-
+class _ThumbnailWidgetState extends State<ThumbnailWidget> {
   @override
   Widget build(BuildContext context) {
-    return Selector<AppImageProvider, bool>(
-      selector: (_, provider) => provider.state.selectedMode,
-      builder: (context, selectMode, child) {
+    return Consumer<AppImageProvider>(
+      builder: (context, provider, child) {
         // select 모드일 때
-        if (selectMode) {
+        if (provider.state.selectMode) {
           return GestureDetector(
               onTap: () {
-                setState(() {
-                  _selected = !_selected;
-                });
-                context
-                    .read<AppImageProvider>()
-                    .toggleImageItemSelection(widget.index);
+                provider.toggleImageItemSelection(widget.index);
               },
               child: Stack(
+                fit: StackFit.expand,
                 children: [
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: _selected ? Colors.blue : Colors.transparent,
-                        width: 2,
+                        color:
+                            provider.selectedImageIndexes.contains(widget.index)
+                                ? Colors.blue
+                                : Colors.transparent,
+                        width: 4,
                       ),
                     ),
                     child: Image.memory(
@@ -48,7 +44,7 @@ class _ThumnailWidgetState extends State<ThumnailWidget> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  if (_selected)
+                  if (provider.selectedImageIndexes.contains(widget.index))
                     Positioned(
                       top: 0,
                       right: 0,
@@ -66,9 +62,7 @@ class _ThumnailWidgetState extends State<ThumnailWidget> {
         } else {
           return GestureDetector(
             onTap: () {
-              context
-                  .read<AppImageProvider>()
-                  .setCurrentImageIndex(widget.index);
+              provider.setCurrentImageIndex(widget.index);
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => ImageScreen(index: widget.index),
               ));
@@ -76,8 +70,10 @@ class _ThumnailWidgetState extends State<ThumnailWidget> {
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: _selected ? Colors.blue : Colors.transparent,
-                  width: 2,
+                  color: provider.selectedImageIndexes.contains(widget.index)
+                      ? Colors.blue
+                      : Colors.transparent,
+                  width: 4,
                 ),
               ),
               child: Image.memory(

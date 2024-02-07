@@ -56,8 +56,8 @@ Future<List<SingleChildWidget>> getProviders() async {
       initialState: GalleryState(
         loading: false,
         imageMetadataList: [],
-        selectedMode: false,
         currentImageIndex: 0,
+        selectMode: false,
         totalPage: 0,
         currentPage: 0,
       ));

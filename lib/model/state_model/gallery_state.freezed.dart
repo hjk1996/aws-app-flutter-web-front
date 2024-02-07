@@ -19,9 +19,9 @@ mixin _$GalleryState {
   bool get loading => throw _privateConstructorUsedError;
   List<AppImageMetadata> get imageMetadataList =>
       throw _privateConstructorUsedError;
-  bool get selectedMode => throw _privateConstructorUsedError;
   int get totalPage => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
+  bool get selectMode => throw _privateConstructorUsedError;
   int? get currentImageIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -38,9 +38,9 @@ abstract class $GalleryStateCopyWith<$Res> {
   $Res call(
       {bool loading,
       List<AppImageMetadata> imageMetadataList,
-      bool selectedMode,
       int totalPage,
       int currentPage,
+      bool selectMode,
       int? currentImageIndex});
 }
 
@@ -59,9 +59,9 @@ class _$GalleryStateCopyWithImpl<$Res, $Val extends GalleryState>
   $Res call({
     Object? loading = null,
     Object? imageMetadataList = null,
-    Object? selectedMode = null,
     Object? totalPage = null,
     Object? currentPage = null,
+    Object? selectMode = null,
     Object? currentImageIndex = freezed,
   }) {
     return _then(_value.copyWith(
@@ -73,10 +73,6 @@ class _$GalleryStateCopyWithImpl<$Res, $Val extends GalleryState>
           ? _value.imageMetadataList
           : imageMetadataList // ignore: cast_nullable_to_non_nullable
               as List<AppImageMetadata>,
-      selectedMode: null == selectedMode
-          ? _value.selectedMode
-          : selectedMode // ignore: cast_nullable_to_non_nullable
-              as bool,
       totalPage: null == totalPage
           ? _value.totalPage
           : totalPage // ignore: cast_nullable_to_non_nullable
@@ -85,6 +81,10 @@ class _$GalleryStateCopyWithImpl<$Res, $Val extends GalleryState>
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
               as int,
+      selectMode: null == selectMode
+          ? _value.selectMode
+          : selectMode // ignore: cast_nullable_to_non_nullable
+              as bool,
       currentImageIndex: freezed == currentImageIndex
           ? _value.currentImageIndex
           : currentImageIndex // ignore: cast_nullable_to_non_nullable
@@ -104,9 +104,9 @@ abstract class _$$GalleryStateImplCopyWith<$Res>
   $Res call(
       {bool loading,
       List<AppImageMetadata> imageMetadataList,
-      bool selectedMode,
       int totalPage,
       int currentPage,
+      bool selectMode,
       int? currentImageIndex});
 }
 
@@ -123,9 +123,9 @@ class __$$GalleryStateImplCopyWithImpl<$Res>
   $Res call({
     Object? loading = null,
     Object? imageMetadataList = null,
-    Object? selectedMode = null,
     Object? totalPage = null,
     Object? currentPage = null,
+    Object? selectMode = null,
     Object? currentImageIndex = freezed,
   }) {
     return _then(_$GalleryStateImpl(
@@ -137,10 +137,6 @@ class __$$GalleryStateImplCopyWithImpl<$Res>
           ? _value._imageMetadataList
           : imageMetadataList // ignore: cast_nullable_to_non_nullable
               as List<AppImageMetadata>,
-      selectedMode: null == selectedMode
-          ? _value.selectedMode
-          : selectedMode // ignore: cast_nullable_to_non_nullable
-              as bool,
       totalPage: null == totalPage
           ? _value.totalPage
           : totalPage // ignore: cast_nullable_to_non_nullable
@@ -149,6 +145,10 @@ class __$$GalleryStateImplCopyWithImpl<$Res>
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
               as int,
+      selectMode: null == selectMode
+          ? _value.selectMode
+          : selectMode // ignore: cast_nullable_to_non_nullable
+              as bool,
       currentImageIndex: freezed == currentImageIndex
           ? _value.currentImageIndex
           : currentImageIndex // ignore: cast_nullable_to_non_nullable
@@ -163,9 +163,9 @@ class _$GalleryStateImpl extends _GalleryState {
   _$GalleryStateImpl(
       {required this.loading,
       required final List<AppImageMetadata> imageMetadataList,
-      required this.selectedMode,
       required this.totalPage,
       required this.currentPage,
+      required this.selectMode,
       this.currentImageIndex})
       : _imageMetadataList = imageMetadataList,
         super._();
@@ -182,17 +182,17 @@ class _$GalleryStateImpl extends _GalleryState {
   }
 
   @override
-  final bool selectedMode;
-  @override
   final int totalPage;
   @override
   final int currentPage;
+  @override
+  final bool selectMode;
   @override
   final int? currentImageIndex;
 
   @override
   String toString() {
-    return 'GalleryState(loading: $loading, imageMetadataList: $imageMetadataList, selectedMode: $selectedMode, totalPage: $totalPage, currentPage: $currentPage, currentImageIndex: $currentImageIndex)';
+    return 'GalleryState(loading: $loading, imageMetadataList: $imageMetadataList, totalPage: $totalPage, currentPage: $currentPage, selectMode: $selectMode, currentImageIndex: $currentImageIndex)';
   }
 
   @override
@@ -203,12 +203,12 @@ class _$GalleryStateImpl extends _GalleryState {
             (identical(other.loading, loading) || other.loading == loading) &&
             const DeepCollectionEquality()
                 .equals(other._imageMetadataList, _imageMetadataList) &&
-            (identical(other.selectedMode, selectedMode) ||
-                other.selectedMode == selectedMode) &&
             (identical(other.totalPage, totalPage) ||
                 other.totalPage == totalPage) &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
+            (identical(other.selectMode, selectMode) ||
+                other.selectMode == selectMode) &&
             (identical(other.currentImageIndex, currentImageIndex) ||
                 other.currentImageIndex == currentImageIndex));
   }
@@ -218,9 +218,9 @@ class _$GalleryStateImpl extends _GalleryState {
       runtimeType,
       loading,
       const DeepCollectionEquality().hash(_imageMetadataList),
-      selectedMode,
       totalPage,
       currentPage,
+      selectMode,
       currentImageIndex);
 
   @JsonKey(ignore: true)
@@ -234,9 +234,9 @@ abstract class _GalleryState extends GalleryState {
   factory _GalleryState(
       {required final bool loading,
       required final List<AppImageMetadata> imageMetadataList,
-      required final bool selectedMode,
       required final int totalPage,
       required final int currentPage,
+      required final bool selectMode,
       final int? currentImageIndex}) = _$GalleryStateImpl;
   _GalleryState._() : super._();
 
@@ -245,11 +245,11 @@ abstract class _GalleryState extends GalleryState {
   @override
   List<AppImageMetadata> get imageMetadataList;
   @override
-  bool get selectedMode;
-  @override
   int get totalPage;
   @override
   int get currentPage;
+  @override
+  bool get selectMode;
   @override
   int? get currentImageIndex;
   @override

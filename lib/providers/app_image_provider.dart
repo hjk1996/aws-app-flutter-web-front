@@ -163,22 +163,6 @@ class AppImageProvider with ChangeNotifier {
       pagingController.itemList!.insertAll(0, newImageItemList);
       pagingController.notifyStatusListeners(PagingStatus.completed);
 
-      // for (var i = 0; i < picked.files.length; i++) {
-      //   final imageData = AppImageData(
-      //     selected: false,
-      //     thumbnail: picked.files[i].bytes,
-      //     original: null,
-      //   );
-      //   _imageDataList.insert(0, imageData);
-      //   pagingController.itemList!.insert(
-      //     0,
-      //     AppImageItem(
-      //       imageMetadata: newImageMetadataList[i],
-      //       imageData: imageData,
-      //     ),
-      //   );
-      // }
-
       _imageEventController.sink.add(const ImageEvent.onImageUploadSuccess());
     } on Exception catch (err) {
       print(err);
@@ -243,9 +227,9 @@ class AppImageProvider with ChangeNotifier {
         pagingController.itemList!.removeAt(index);
       }
 
-      // 상태 업데이트
-      _state = _state.copyWith(
-          imageMetadataList: List.from(_state.imageMetadataList));
+      _selectedImageIndexes = {};
+
+      _imageEventController.sink.add(const ImageEvent.onImageDeleteSuccess());
     } on DioException catch (err) {
       // Dio 오류 처리
       pagingController.error = err;
@@ -256,17 +240,6 @@ class AppImageProvider with ChangeNotifier {
       // 상태 변경 알림
       notifyListeners();
     }
-  }
-
-  void toggleSelectedMode() {
-    if (_state.selectedMode) {
-      _state = _state.copyWith(selectedMode: !_state.selectedMode);
-      _selectedImageIndexes = {};
-    } else {
-      _state = _state.copyWith(selectedMode: !_state.selectedMode);
-      _selectedImageIndexes = {};
-    }
-    notifyListeners();
   }
 
   void toggleImageItemSelection(int index) {
@@ -280,6 +253,15 @@ class AppImageProvider with ChangeNotifier {
 
   void setCurrentImageIndex(int index) {
     _state = _state.copyWith(currentImageIndex: index);
+    notifyListeners();
+  }
+
+  void toggleSelectMode() {
+    if (_state.selectMode) {
+      _selectedImageIndexes = {};
+    }
+    _state = _state.copyWith(selectMode: !_state.selectMode);
+
     notifyListeners();
   }
 

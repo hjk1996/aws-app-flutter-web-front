@@ -5,7 +5,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_web/event/image_event.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
-import 'package:flutter_web/screen/gallery/widgets/thumnail_widget.dart';
+import 'package:flutter_web/screen/gallery/widgets/image_delete_button.dart';
+import 'package:flutter_web/screen/gallery/widgets/select_toggle_button.dart';
+import 'package:flutter_web/screen/gallery/widgets/thumbnail_widget.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
@@ -46,6 +48,16 @@ class _GalleryScreenState extends State<GalleryScreen> {
                 )),
           );
         },
+        onImageDeleteSuccess: () {
+          setState(() {});
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                backgroundColor: Colors.green,
+                content: Text(
+                  'Image delete success',
+                )),
+          );
+        },
       );
     });
 
@@ -64,7 +76,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
@@ -73,6 +85,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
             }
           },
         ),
+        actions: const [
+          ImageDeleteButton(),
+          SizedBox(
+            width: 10,
+          ),
+          GallerySelectToggleButton()
+        ],
         title: const Text("Gallery"),
       ),
       floatingActionButton: FloatingActionButton(
@@ -102,7 +121,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
             ),
             itemBuilder: (context, item, index) => Hero(
               tag: item.imageMetadata.pictureId,
-              child: ThumnailWidget(
+              child: ThumbnailWidget(
                 key: ValueKey(item.imageMetadata.pictureId),
                 index: index,
                 imageItem: item,

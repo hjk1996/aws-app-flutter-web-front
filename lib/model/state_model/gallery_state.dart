@@ -9,9 +9,9 @@ class GalleryState with _$GalleryState {
   factory GalleryState({
     required bool loading,
     required List<AppImageMetadata> imageMetadataList,
-    required bool selectedMode,
     required int totalPage,
     required int currentPage,
+    required bool selectMode,
     int? currentImageIndex,
   }) = _GalleryState;
 }

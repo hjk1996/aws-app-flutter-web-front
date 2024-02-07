@@ -148,13 +148,14 @@ class K8sImageRepository implements ImageRepository {
   Future<void> deleteImages({
     required List<AppImageMetadata> imageMetadataList,
   }) async {
+    apiHttpClient.options.headers['Content-Type'] = 'application/json';
     final pictureIds =
         imageMetadataList.map((e) => {"picture_id": e.pictureId}).toList();
+    final formData = FormData.fromMap({"json_data": pictureIds});
+
     final response = await apiHttpClient.delete(
       '/pictures',
-      data: jsonEncode({
-        "json_data": pictureIds,
-      }),
+      data: formData,
     );
 
     if (response.statusCode != 200) {

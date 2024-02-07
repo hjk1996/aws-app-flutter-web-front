@@ -22,6 +22,7 @@ mixin _$ImageEvent {
     required TResult Function() loading,
     required TResult Function() loaded,
     required TResult Function() onImageUploadSuccess,
+    required TResult Function() onImageDeleteSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$ImageEvent {
     TResult? Function()? loading,
     TResult? Function()? loaded,
     TResult? Function()? onImageUploadSuccess,
+    TResult? Function()? onImageDeleteSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$ImageEvent {
     TResult Function()? loading,
     TResult Function()? loaded,
     TResult Function()? onImageUploadSuccess,
+    TResult Function()? onImageDeleteSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +51,8 @@ mixin _$ImageEvent {
     required TResult Function(ImageEventLoaded value) loaded,
     required TResult Function(ImageEventOnImageUploadSuccess value)
         onImageUploadSuccess,
+    required TResult Function(ImageEventOnImageDeleteSuccess value)
+        onImageDeleteSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,8 @@ mixin _$ImageEvent {
     TResult? Function(ImageEventLoaded value)? loaded,
     TResult? Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult? Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -66,6 +73,8 @@ mixin _$ImageEvent {
     TResult Function(ImageEventLoaded value)? loaded,
     TResult Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -158,6 +167,7 @@ class _$ImageEventErrorImpl implements ImageEventError {
     required TResult Function() loading,
     required TResult Function() loaded,
     required TResult Function() onImageUploadSuccess,
+    required TResult Function() onImageDeleteSuccess,
   }) {
     return error(e);
   }
@@ -169,6 +179,7 @@ class _$ImageEventErrorImpl implements ImageEventError {
     TResult? Function()? loading,
     TResult? Function()? loaded,
     TResult? Function()? onImageUploadSuccess,
+    TResult? Function()? onImageDeleteSuccess,
   }) {
     return error?.call(e);
   }
@@ -180,6 +191,7 @@ class _$ImageEventErrorImpl implements ImageEventError {
     TResult Function()? loading,
     TResult Function()? loaded,
     TResult Function()? onImageUploadSuccess,
+    TResult Function()? onImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -196,6 +208,8 @@ class _$ImageEventErrorImpl implements ImageEventError {
     required TResult Function(ImageEventLoaded value) loaded,
     required TResult Function(ImageEventOnImageUploadSuccess value)
         onImageUploadSuccess,
+    required TResult Function(ImageEventOnImageDeleteSuccess value)
+        onImageDeleteSuccess,
   }) {
     return error(this);
   }
@@ -208,6 +222,8 @@ class _$ImageEventErrorImpl implements ImageEventError {
     TResult? Function(ImageEventLoaded value)? loaded,
     TResult? Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult? Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
   }) {
     return error?.call(this);
   }
@@ -220,6 +236,8 @@ class _$ImageEventErrorImpl implements ImageEventError {
     TResult Function(ImageEventLoaded value)? loaded,
     TResult Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -280,6 +298,7 @@ class _$ImageEventLoadingImpl implements ImageEventLoading {
     required TResult Function() loading,
     required TResult Function() loaded,
     required TResult Function() onImageUploadSuccess,
+    required TResult Function() onImageDeleteSuccess,
   }) {
     return loading();
   }
@@ -291,6 +310,7 @@ class _$ImageEventLoadingImpl implements ImageEventLoading {
     TResult? Function()? loading,
     TResult? Function()? loaded,
     TResult? Function()? onImageUploadSuccess,
+    TResult? Function()? onImageDeleteSuccess,
   }) {
     return loading?.call();
   }
@@ -302,6 +322,7 @@ class _$ImageEventLoadingImpl implements ImageEventLoading {
     TResult Function()? loading,
     TResult Function()? loaded,
     TResult Function()? onImageUploadSuccess,
+    TResult Function()? onImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -318,6 +339,8 @@ class _$ImageEventLoadingImpl implements ImageEventLoading {
     required TResult Function(ImageEventLoaded value) loaded,
     required TResult Function(ImageEventOnImageUploadSuccess value)
         onImageUploadSuccess,
+    required TResult Function(ImageEventOnImageDeleteSuccess value)
+        onImageDeleteSuccess,
   }) {
     return loading(this);
   }
@@ -330,6 +353,8 @@ class _$ImageEventLoadingImpl implements ImageEventLoading {
     TResult? Function(ImageEventLoaded value)? loaded,
     TResult? Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult? Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
   }) {
     return loading?.call(this);
   }
@@ -342,6 +367,8 @@ class _$ImageEventLoadingImpl implements ImageEventLoading {
     TResult Function(ImageEventLoaded value)? loaded,
     TResult Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -397,6 +424,7 @@ class _$ImageEventLoadedImpl implements ImageEventLoaded {
     required TResult Function() loading,
     required TResult Function() loaded,
     required TResult Function() onImageUploadSuccess,
+    required TResult Function() onImageDeleteSuccess,
   }) {
     return loaded();
   }
@@ -408,6 +436,7 @@ class _$ImageEventLoadedImpl implements ImageEventLoaded {
     TResult? Function()? loading,
     TResult? Function()? loaded,
     TResult? Function()? onImageUploadSuccess,
+    TResult? Function()? onImageDeleteSuccess,
   }) {
     return loaded?.call();
   }
@@ -419,6 +448,7 @@ class _$ImageEventLoadedImpl implements ImageEventLoaded {
     TResult Function()? loading,
     TResult Function()? loaded,
     TResult Function()? onImageUploadSuccess,
+    TResult Function()? onImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -435,6 +465,8 @@ class _$ImageEventLoadedImpl implements ImageEventLoaded {
     required TResult Function(ImageEventLoaded value) loaded,
     required TResult Function(ImageEventOnImageUploadSuccess value)
         onImageUploadSuccess,
+    required TResult Function(ImageEventOnImageDeleteSuccess value)
+        onImageDeleteSuccess,
   }) {
     return loaded(this);
   }
@@ -447,6 +479,8 @@ class _$ImageEventLoadedImpl implements ImageEventLoaded {
     TResult? Function(ImageEventLoaded value)? loaded,
     TResult? Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult? Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
   }) {
     return loaded?.call(this);
   }
@@ -459,6 +493,8 @@ class _$ImageEventLoadedImpl implements ImageEventLoaded {
     TResult Function(ImageEventLoaded value)? loaded,
     TResult Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -518,6 +554,7 @@ class _$ImageEventOnImageUploadSuccessImpl
     required TResult Function() loading,
     required TResult Function() loaded,
     required TResult Function() onImageUploadSuccess,
+    required TResult Function() onImageDeleteSuccess,
   }) {
     return onImageUploadSuccess();
   }
@@ -529,6 +566,7 @@ class _$ImageEventOnImageUploadSuccessImpl
     TResult? Function()? loading,
     TResult? Function()? loaded,
     TResult? Function()? onImageUploadSuccess,
+    TResult? Function()? onImageDeleteSuccess,
   }) {
     return onImageUploadSuccess?.call();
   }
@@ -540,6 +578,7 @@ class _$ImageEventOnImageUploadSuccessImpl
     TResult Function()? loading,
     TResult Function()? loaded,
     TResult Function()? onImageUploadSuccess,
+    TResult Function()? onImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (onImageUploadSuccess != null) {
@@ -556,6 +595,8 @@ class _$ImageEventOnImageUploadSuccessImpl
     required TResult Function(ImageEventLoaded value) loaded,
     required TResult Function(ImageEventOnImageUploadSuccess value)
         onImageUploadSuccess,
+    required TResult Function(ImageEventOnImageDeleteSuccess value)
+        onImageDeleteSuccess,
   }) {
     return onImageUploadSuccess(this);
   }
@@ -568,6 +609,8 @@ class _$ImageEventOnImageUploadSuccessImpl
     TResult? Function(ImageEventLoaded value)? loaded,
     TResult? Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult? Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
   }) {
     return onImageUploadSuccess?.call(this);
   }
@@ -580,6 +623,8 @@ class _$ImageEventOnImageUploadSuccessImpl
     TResult Function(ImageEventLoaded value)? loaded,
     TResult Function(ImageEventOnImageUploadSuccess value)?
         onImageUploadSuccess,
+    TResult Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (onImageUploadSuccess != null) {
@@ -592,4 +637,135 @@ class _$ImageEventOnImageUploadSuccessImpl
 abstract class ImageEventOnImageUploadSuccess implements ImageEvent {
   const factory ImageEventOnImageUploadSuccess() =
       _$ImageEventOnImageUploadSuccessImpl;
+}
+
+/// @nodoc
+abstract class _$$ImageEventOnImageDeleteSuccessImplCopyWith<$Res> {
+  factory _$$ImageEventOnImageDeleteSuccessImplCopyWith(
+          _$ImageEventOnImageDeleteSuccessImpl value,
+          $Res Function(_$ImageEventOnImageDeleteSuccessImpl) then) =
+      __$$ImageEventOnImageDeleteSuccessImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ImageEventOnImageDeleteSuccessImplCopyWithImpl<$Res>
+    extends _$ImageEventCopyWithImpl<$Res, _$ImageEventOnImageDeleteSuccessImpl>
+    implements _$$ImageEventOnImageDeleteSuccessImplCopyWith<$Res> {
+  __$$ImageEventOnImageDeleteSuccessImplCopyWithImpl(
+      _$ImageEventOnImageDeleteSuccessImpl _value,
+      $Res Function(_$ImageEventOnImageDeleteSuccessImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$ImageEventOnImageDeleteSuccessImpl
+    implements ImageEventOnImageDeleteSuccess {
+  const _$ImageEventOnImageDeleteSuccessImpl();
+
+  @override
+  String toString() {
+    return 'ImageEvent.onImageDeleteSuccess()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImageEventOnImageDeleteSuccessImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Exception e) error,
+    required TResult Function() loading,
+    required TResult Function() loaded,
+    required TResult Function() onImageUploadSuccess,
+    required TResult Function() onImageDeleteSuccess,
+  }) {
+    return onImageDeleteSuccess();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Exception e)? error,
+    TResult? Function()? loading,
+    TResult? Function()? loaded,
+    TResult? Function()? onImageUploadSuccess,
+    TResult? Function()? onImageDeleteSuccess,
+  }) {
+    return onImageDeleteSuccess?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Exception e)? error,
+    TResult Function()? loading,
+    TResult Function()? loaded,
+    TResult Function()? onImageUploadSuccess,
+    TResult Function()? onImageDeleteSuccess,
+    required TResult orElse(),
+  }) {
+    if (onImageDeleteSuccess != null) {
+      return onImageDeleteSuccess();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ImageEventError value) error,
+    required TResult Function(ImageEventLoading value) loading,
+    required TResult Function(ImageEventLoaded value) loaded,
+    required TResult Function(ImageEventOnImageUploadSuccess value)
+        onImageUploadSuccess,
+    required TResult Function(ImageEventOnImageDeleteSuccess value)
+        onImageDeleteSuccess,
+  }) {
+    return onImageDeleteSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ImageEventError value)? error,
+    TResult? Function(ImageEventLoading value)? loading,
+    TResult? Function(ImageEventLoaded value)? loaded,
+    TResult? Function(ImageEventOnImageUploadSuccess value)?
+        onImageUploadSuccess,
+    TResult? Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
+  }) {
+    return onImageDeleteSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ImageEventError value)? error,
+    TResult Function(ImageEventLoading value)? loading,
+    TResult Function(ImageEventLoaded value)? loaded,
+    TResult Function(ImageEventOnImageUploadSuccess value)?
+        onImageUploadSuccess,
+    TResult Function(ImageEventOnImageDeleteSuccess value)?
+        onImageDeleteSuccess,
+    required TResult orElse(),
+  }) {
+    if (onImageDeleteSuccess != null) {
+      return onImageDeleteSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ImageEventOnImageDeleteSuccess implements ImageEvent {
+  const factory ImageEventOnImageDeleteSuccess() =
+      _$ImageEventOnImageDeleteSuccessImpl;
 }

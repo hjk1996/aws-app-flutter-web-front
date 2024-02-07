@@ -65,7 +65,6 @@ class K8sAuthRepository implements AuthRepository {
     if (response.statusCode == 200) {
       final res = response.data["result"];
       final signInResult = SignInResult.fromJson(res);
-      print("signInResult: $signInResult");
       var tokenManager = TokenManager();
       tokenManager.setTokenCookies(signInResult);
       return true;

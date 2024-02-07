@@ -63,6 +63,16 @@ class _GalleryScreenState extends State<GalleryScreen> {
     final pagingController = context.read<AppImageProvider>().pagingController;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Navigator.pushReplacementNamed(context, '/');
+            }
+          },
+        ),
         title: const Text("Gallery"),
       ),
       floatingActionButton: FloatingActionButton(

@@ -104,6 +104,7 @@ class K8sImageRepository implements ImageRepository {
   }) async {
     apiHttpClient.options.headers['Content-Type'] = 'multipart/form-data';
     final tokenManager = TokenManager();
+    print("userid: ${tokenManager.userId}"); // userId 변수 사용
     final String jsonData =
         jsonEncode({"user_id": tokenManager.userId}); // userId 변수 사용
 

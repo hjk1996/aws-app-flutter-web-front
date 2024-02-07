@@ -43,8 +43,6 @@ class AppImageProvider with ChangeNotifier {
     pagingController.addPageRequestListener((pageKey) {
       getNextImages(pageKey: pageKey);
     });
-    pagingController.addStatusListener((status) {
-    });
   }
 
   Future<void> getNextImages({
@@ -120,7 +118,6 @@ class AppImageProvider with ChangeNotifier {
     } finally {}
   }
 
-
   Future<void> uploadFiles() async {
     try {
       toggleLoading();
@@ -189,7 +186,6 @@ class AppImageProvider with ChangeNotifier {
       toggleLoading();
     }
   }
-
 
   Future<void> deleteCurrentImage() async {
     try {
@@ -262,7 +258,6 @@ class AppImageProvider with ChangeNotifier {
     }
   }
 
-  
   void toggleSelectedMode() {
     if (_state.selectedMode) {
       _state = _state.copyWith(selectedMode: !_state.selectedMode);

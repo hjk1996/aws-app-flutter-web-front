@@ -39,6 +39,10 @@ class TokenManager {
     _refreshToken = token;
   }
 
+  set userId(String? id) {
+    _userId = id;
+  }
+
   void clear() {
     _accessToken = null;
     _idToken = null;
@@ -131,8 +135,8 @@ class TokenManager {
     idToken = signInResult.idToken;
     refreshToken = signInResult.refreshToken;
     final decodedIdToken = _parseJwt(signInResult.idToken);
-    final userId = decodedIdToken['cognito:username'];
-    print("userId: $userId");
+    final userIdFromToken = decodedIdToken['cognito:username'];
+    userId = userIdFromToken;
     final expiryDate = DateTime.now().add(const Duration(days: 1));
     final expires = '; expires=${expiryDate.toUtc().toIso8601String()}';
     // set cookies from signInResult
@@ -140,6 +144,6 @@ class TokenManager {
       ..cookie = 'access_token=${signInResult.accessToken}$expires'
       ..cookie = 'id_token=${signInResult.idToken}$expires'
       ..cookie = 'refresh_token=${signInResult.refreshToken}$expires'
-      ..cookie = 'user_id=$userId$expires';
+      ..cookie = 'user_id=$userIdFromToken$expires';
   }
 }

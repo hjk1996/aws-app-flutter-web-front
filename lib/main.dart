@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 // Amplify Flutter Packages
 import 'package:flutter_web/di.dart';
@@ -63,9 +64,9 @@ class MyApp extends StatelessWidget {
         GalleryScreen.routeName: (context) => const GalleryScreen(),
         SearchScreen.routeName: (context) => const SearchScreen(),
         SettingScreen.routeName: (context) => const SettingScreen(),
-        
       },
       home: const AuthWrapper(),
+      builder: EasyLoading.init(),
     );
   }
 }

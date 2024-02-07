@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_web/event/image_event.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
@@ -33,6 +34,8 @@ class _GalleryScreenState extends State<GalleryScreen> {
             content: Text(e.toString()),
           ),
         ),
+        loading: () => EasyLoading.show(status: "Loading"),
+        loaded: () => EasyLoading.dismiss(),
         onImageUploadSuccess: () {
           setState(() {});
           ScaffoldMessenger.of(context).showSnackBar(

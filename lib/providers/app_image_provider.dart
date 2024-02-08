@@ -166,6 +166,13 @@ class AppImageProvider with ChangeNotifier {
       //   newImageItemList.add(newImageItem);
       // }
 
+      _state = _state.copyWith(
+        imageMetadataList: [
+          ...newImageMetadataList,
+          ..._state.imageMetadataList,
+        ],
+      );
+
       pagingController.itemList!.insertAll(0, newImageItemList);
       pagingController.notifyStatusListeners(PagingStatus.completed);
 

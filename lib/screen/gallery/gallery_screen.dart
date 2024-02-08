@@ -36,7 +36,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
             content: Text(e.toString()),
           ),
         ),
-        loading: () => EasyLoading.show(status: "Loading"),
+        loading: () => EasyLoading.show(
+          status: "Loading",
+          indicator: const CircularProgressIndicator(),
+        ),
         loaded: () => EasyLoading.dismiss(),
         onImageUploadSuccess: () {
           setState(() {});

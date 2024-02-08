@@ -151,7 +151,9 @@ class K8sImageRepository implements ImageRepository {
     apiHttpClient.options.headers['Content-Type'] = 'application/json';
     final pictureIds =
         imageMetadataList.map((e) => {"picture_id": e.pictureId}).toList();
-    final formData = FormData.fromMap({"json_data": pictureIds});
+    final formData = FormData.fromMap({"json_data": jsonEncode(pictureIds)});
+
+    print({"json_data": pictureIds});
 
     final response = await apiHttpClient.delete(
       '/pictures',

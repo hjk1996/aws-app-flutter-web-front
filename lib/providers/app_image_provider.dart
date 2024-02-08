@@ -134,31 +134,37 @@ class AppImageProvider with ChangeNotifier {
       final newImageMetadataList = await _imageRepository.uploadFiles(
         imageDataList: picked.files,
       );
+
       if (newImageMetadataList == null) {
         throw Exception("upload failed");
       }
 
-      _state = _state.copyWith(
-        imageMetadataList: [
-          ...newImageMetadataList,
-          ..._state.imageMetadataList,
-        ],
-      );
+      final newImageDataList = await _imageRepository.getThumbnailImageDataList(
+          imageMetadataList: newImageMetadataList);
 
-      final newImageItemList = <AppImageItem>[];
-
-      for (var i = 0; i < picked.files.length; i++) {
-        final imageData = AppImageData(
-          selected: false,
-          thumbnail: picked.files[i].bytes,
-          original: null,
-        );
-        final newImageItem = AppImageItem(
-          imageMetadata: newImageMetadataList[i],
-          imageData: imageData,
-        );
-        newImageItemList.add(newImageItem);
+      if (newImageDataList == null) {
+        throw Exception("get images failed");
       }
+
+      final newImageItemList = List.generate(
+          newImageMetadataList.length,
+          (index) => AppImageItem(
+                imageMetadata: newImageMetadataList[index],
+                imageData: newImageDataList[index],
+              ));
+
+      // for (var i = 0; i < picked.files.length; i++) {
+      //   final imageData = AppImageData(
+      //     selected: false,
+      //     thumbnail: picked.files[i].bytes,
+      //     original: null,
+      //   );
+      //   final newImageItem = AppImageItem(
+      //     imageMetadata: newImageMetadataList[i],
+      //     imageData: imageData,
+      //   );
+      //   newImageItemList.add(newImageItem);
+      // }
 
       pagingController.itemList!.insertAll(0, newImageItemList);
       pagingController.notifyStatusListeners(PagingStatus.completed);

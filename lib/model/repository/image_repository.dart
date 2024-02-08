@@ -15,8 +15,8 @@ abstract class ImageRepository {
     required List<AppImageMetadata> imageMetadataList,
   });
 
-  Future<List<Uint8List?>> getOriginalImageByteList({
-    required List<AppImageItem> originalImageDataList,
+  Future<Uint8List?> getOriginalImageBytes({
+    required AppImageItem originalImageItem,
   });
 
   Future<List<AppImageMetadata>?> uploadFiles({

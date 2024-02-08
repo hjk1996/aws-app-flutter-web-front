@@ -58,7 +58,7 @@ class K8sImageRepository implements ImageRepository {
     final responses = await Future.wait(
       imageMetadataList.map((imageMetadata) {
         return s3HttpClient
-            .get("/original/${imageMetadata.imageUrl}")
+            .get("/thumbnail/${imageMetadata.imageUrl}")
             .then((response) => response)
             .catchError((error) {
           // 오류 로깅 또는 기본 데이터 처리
@@ -80,22 +80,23 @@ class K8sImageRepository implements ImageRepository {
   }
 
   @override
-  Future<List<Uint8List?>> getOriginalImageByteList({
-    required List<AppImageItem> originalImageDataList,
+  Future<Uint8List?> getOriginalImageBytes({
+    required AppImageItem originalImageItem,
   }) async {
     apiHttpClient.options.headers['Content-Type'] = 'application/json';
 
-    final responses = await Future.wait(
-      originalImageDataList.map((imageItem) {
-        return s3HttpClient.get(
-          "/original/${imageItem.imageMetadata.imageUrl}",
-        );
-      }).toList(),
+    final response = await s3HttpClient.get(
+      "/original/${originalImageItem.imageMetadata.imageUrl}",
     );
 
-    return responses
-        .map((res) => res.statusCode == 200 ? res.data : null)
-        .toList() as List<Uint8List?>;
+    if (response.statusCode != 200) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+      );
+    }
+
+    return response.data;
   }
 
   @override
@@ -104,7 +105,6 @@ class K8sImageRepository implements ImageRepository {
   }) async {
     apiHttpClient.options.headers['Content-Type'] = 'multipart/form-data';
     final tokenManager = TokenManager();
-    print("userid: ${tokenManager.userId}"); // userId 변수 사용
     final String jsonData =
         jsonEncode({"user_id": tokenManager.userId}); // userId 변수 사용
 
@@ -112,19 +112,19 @@ class K8sImageRepository implements ImageRepository {
       "json_data": jsonData,
     });
 
-    formData.files.addAll(
-      imageDataList.map(
-        (imageData) {
-          return MapEntry(
+    final filesToUpload = imageDataList
+        .map(
+          (imageData) => MapEntry(
             "images",
             MultipartFile.fromBytes(
               imageData.bytes!,
               filename: imageData.name,
             ),
-          );
-        },
-      ).toList(),
-    );
+          ),
+        )
+        .toList();
+
+    formData.files.addAll(filesToUpload);
 
     final response = await apiHttpClient.post(
       '/pictures',

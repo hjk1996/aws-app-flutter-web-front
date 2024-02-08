@@ -55,14 +55,34 @@ class _ImageScreenState extends State<ImageScreen> {
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
-                onPageChanged: (value) => provider.setCurrentImageIndex(value),
+                onPageChanged: (value) async =>
+                    await provider.setCurrentImageIndex(value),
                 scrollDirection: Axis.horizontal,
                 itemCount: provider.state.imageMetadataList.length,
                 itemBuilder: (context, index) => Hero(
-                  tag: provider.state.imageMetadataList[index].pictureId,
-                  child: Image.memory(
-                    provider
-                        .pagingController.itemList![index].imageData.thumbnail!,
+                  tag: provider.pagingController.itemList![index].imageMetadata
+                      .pictureId,
+                  child: Builder(
+                    builder: (context) {
+                      if (provider.pagingController.itemList![index].imageData
+                              .original !=
+                          null) {
+                        return Image.memory(
+                          provider.pagingController.itemList![index].imageData
+                              .original!,
+                        );
+                      }
+
+                      if (provider.pagingController.itemList![index].imageData
+                              .thumbnail !=
+                          null) {
+                        return Image.memory(
+                          provider.pagingController.itemList![index].imageData
+                              .thumbnail!,
+                        );
+                      }
+                      return const Icon(Icons.image);
+                    },
                   ),
                 ),
               ),

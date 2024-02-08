@@ -29,8 +29,15 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         error: (e) => ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e)),
         ),
-        onConfirmUserSuccess: () =>
-            Navigator.of(context).pushReplacementNamed("/"),
+        onConfirmUserSuccess: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.green,
+              content: Text("Email verification success"),
+            ),
+          );
+          Navigator.of(context).pushReplacementNamed("/");
+        },
       );
     });
   }

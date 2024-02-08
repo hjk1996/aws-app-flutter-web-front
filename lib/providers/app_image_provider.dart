@@ -111,7 +111,7 @@ class AppImageProvider with ChangeNotifier {
       }
     } on DioException catch (err) {
       pagingController.error = err;
-      print("${err.response?.data}");
+      print("dio error: ${err.response?.data}");
     } on Exception catch (err) {
       pagingController.error = err;
       print(err);
@@ -251,9 +251,47 @@ class AppImageProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setCurrentImageIndex(int index) {
+  Future<void> setCurrentImageIndex(int index) async {
     _state = _state.copyWith(currentImageIndex: index);
-    notifyListeners();
+    if (pagingController.itemList![index].imageData.original != null) {
+      return;
+    }
+    await getOriginalImage(index);
+  }
+
+  Future<void> getOriginalImage(int index) async {
+    try {
+      toggleLoading();
+      if (_state.imageMetadataList.isEmpty ||
+          _state.currentImageIndex == null) {
+        return;
+      }
+
+      final imageBytes = await _imageRepository.getOriginalImageBytes(
+        originalImageItem: pagingController.itemList![index],
+      );
+
+      if (imageBytes == null) {
+        throw Exception("get original image failed");
+      }
+
+      final newImageItem = AppImageItem(
+        imageMetadata: pagingController.itemList![index].imageMetadata,
+        imageData: AppImageData(
+          selected: false,
+          thumbnail: pagingController.itemList![index].imageData.thumbnail,
+          original: imageBytes,
+        ),
+      );
+
+      pagingController.itemList![index] = newImageItem;
+    } on DioException catch (err) {
+      print(err);
+    } on Exception catch (err) {
+      print(err);
+    } finally {
+      toggleLoading();
+    }
   }
 
   void toggleSelectMode() {

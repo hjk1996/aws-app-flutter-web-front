@@ -83,16 +83,6 @@ class K8sAuthRepository implements AuthRepository {
     if (response.statusCode == 200) {
       var tokenManager = TokenManager();
       tokenManager.clear();
-
-      final prefs = await SharedPreferences.getInstance();
-
-      await Future.wait([
-        prefs.remove("username"),
-        prefs.remove("accessToken"),
-        prefs.remove("idToken"),
-        prefs.remove("refreshToken"),
-      ]);
-
       return true;
     } else {
       return false;

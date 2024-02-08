@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web/providers/app_auth_provider.dart';
 import 'package:flutter_web/screen/gallery/gallery_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -62,6 +64,21 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {},
             icon: const Icon(Icons.settings),
             label: const Text("Setting"),
+            style: ElevatedButton.styleFrom(
+              minimumSize: buttonSize,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 50,
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: ElevatedButton.icon(
+            onPressed: () async =>
+                await context.read<AppAuthProvider>().signOut(),
+            icon: const Icon(Icons.logout),
+            label: const Text("Logout"),
             style: ElevatedButton.styleFrom(
               minimumSize: buttonSize,
             ),

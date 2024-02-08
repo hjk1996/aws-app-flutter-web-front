@@ -36,11 +36,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
             content: Text(e.toString()),
           ),
         ),
-        loading: () => EasyLoading.show(
-          status: "Loading",
-          indicator: const CircularProgressIndicator(),
-        ),
-        loaded: () => EasyLoading.dismiss(),
         onImageUploadSuccess: () {
           setState(() {});
           ScaffoldMessenger.of(context).showSnackBar(
@@ -97,10 +92,19 @@ class _GalleryScreenState extends State<GalleryScreen> {
         ],
         title: const Text("Gallery"),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async =>
-            await context.read<AppImageProvider>().uploadFiles(),
-        child: const Icon(Icons.add),
+      floatingActionButton: Selector<AppImageProvider, bool>(
+        selector: (_, provider) => provider.state.loading,
+        builder: (context, loading, child) {
+          if (loading) {
+            return const CircularProgressIndicator();
+          } else {
+            return FloatingActionButton(
+              onPressed: () async =>
+                  await context.read<AppImageProvider>().uploadFiles(),
+              child: const Icon(Icons.add),
+            );
+          }
+        },
       ),
       body: RefreshIndicator(
         onRefresh: () => Future.sync(

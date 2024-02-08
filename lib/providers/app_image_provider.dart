@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html' as html;
 
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
@@ -272,9 +273,35 @@ class AppImageProvider with ChangeNotifier {
     await getOriginalImage(index);
   }
 
+  Future<void> downloadCurrentImage() async {
+    try {
+      if (state.currentImageIndex == null ||
+          pagingController.itemList == null ||
+          pagingController
+                  .itemList![state.currentImageIndex!].imageData.original ==
+              null) {
+        return;
+      }
+      final fileName = pagingController
+          .itemList![state.currentImageIndex!].imageMetadata.imageUrl;
+      final imageBytes = pagingController
+          .itemList![state.currentImageIndex!].imageData.original!;
+      final blob = html.Blob([imageBytes]);
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      // <a> 태그를 생성하고 설정
+      final anchor = html.AnchorElement(href: url)
+        ..setAttribute("download", fileName)
+        ..click(); // 클릭 이벤트를 프로그래매틱하게 발생시켜 다운로드 시작
+
+      // 메모리 해제를 위해 생성된 URL을 해제
+      html.Url.revokeObjectUrl(url);
+    } catch (err) {
+      print(err);
+    }
+  }
+
   Future<void> getOriginalImage(int index) async {
     try {
-      toggleLoading();
       if (_state.imageMetadataList.isEmpty ||
           _state.currentImageIndex == null) {
         return;
@@ -303,7 +330,7 @@ class AppImageProvider with ChangeNotifier {
     } on Exception catch (err) {
       print(err);
     } finally {
-      toggleLoading();
+      notifyListeners();
     }
   }
 

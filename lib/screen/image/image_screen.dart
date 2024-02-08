@@ -64,24 +64,30 @@ class _ImageScreenState extends State<ImageScreen> {
                       .pictureId,
                   child: Builder(
                     builder: (context) {
-                      if (provider.pagingController.itemList![index].imageData
-                              .original !=
-                          null) {
-                        return Image.memory(
-                          provider.pagingController.itemList![index].imageData
-                              .original!,
-                        );
-                      }
+                      // 현재 이미지 데이터를 변수에 저장하여 코드를 간결하게 만듭니다.
+                      var imageData =
+                          provider.pagingController.itemList![index].imageData;
 
-                      if (provider.pagingController.itemList![index].imageData
-                              .thumbnail !=
-                          null) {
-                        return Image.memory(
-                          provider.pagingController.itemList![index].imageData
-                              .thumbnail!,
-                        );
-                      }
-                      return const Icon(Icons.image);
+                      // AnimatedSwitcher를 사용하여 이미지 전환 애니메이션 적용
+                      return AnimatedSwitcher(
+                        duration: const Duration(
+                            milliseconds: 300), // 전환 애니메이션 지속 시간 설정
+                        child: imageData.original != null
+                            ? Image.memory(
+                                imageData.original!,
+                                key: ValueKey<String>(
+                                    'original${index}'), // Unique key for original image
+                              )
+                            : imageData.thumbnail != null
+                                ? Image.memory(
+                                    imageData.thumbnail!,
+                                    key: ValueKey<String>(
+                                        'thumbnail${index}'), // Unique key for thumbnail
+                                  )
+                                : const Icon(Icons.image,
+                                    key: ValueKey<String>(
+                                        'icon')), // Fallback icon
+                      );
                     },
                   ),
                 ),
@@ -96,6 +102,10 @@ class _ImageScreenState extends State<ImageScreen> {
                     icon: Icon(currentImageMetadata.bookmarked
                         ? Icons.bookmark
                         : Icons.bookmark_border),
+                  ),
+                  IconButton(
+                    onPressed: () => provider.downloadCurrentImage(),
+                    icon: const Icon(Icons.download),
                   ),
                   IconButton(
                     onPressed: () {},

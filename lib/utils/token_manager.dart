@@ -47,6 +47,18 @@ class TokenManager {
     _accessToken = null;
     _idToken = null;
     _refreshToken = null;
+    _userId = null;
+
+    // clear cookies
+    html.window.document
+      ..cookie =
+          'access_token=; expires=${DateTime.now().toUtc().toIso8601String()}'
+      ..cookie =
+          'id_token=; expires=${DateTime.now().toUtc().toIso8601String()}'
+      ..cookie =
+          'refresh_token=; expires=${DateTime.now().toUtc().toIso8601String()}'
+      ..cookie =
+          'user_id=; expires=${DateTime.now().toUtc().toIso8601String()}';
   }
 
   Map<String, dynamic> _parseJwt(String token) {
@@ -117,13 +129,13 @@ class TokenManager {
       if (keyValue.length == 2) {
         final key = keyValue[0].trim();
         final value = keyValue[1].trim();
-        if (key == 'access_token') {
+        if (key == 'access_token' && value.isNotEmpty) {
           accessToken = value;
-        } else if (key == 'id_token') {
+        } else if (key == 'id_token' && value.isNotEmpty) {
           idToken = value;
-        } else if (key == 'refresh_token') {
+        } else if (key == 'refresh_token' && value.isNotEmpty) {
           refreshToken = value;
-        } else if (key == 'user_id') {
+        } else if (key == 'user_id' && value.isNotEmpty) {
           _userId = value;
         }
       }

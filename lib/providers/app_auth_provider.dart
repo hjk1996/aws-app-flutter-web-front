@@ -23,11 +23,6 @@ class AppAuthProvider with ChangeNotifier {
   final _authEventController = StreamController<AuthEvent>.broadcast();
   Stream<AuthEvent> get authEventStream => _authEventController.stream;
 
-  void toggleLoading() {
-    _state = _state.copyWith(loading: !_state.loading);
-    notifyListeners();
-  }
-
   Future<void> checkUserSignedIn() async {
     try {
       var tokenManager = TokenManager();
@@ -48,8 +43,8 @@ class AppAuthProvider with ChangeNotifier {
 
   Future<void> signIn({required String email, required String password}) async {
     try {
-      _state = _state.copyWith(username: email);
-      toggleLoading();
+      _state = _state.copyWith(username: email, loading: true);
+      notifyListeners();
       final ok = await _authRepository.signIn(email: email, password: password);
 
       if (ok) {
@@ -67,7 +62,8 @@ class AppAuthProvider with ChangeNotifier {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));
     } finally {
-      toggleLoading();
+      _state = _state.copyWith(loading: false);
+      notifyListeners();
     }
   }
 
@@ -76,8 +72,8 @@ class AppAuthProvider with ChangeNotifier {
     required String password,
   }) async {
     try {
-      toggleLoading();
-      _state = _state.copyWith(username: email);
+      _state = _state.copyWith(username: email, loading: true);
+      notifyListeners();
       final ok = await _authRepository.signUp(
         email: email,
         password: password,
@@ -95,20 +91,23 @@ class AppAuthProvider with ChangeNotifier {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));
     } finally {
-      toggleLoading();
+      _state = _state.copyWith(loading: false);
+      notifyListeners();
     }
   }
 
   Future<void> signOut() async {
     try {
-      toggleLoading();
-      await _authRepository.signOut();
+      _state = _state.copyWith(loading: true);
+      notifyListeners();
+      final ok = await _authRepository.signOut();
       _state = _state.copyWith(isSignedIn: false);
     } on Exception catch (err) {
       _authEventController.sink
           .add(AuthEvent.error("something went wrong: $err"));
     } finally {
-      toggleLoading();
+      _state = _state.copyWith(loading: false);
+      notifyListeners();
     }
   }
 
@@ -116,7 +115,8 @@ class AppAuthProvider with ChangeNotifier {
     required String confirmationCode,
   }) async {
     try {
-      toggleLoading();
+      _state = _state.copyWith(loading: true);
+      notifyListeners();
       final ok = await _authRepository.confirmUser(
         email: _state.username!,
         code: confirmationCode,
@@ -132,7 +132,8 @@ class AppAuthProvider with ChangeNotifier {
           .add(AuthEvent.error("something went wrong: $err"));
       print(err);
     } finally {
-      toggleLoading();
+      _state = _state.copyWith(loading: false);
+      notifyListeners();
     }
   }
 }

@@ -5,6 +5,7 @@ class S3Interceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.responseType = ResponseType.bytes;
+
     var tokenManager = TokenManager();
     options.headers["Authorization"] = tokenManager.idToken;
 
@@ -31,6 +32,7 @@ class S3Interceptor extends Interceptor {
         print("에러 헤더: ${err.response?.headers}");
         print("에러 발생: [${err.response?.statusCode}]");
         print("에러 내용: ${err.message}");
+        print("에러 데이터: ${err.response?.data}");
         return handler.next(err);
     }
   }

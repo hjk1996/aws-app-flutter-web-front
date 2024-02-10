@@ -58,7 +58,8 @@ class K8sImageRepository implements ImageRepository {
     final responses = await Future.wait(
       imageMetadataList.map((imageMetadata) {
         return s3HttpClient
-            .get("/thumbnail/${imageMetadata.imageUrl}")
+            .get(
+                "/thumbnail/${TokenManager().userId}/${imageMetadata.imageUrl}")
             .then((response) => response)
             .catchError((error) {
           // 오류 로깅 또는 기본 데이터 처리
@@ -86,7 +87,7 @@ class K8sImageRepository implements ImageRepository {
     apiHttpClient.options.headers['Content-Type'] = 'application/json';
 
     final response = await s3HttpClient.get(
-      "/original/${originalImageItem.imageMetadata.imageUrl}",
+      "/original/${TokenManager().userId}/${originalImageItem.imageMetadata.imageUrl}",
     );
 
     if (response.statusCode != 200) {

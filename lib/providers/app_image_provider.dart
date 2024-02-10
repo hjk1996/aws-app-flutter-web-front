@@ -35,11 +35,6 @@ class AppImageProvider with ChangeNotifier {
 
   GalleryState get state => _state;
 
-  void toggleLoading() {
-    _state = _state.copyWith(loading: !_state.loading);
-    notifyListeners();
-  }
-
   void init() {
     pagingController.addPageRequestListener((pageKey) {
       getNextImages(pageKey: pageKey);
@@ -119,21 +114,13 @@ class AppImageProvider with ChangeNotifier {
     } finally {}
   }
 
-  Future<void> uploadFiles() async {
+  Future<void> uploadFiles(FilePickerResult pickedFiles) async {
     try {
-      toggleLoading();
-      var picked = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['jpg', 'png', 'jpeg', 'zip'],
-        allowMultiple: true,
-      );
-
-      if (picked == null) {
-        return;
-      }
+      _state = _state.copyWith(loading: true);
+      notifyListeners();
 
       final newImageMetadataList = await _imageRepository.uploadFiles(
-        imageDataList: picked.files,
+        imageDataList: pickedFiles.files,
       );
 
       if (newImageMetadataList == null) {
@@ -154,24 +141,9 @@ class AppImageProvider with ChangeNotifier {
                 imageData: newImageDataList[index],
               ));
 
-      // for (var i = 0; i < picked.files.length; i++) {
-      //   final imageData = AppImageData(
-      //     selected: false,
-      //     thumbnail: picked.files[i].bytes,
-      //     original: null,
-      //   );
-      //   final newImageItem = AppImageItem(
-      //     imageMetadata: newImageMetadataList[i],
-      //     imageData: imageData,
-      //   );
-      //   newImageItemList.add(newImageItem);
-      // }
-
       _state = _state.copyWith(
-        imageMetadataList: [
-          ...newImageMetadataList,
-          ..._state.imageMetadataList,
-        ],
+        imageMetadataList: newImageMetadataList
+          ..addAll(_state.imageMetadataList),
       );
 
       pagingController.itemList!.insertAll(0, newImageItemList);
@@ -181,7 +153,8 @@ class AppImageProvider with ChangeNotifier {
     } on Exception catch (err) {
       print(err);
     } finally {
-      toggleLoading();
+      _state = _state.copyWith(loading: false);
+      notifyListeners();
     }
   }
 
@@ -198,13 +171,22 @@ class AppImageProvider with ChangeNotifier {
         ],
       );
 
+      int? newCurrentImageIndex = _state.currentImageIndex! - 1;
+      if (newCurrentImageIndex < 0) {
+        newCurrentImageIndex = null;
+      }
+
+      pagingController.itemList!.removeAt(_state.currentImageIndex!);
+
       _state = _state.copyWith(
+        currentImageIndex: newCurrentImageIndex,
         imageMetadataList: [
           ..._state.imageMetadataList.sublist(0, _state.currentImageIndex!),
           ..._state.imageMetadataList.sublist(_state.currentImageIndex! + 1),
         ],
       );
-      pagingController.itemList!.removeAt(_state.currentImageIndex!);
+
+      _imageEventController.sink.add(const ImageEvent.onImageDeleteSuccess());
     } on Exception catch (err) {
     } finally {
       notifyListeners();
@@ -267,6 +249,8 @@ class AppImageProvider with ChangeNotifier {
 
   Future<void> setCurrentImageIndex(int index) async {
     _state = _state.copyWith(currentImageIndex: index);
+    notifyListeners();
+
     if (pagingController.itemList![index].imageData.original != null) {
       return;
     }

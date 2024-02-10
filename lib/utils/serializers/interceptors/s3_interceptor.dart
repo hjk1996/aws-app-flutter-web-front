@@ -6,6 +6,7 @@ class S3Interceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.responseType = ResponseType.bytes;
     var tokenManager = TokenManager();
+    options.headers["Authorization"] = tokenManager.idToken;
 
     return handler.next(options);
   }

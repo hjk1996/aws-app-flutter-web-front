@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web/model/data_model/app_image_metadata.dart';
+import 'package:flutter_web/model/state_model/app_image_data.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
 import 'package:flutter_web/screen/image/widgets/image_info_modal.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ImageScreen extends StatefulWidget {
-  const ImageScreen({super.key, required this.index});
-
   final int index;
+
+  const ImageScreen({super.key, required this.index});
 
   @override
   State<ImageScreen> createState() => _ImageScreenState();
@@ -18,8 +20,8 @@ class _ImageScreenState extends State<ImageScreen> {
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: widget.index);
     super.initState();
+    _pageController = PageController(initialPage: widget.index);
   }
 
   @override
@@ -30,93 +32,113 @@ class _ImageScreenState extends State<ImageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppImageProvider>(builder: (context, provider, child) {
-      final currentImageMetadata =
-          provider.state.imageMetadataList[provider.state.currentImageIndex!];
+    return Consumer<AppImageProvider>(
+      builder: (context, provider, child) {
+        final images = provider.state.imageMetadataList;
+        final currentIndex = provider.state.currentImageIndex;
+        final currentMetadata = images.isNotEmpty && currentIndex != null
+            ? images[currentIndex]
+            : null;
 
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            DateFormat.yMd().add_jm().format(currentImageMetadata.createdAt),
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(_formatDate(currentMetadata?.createdAt)),
+            actions: <Widget>[
+              if (currentMetadata != null)
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: provider.deleteCurrentImage,
+                ),
+              if (currentMetadata != null)
+                _infoButton(context, currentMetadata),
+            ],
           ),
-          actions: [
-            IconButton(
-              onPressed: () => showDialog(
+          body: Column(
+            children: <Widget>[
+              _imageViewer(provider, images, context),
+              if (currentMetadata != null)
+                _actionBar(provider, currentMetadata),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _infoButton(BuildContext context, AppImageMetadata? currentMetadata) {
+    return IconButton(
+      icon: const Icon(Icons.info),
+      onPressed: currentMetadata == null
+          ? null
+          : () => showDialog(
                 context: context,
                 builder: (context) =>
-                    ImageInfoDialog(imageMetadata: currentImageMetadata),
+                    ImageInfoDialog(imageMetadata: currentMetadata),
               ),
-              icon: const Icon(Icons.info),
-            ),
-          ],
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                onPageChanged: (value) async =>
-                    await provider.setCurrentImageIndex(value),
-                scrollDirection: Axis.horizontal,
-                itemCount: provider.state.imageMetadataList.length,
-                itemBuilder: (context, index) => Hero(
-                  tag: provider.pagingController.itemList![index].imageMetadata
-                      .pictureId,
-                  child: Builder(
-                    builder: (context) {
-                      // 현재 이미지 데이터를 변수에 저장하여 코드를 간결하게 만듭니다.
-                      var imageData =
-                          provider.pagingController.itemList![index].imageData;
+    );
+  }
 
-                      // AnimatedSwitcher를 사용하여 이미지 전환 애니메이션 적용
-                      return AnimatedSwitcher(
-                        duration: const Duration(
-                            milliseconds: 300), // 전환 애니메이션 지속 시간 설정
-                        child: imageData.original != null
-                            ? Image.memory(
-                                imageData.original!,
-                                key: ValueKey<String>(
-                                    'original${index}'), // Unique key for original image
-                              )
-                            : imageData.thumbnail != null
-                                ? Image.memory(
-                                    imageData.thumbnail!,
-                                    key: ValueKey<String>(
-                                        'thumbnail${index}'), // Unique key for thumbnail
-                                  )
-                                : const Icon(Icons.image,
-                                    key: ValueKey<String>(
-                                        'icon')), // Fallback icon
-                      );
-                    },
-                  ),
-                ),
-              ),
+  String _formatDate(DateTime? date) {
+    return date != null ? DateFormat.yMd().add_jm().format(date) : "";
+  }
+
+  Widget _imageViewer(
+      AppImageProvider provider, List<dynamic> images, BuildContext context) {
+    if (images.isEmpty) {
+      return const Expanded(child: Center(child: Text("No images")));
+    }
+    return Expanded(
+      child: PageView.builder(
+        controller: _pageController,
+        onPageChanged: provider.setCurrentImageIndex,
+        itemCount: images.length,
+        itemBuilder: (context, index) => _imageWidget(provider, index),
+      ),
+    );
+  }
+
+  Widget _imageWidget(AppImageProvider provider, int index) {
+    var imageData = provider.pagingController.itemList![index].imageData;
+    return Hero(
+      tag: provider.pagingController.itemList![index].imageMetadata.pictureId,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: _buildImage(imageData, index),
+      ),
+    );
+  }
+
+  Widget _buildImage(AppImageData imageData, int index) {
+    if (imageData.original != null) {
+      return Image.memory(imageData.original!, key: ValueKey('original$index'));
+    } else if (imageData.thumbnail != null) {
+      return Image.memory(imageData.thumbnail!,
+          key: ValueKey('thumbnail$index'));
+    } else {
+      return const Icon(Icons.image, key: ValueKey('icon'));
+    }
+  }
+
+  Widget _actionBar(
+      AppImageProvider provider, AppImageMetadata? currentMetadata) {
+    return Container(
+      color: Colors.amber,
+      child: Row(
+        children: <Widget>[
+          IconButton(
+            icon: Icon(
+              currentMetadata != null && currentMetadata.bookmarked
+                  ? Icons.bookmark
+                  : Icons.bookmark_border,
             ),
-            Container(
-              color: Colors.amber,
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(currentImageMetadata.bookmarked
-                        ? Icons.bookmark
-                        : Icons.bookmark_border),
-                  ),
-                  IconButton(
-                    onPressed: () => provider.downloadCurrentImage(),
-                    icon: const Icon(Icons.download),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.delete),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      );
-    });
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.download),
+            onPressed: provider.downloadCurrentImage,
+          ),
+        ],
+      ),
+    );
   }
 }

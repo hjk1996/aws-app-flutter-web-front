@@ -10,26 +10,39 @@ class ImageDeleteButton extends StatefulWidget {
 }
 
 class _ImageDeleteButtonState extends State<ImageDeleteButton> {
+  bool _loading = false;
+
   @override
   Widget build(BuildContext context) {
-    return Selector<AppImageProvider, bool>(
-      selector: (_, provider) => provider.state.selectMode,
-      builder: (context, selectMode, child) {
-        return Visibility(
-          visible: selectMode,
-          child: ElevatedButton(
-            onPressed: () =>
-                context.read<AppImageProvider>().deleteSelectedImage(),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red,
-            ),
-            child: const Text(
-              'Delete',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        );
-      },
+    return Visibility(
+      visible: context.select<AppImageProvider, bool>(
+          (provider) => provider.state.selectMode),
+      child: Builder(
+        builder: (context) {
+          if (_loading) {
+            return const CircularProgressIndicator();
+          } else {
+            return ElevatedButton(
+              onPressed: () async {
+                setState(() {
+                  _loading = true;
+                });
+                await context.read<AppImageProvider>().deleteSelectedImage();
+                setState(() {
+                  _loading = false;
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red,
+              ),
+              child: const Text(
+                'Delete',
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }

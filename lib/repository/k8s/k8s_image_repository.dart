@@ -6,21 +6,23 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_web/model/data_model/app_image_metadata.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/app_image_data.dart';
-import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/utils/token_manager.dart';
 
 class K8sImageRepository implements ImageRepository {
   final Dio apiHttpClient;
   final Dio s3HttpClient;
+  final TokenManager tokenManager;
   K8sImageRepository({
     required this.apiHttpClient,
     required this.s3HttpClient,
+    required this.tokenManager,
   });
 
   @override
   Future<List<AppImageMetadata>?> getImageMetadataList({
     required int limit,
-    int? afterThisImageId,
+    int? cursor,
+    bool? bookmark,
   }) async {
     apiHttpClient.options.headers['Content-Type'] = 'application/json';
     final tokenManager = TokenManager();
@@ -30,7 +32,8 @@ class K8sImageRepository implements ImageRepository {
       "/users/$userId/pictures",
       queryParameters: {
         "limit": limit,
-        if (afterThisImageId != null) "last": afterThisImageId,
+        "bookmark": bookmark == true ? 1 : 0,
+        if (cursor != null) "last": cursor,
       },
     );
 
@@ -53,13 +56,12 @@ class K8sImageRepository implements ImageRepository {
 
   @override
   Future<List<AppImageData>?> getThumbnailImageDataList({
-    required List<AppImageMetadata> imageMetadataList,
+    required List<String> imageUrls,
   }) async {
     final responses = await Future.wait(
-      imageMetadataList.map((imageMetadata) {
+      imageUrls.map((imageUrl) {
         return s3HttpClient
-            .get(
-                "/thumbnail/${TokenManager().userId}/${imageMetadata.imageUrl}")
+            .get("/thumbnail/${tokenManager.userId}/$imageUrl")
             .then((response) => response)
             .catchError((error) {
           // 오류 로깅 또는 기본 데이터 처리
@@ -82,12 +84,12 @@ class K8sImageRepository implements ImageRepository {
 
   @override
   Future<Uint8List?> getOriginalImageBytes({
-    required AppImageItem originalImageItem,
+    required String imageUrl,
   }) async {
     apiHttpClient.options.headers['Content-Type'] = 'application/json';
 
     final response = await s3HttpClient.get(
-      "/original/${TokenManager().userId}/${originalImageItem.imageMetadata.imageUrl}",
+      "/original/${tokenManager.userId}/$imageUrl",
     );
 
     if (response.statusCode != 200) {
@@ -170,9 +172,21 @@ class K8sImageRepository implements ImageRepository {
   }
 
   @override
-  Future<bool> toggleFavorite({
+  Future<void> toggleBookmark({
     required AppImageMetadata imageMetadata,
   }) async {
-    throw UnimplementedError();
+    final response = await apiHttpClient
+        .post('/pictures/bookmark/${imageMetadata.pictureId}', data: null);
+
+    print(response.data);
+
+    if (response.statusCode != 200) {
+      print("bookmark status code: ${response.statusCode}");
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+      );
+    }
+
   }
 }

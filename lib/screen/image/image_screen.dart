@@ -34,10 +34,10 @@ class _ImageScreenState extends State<ImageScreen> {
   Widget build(BuildContext context) {
     return Consumer<AppImageProvider>(
       builder: (context, provider, child) {
-        final images = provider.state.imageMetadataList;
+        final images = provider.pagingController.itemList ?? [];
         final currentIndex = provider.state.currentImageIndex;
         final currentMetadata = images.isNotEmpty && currentIndex != null
-            ? images[currentIndex]
+            ? images[currentIndex].imageMetadata
             : null;
 
         return Scaffold(
@@ -128,10 +128,10 @@ class _ImageScreenState extends State<ImageScreen> {
           IconButton(
             icon: Icon(
               currentMetadata != null && currentMetadata.bookmarked
-                  ? Icons.bookmark
-                  : Icons.bookmark_border,
+                  ? Icons.star
+                  : Icons.star_border,
             ),
-            onPressed: () {},
+            onPressed: () async => await provider.toggleBookmark(),
           ),
           IconButton(
             icon: const Icon(Icons.download),

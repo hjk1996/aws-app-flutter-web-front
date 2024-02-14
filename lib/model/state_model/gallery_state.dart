@@ -8,7 +8,6 @@ class GalleryState with _$GalleryState {
   GalleryState._();
   factory GalleryState({
     required bool loading,
-    required List<AppImageMetadata> imageMetadataList,
     required int totalPage,
     required int currentPage,
     required bool selectMode,

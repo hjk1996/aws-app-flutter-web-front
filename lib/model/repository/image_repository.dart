@@ -3,20 +3,20 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_web/model/data_model/app_image_metadata.dart';
 import 'package:flutter_web/model/state_model/app_image_data.dart';
-import 'package:flutter_web/model/state_model/app_image_item.dart';
 
 abstract class ImageRepository {
   Future<List<AppImageMetadata>?> getImageMetadataList({
     required int limit,
-    int? afterThisImageId,
+    int? cursor,
+    bool? bookmark,
   });
 
   Future<List<AppImageData>?> getThumbnailImageDataList({
-    required List<AppImageMetadata> imageMetadataList,
+    required List<String> imageUrls,
   });
 
   Future<Uint8List?> getOriginalImageBytes({
-    required AppImageItem originalImageItem,
+    required String imageUrl,
   });
 
   Future<List<AppImageMetadata>?> uploadFiles({
@@ -27,7 +27,7 @@ abstract class ImageRepository {
     required List<AppImageMetadata> imageMetadataList,
   });
 
-  Future<bool> toggleFavorite({
+  Future<void> toggleBookmark({
     required AppImageMetadata imageMetadata,
   });
 }

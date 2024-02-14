@@ -71,7 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: TextField(
                       controller: _queryController,
                       decoration: const InputDecoration(
-                        hintText: '메시지 입력...',
+                        hintText: "Enter your message...",
                         border: InputBorder.none,
                       ),
                     ),

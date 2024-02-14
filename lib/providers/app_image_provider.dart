@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web/event/image_event.dart';
-import 'package:flutter_web/model/data_model/app_image_metadata.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/gallery_state.dart';
 import 'package:flutter_web/model/state_model/app_image_data.dart';
@@ -46,14 +45,11 @@ class AppImageProvider with ChangeNotifier {
     int? limit,
   }) async {
     try {
-      print("getNextPage called");
-      print(
-          "old imageMetadataList: ${_state.imageMetadataList.map((e) => e.pictureId).toList()}");
-      // image metadata list 가져오기
       final newImageMetadataList = await _imageRepository.getImageMetadataList(
         limit: limit ?? 20,
-        afterThisImageId: _state.imageMetadataList.isNotEmpty
-            ? _state.imageMetadataList.last.pictureId
+        cursor: pagingController.itemList != null &&
+                pagingController.itemList!.isNotEmpty
+            ? pagingController.itemList!.last.imageMetadata.pictureId
             : null,
       );
 
@@ -61,22 +57,14 @@ class AppImageProvider with ChangeNotifier {
         throw Exception("get images failed");
       }
 
-      print(
-          "newImageMetadataList: ${newImageMetadataList.map((e) => e.pictureId).toList()}");
-
       // image data list 가져오기
       final newImageDataList = await _imageRepository.getThumbnailImageDataList(
-        imageMetadataList: newImageMetadataList,
+        imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
       );
 
       if (newImageDataList == null) {
         throw Exception("get images failed");
       }
-
-      _state = _state.copyWith(imageMetadataList: [
-        ..._state.imageMetadataList,
-        ...newImageMetadataList,
-      ]);
 
       final isLastPage = newImageMetadataList.isEmpty ||
           newImageDataList.isEmpty ||
@@ -128,7 +116,8 @@ class AppImageProvider with ChangeNotifier {
       }
 
       final newImageDataList = await _imageRepository.getThumbnailImageDataList(
-          imageMetadataList: newImageMetadataList);
+        imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
+      );
 
       if (newImageDataList == null) {
         throw Exception("get images failed");
@@ -140,11 +129,6 @@ class AppImageProvider with ChangeNotifier {
                 imageMetadata: newImageMetadataList[index],
                 imageData: newImageDataList[index],
               ));
-
-      _state = _state.copyWith(
-        imageMetadataList: newImageMetadataList
-          ..addAll(_state.imageMetadataList),
-      );
 
       pagingController.itemList!.insertAll(0, newImageItemList);
       pagingController.notifyStatusListeners(PagingStatus.completed);
@@ -160,14 +144,15 @@ class AppImageProvider with ChangeNotifier {
 
   Future<void> deleteCurrentImage() async {
     try {
-      if (_state.imageMetadataList.isEmpty ||
+      if (pagingController.itemList == null ||
+          pagingController.itemList!.isEmpty ||
           _state.currentImageIndex == null) {
         return;
       }
 
       final okay = await _imageRepository.deleteImages(
         imageMetadataList: [
-          _state.imageMetadataList[_state.currentImageIndex!]
+          pagingController.itemList![_state.currentImageIndex!].imageMetadata
         ],
       );
 
@@ -178,14 +163,6 @@ class AppImageProvider with ChangeNotifier {
 
       pagingController.itemList!.removeAt(_state.currentImageIndex!);
 
-      _state = _state.copyWith(
-        currentImageIndex: newCurrentImageIndex,
-        imageMetadataList: [
-          ..._state.imageMetadataList.sublist(0, _state.currentImageIndex!),
-          ..._state.imageMetadataList.sublist(_state.currentImageIndex! + 1),
-        ],
-      );
-
       _imageEventController.sink.add(const ImageEvent.onImageDeleteSuccess());
     } on Exception catch (err) {
     } finally {
@@ -195,7 +172,9 @@ class AppImageProvider with ChangeNotifier {
 
   Future<void> deleteSelectedImage() async {
     try {
-      if (_selectedImageIndexes.isEmpty) return;
+      if (_selectedImageIndexes.isEmpty ||
+          pagingController.itemList == null ||
+          pagingController.itemList!.isEmpty) return;
 
       // 선택된 이미지 인덱스를 내림차순으로 정렬
       final selectedImageIndexList = _selectedImageIndexes.toList()
@@ -203,20 +182,11 @@ class AppImageProvider with ChangeNotifier {
 
       // 삭제할 이미지 메타데이터 리스트 생성
       final imagesToDelete = selectedImageIndexList
-          .map((index) => _state.imageMetadataList[index])
+          .map((index) => pagingController.itemList![index].imageMetadata)
           .toList();
 
-      final newImageMetadataList = <AppImageMetadata>[];
-
-      for (var i = 0; i < _state.imageMetadataList.length; i++) {
-        if (!selectedImageIndexes.contains(i)) {
-          newImageMetadataList.add(_state.imageMetadataList[i]);
-        }
-      }
       // 이미지 삭제 실행
       await _imageRepository.deleteImages(imageMetadataList: imagesToDelete);
-
-      _state = _state.copyWith(imageMetadataList: newImageMetadataList);
 
       // 삭제된 이미지를 상태와 pagingController에서 제거
       for (var index in selectedImageIndexList) {
@@ -286,13 +256,14 @@ class AppImageProvider with ChangeNotifier {
 
   Future<void> getOriginalImage(int index) async {
     try {
-      if (_state.imageMetadataList.isEmpty ||
+      if (pagingController.itemList == null ||
+          pagingController.itemList!.isEmpty ||
           _state.currentImageIndex == null) {
         return;
       }
 
       final imageBytes = await _imageRepository.getOriginalImageBytes(
-        originalImageItem: pagingController.itemList![index],
+        imageUrl: pagingController.itemList![index].imageMetadata.imageUrl,
       );
 
       if (imageBytes == null) {
@@ -332,42 +303,41 @@ class AppImageProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleBookMark() async {
-    if (_state.imageMetadataList.isEmpty || _state.currentImageIndex == null) {
+  Future<void> toggleBookmark() async {
+    if (pagingController.itemList == null ||
+        pagingController.itemList!.isEmpty ||
+        _state.currentImageIndex == null) {
       return;
     }
 
-    final oldImageMetadataList = _state.imageMetadataList;
-    final newImageMetadata =
-        _state.imageMetadataList[_state.currentImageIndex!];
-    final newCurrentImageMetadata = newImageMetadata.copyWith(
-      bookmarked: !newImageMetadata.bookmarked,
+    final oldImageMetadata =
+        pagingController.itemList![_state.currentImageIndex!].imageMetadata;
+
+    final newImageMetadata = oldImageMetadata.copyWith(
+      bookmarked: !oldImageMetadata.bookmarked,
     );
 
-    final okay = await _imageRepository.toggleFavorite(
-      imageMetadata: newCurrentImageMetadata,
-    );
-
-    if (!okay) {
-      throw Exception("toggle bookmark failed");
-    }
-
-    final List<AppImageMetadata> newImageMetadataList = [
-      ..._state.imageMetadataList.sublist(0, _state.currentImageIndex),
-      newCurrentImageMetadata,
-      ..._state.imageMetadataList.sublist(_state.currentImageIndex! + 1),
-    ];
-    _state = _state.copyWith(
-      imageMetadataList: newImageMetadataList,
-    );
     notifyListeners();
     try {
+      await _imageRepository.toggleBookmark(
+        imageMetadata: newImageMetadata,
+      );
+
+      pagingController.itemList![_state.currentImageIndex!] =
+          pagingController.itemList![_state.currentImageIndex!].copyWith(
+        imageMetadata: newImageMetadata,
+      );
       // request to server
     } on Exception catch (err) {
       // rollback
-      _state = _state.copyWith(
-        imageMetadataList: oldImageMetadataList,
+      print(err);
+      pagingController.itemList![_state.currentImageIndex!] =
+          pagingController.itemList![_state.currentImageIndex!].copyWith(
+        imageMetadata: oldImageMetadata,
       );
+      _imageEventController.sink.add(ImageEvent.error(err));
+    } finally {
+      notifyListeners();
     }
   }
 }

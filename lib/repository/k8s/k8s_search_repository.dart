@@ -30,6 +30,8 @@ class K8sSearchRepository implements SearchRepository {
       data: formData,
     );
 
+    print("response: ${response.data}");
+
     if (response.statusCode != 200) {
       throw DioException(
         requestOptions: response.requestOptions,

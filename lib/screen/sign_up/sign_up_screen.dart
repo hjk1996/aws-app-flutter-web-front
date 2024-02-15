@@ -39,8 +39,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       event.whenOrNull(
         error: (e) => ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(e))),
-        onCodeDelivery: (codeDeliveryDetails) => Navigator.of(context)
-            .pushReplacementNamed(EmailVerificationScreen.routeName),
         onSignUpSuccess: () {
           Navigator.of(context)
               .pushReplacementNamed(EmailVerificationScreen.routeName);

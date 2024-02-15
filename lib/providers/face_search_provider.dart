@@ -24,6 +24,7 @@ class FaceSearchProvider extends ChangeNotifier {
       _state = _state.copyWith(loading: true);
       notifyListeners();
       final searchResult = await searchRepository.searchFaces(file);
+      print("searchResult: $searchResult");
       final thumbnailImageDataList =
           await imageRepository.getThumbnailImageDataList(
         imageUrls: searchResult.map((e) => e.imageUrl).toList(),

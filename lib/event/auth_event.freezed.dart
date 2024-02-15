@@ -21,8 +21,6 @@ mixin _$AuthEvent {
     required TResult Function(String e) error,
     required TResult Function() loading,
     required TResult Function() loaded,
-    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
-        onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
     required TResult Function() onConfirmUserSuccess,
@@ -34,8 +32,6 @@ mixin _$AuthEvent {
     TResult? Function(String e)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
-    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
     TResult? Function()? onConfirmUserSuccess,
@@ -47,8 +43,6 @@ mixin _$AuthEvent {
     TResult Function(String e)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
-    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
     TResult Function()? onConfirmUserSuccess,
@@ -61,7 +55,6 @@ mixin _$AuthEvent {
     required TResult Function(AuthEventError value) error,
     required TResult Function(AuthEventLoading value) loading,
     required TResult Function(AuthEventtLoaded value) loaded,
-    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
     required TResult Function(AuthEventConfirmUserSuccess value)
@@ -74,7 +67,6 @@ mixin _$AuthEvent {
     TResult? Function(AuthEventError value)? error,
     TResult? Function(AuthEventLoading value)? loading,
     TResult? Function(AuthEventtLoaded value)? loaded,
-    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -86,7 +78,6 @@ mixin _$AuthEvent {
     TResult Function(AuthEventError value)? error,
     TResult Function(AuthEventLoading value)? loading,
     TResult Function(AuthEventtLoaded value)? loaded,
-    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -191,8 +182,6 @@ class _$AuthEventErrorImpl
     required TResult Function(String e) error,
     required TResult Function() loading,
     required TResult Function() loaded,
-    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
-        onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
     required TResult Function() onConfirmUserSuccess,
@@ -207,8 +196,6 @@ class _$AuthEventErrorImpl
     TResult? Function(String e)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
-    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
     TResult? Function()? onConfirmUserSuccess,
@@ -223,8 +210,6 @@ class _$AuthEventErrorImpl
     TResult Function(String e)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
-    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
     TResult Function()? onConfirmUserSuccess,
@@ -243,7 +228,6 @@ class _$AuthEventErrorImpl
     required TResult Function(AuthEventError value) error,
     required TResult Function(AuthEventLoading value) loading,
     required TResult Function(AuthEventtLoaded value) loaded,
-    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
     required TResult Function(AuthEventConfirmUserSuccess value)
@@ -259,7 +243,6 @@ class _$AuthEventErrorImpl
     TResult? Function(AuthEventError value)? error,
     TResult? Function(AuthEventLoading value)? loading,
     TResult? Function(AuthEventtLoaded value)? loaded,
-    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -274,7 +257,6 @@ class _$AuthEventErrorImpl
     TResult Function(AuthEventError value)? error,
     TResult Function(AuthEventLoading value)? loading,
     TResult Function(AuthEventtLoaded value)? loaded,
-    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -346,8 +328,6 @@ class _$AuthEventLoadingImpl
     required TResult Function(String e) error,
     required TResult Function() loading,
     required TResult Function() loaded,
-    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
-        onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
     required TResult Function() onConfirmUserSuccess,
@@ -362,8 +342,6 @@ class _$AuthEventLoadingImpl
     TResult? Function(String e)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
-    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
     TResult? Function()? onConfirmUserSuccess,
@@ -378,8 +356,6 @@ class _$AuthEventLoadingImpl
     TResult Function(String e)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
-    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
     TResult Function()? onConfirmUserSuccess,
@@ -398,7 +374,6 @@ class _$AuthEventLoadingImpl
     required TResult Function(AuthEventError value) error,
     required TResult Function(AuthEventLoading value) loading,
     required TResult Function(AuthEventtLoaded value) loaded,
-    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
     required TResult Function(AuthEventConfirmUserSuccess value)
@@ -414,7 +389,6 @@ class _$AuthEventLoadingImpl
     TResult? Function(AuthEventError value)? error,
     TResult? Function(AuthEventLoading value)? loading,
     TResult? Function(AuthEventtLoaded value)? loaded,
-    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -429,7 +403,6 @@ class _$AuthEventLoadingImpl
     TResult Function(AuthEventError value)? error,
     TResult Function(AuthEventLoading value)? loading,
     TResult Function(AuthEventtLoaded value)? loaded,
-    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -496,8 +469,6 @@ class _$AuthEventtLoadedImpl
     required TResult Function(String e) error,
     required TResult Function() loading,
     required TResult Function() loaded,
-    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
-        onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
     required TResult Function() onConfirmUserSuccess,
@@ -512,8 +483,6 @@ class _$AuthEventtLoadedImpl
     TResult? Function(String e)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
-    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
     TResult? Function()? onConfirmUserSuccess,
@@ -528,8 +497,6 @@ class _$AuthEventtLoadedImpl
     TResult Function(String e)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
-    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
     TResult Function()? onConfirmUserSuccess,
@@ -548,7 +515,6 @@ class _$AuthEventtLoadedImpl
     required TResult Function(AuthEventError value) error,
     required TResult Function(AuthEventLoading value) loading,
     required TResult Function(AuthEventtLoaded value) loaded,
-    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
     required TResult Function(AuthEventConfirmUserSuccess value)
@@ -564,7 +530,6 @@ class _$AuthEventtLoadedImpl
     TResult? Function(AuthEventError value)? error,
     TResult? Function(AuthEventLoading value)? loading,
     TResult? Function(AuthEventtLoaded value)? loaded,
-    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -579,7 +544,6 @@ class _$AuthEventtLoadedImpl
     TResult Function(AuthEventError value)? error,
     TResult Function(AuthEventLoading value)? loading,
     TResult Function(AuthEventtLoaded value)? loaded,
-    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -595,194 +559,6 @@ class _$AuthEventtLoadedImpl
 
 abstract class AuthEventtLoaded implements AuthEvent {
   const factory AuthEventtLoaded() = _$AuthEventtLoadedImpl;
-}
-
-/// @nodoc
-abstract class _$$AuthEventCodeDeliveryImplCopyWith<$Res> {
-  factory _$$AuthEventCodeDeliveryImplCopyWith(
-          _$AuthEventCodeDeliveryImpl value,
-          $Res Function(_$AuthEventCodeDeliveryImpl) then) =
-      __$$AuthEventCodeDeliveryImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({AuthCodeDeliveryDetails codeDeliveryDetails});
-}
-
-/// @nodoc
-class __$$AuthEventCodeDeliveryImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$AuthEventCodeDeliveryImpl>
-    implements _$$AuthEventCodeDeliveryImplCopyWith<$Res> {
-  __$$AuthEventCodeDeliveryImplCopyWithImpl(_$AuthEventCodeDeliveryImpl _value,
-      $Res Function(_$AuthEventCodeDeliveryImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? codeDeliveryDetails = null,
-  }) {
-    return _then(_$AuthEventCodeDeliveryImpl(
-      null == codeDeliveryDetails
-          ? _value.codeDeliveryDetails
-          : codeDeliveryDetails // ignore: cast_nullable_to_non_nullable
-              as AuthCodeDeliveryDetails,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$AuthEventCodeDeliveryImpl
-    with DiagnosticableTreeMixin
-    implements AuthEventCodeDelivery {
-  const _$AuthEventCodeDeliveryImpl(this.codeDeliveryDetails);
-
-  @override
-  final AuthCodeDeliveryDetails codeDeliveryDetails;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthEvent.onCodeDelivery(codeDeliveryDetails: $codeDeliveryDetails)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AuthEvent.onCodeDelivery'))
-      ..add(DiagnosticsProperty('codeDeliveryDetails', codeDeliveryDetails));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AuthEventCodeDeliveryImpl &&
-            (identical(other.codeDeliveryDetails, codeDeliveryDetails) ||
-                other.codeDeliveryDetails == codeDeliveryDetails));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, codeDeliveryDetails);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AuthEventCodeDeliveryImplCopyWith<_$AuthEventCodeDeliveryImpl>
-      get copyWith => __$$AuthEventCodeDeliveryImplCopyWithImpl<
-          _$AuthEventCodeDeliveryImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String e) error,
-    required TResult Function() loading,
-    required TResult Function() loaded,
-    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
-        onCodeDelivery,
-    required TResult Function() onSignUpSuccess,
-    required TResult Function() onSignInSuccess,
-    required TResult Function() onConfirmUserSuccess,
-    required TResult Function() confirmSignUp,
-  }) {
-    return onCodeDelivery(codeDeliveryDetails);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String e)? error,
-    TResult? Function()? loading,
-    TResult? Function()? loaded,
-    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
-    TResult? Function()? onSignUpSuccess,
-    TResult? Function()? onSignInSuccess,
-    TResult? Function()? onConfirmUserSuccess,
-    TResult? Function()? confirmSignUp,
-  }) {
-    return onCodeDelivery?.call(codeDeliveryDetails);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String e)? error,
-    TResult Function()? loading,
-    TResult Function()? loaded,
-    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
-    TResult Function()? onSignUpSuccess,
-    TResult Function()? onSignInSuccess,
-    TResult Function()? onConfirmUserSuccess,
-    TResult Function()? confirmSignUp,
-    required TResult orElse(),
-  }) {
-    if (onCodeDelivery != null) {
-      return onCodeDelivery(codeDeliveryDetails);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AuthEventError value) error,
-    required TResult Function(AuthEventLoading value) loading,
-    required TResult Function(AuthEventtLoaded value) loaded,
-    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
-    required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
-    required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
-    required TResult Function(AuthEventConfirmUserSuccess value)
-        onConfirmUserSuccess,
-    required TResult Function(AuthEventConfirmSignUp value) confirmSignUp,
-  }) {
-    return onCodeDelivery(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthEventError value)? error,
-    TResult? Function(AuthEventLoading value)? loading,
-    TResult? Function(AuthEventtLoaded value)? loaded,
-    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
-    TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
-    TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
-    TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
-    TResult? Function(AuthEventConfirmSignUp value)? confirmSignUp,
-  }) {
-    return onCodeDelivery?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthEventError value)? error,
-    TResult Function(AuthEventLoading value)? loading,
-    TResult Function(AuthEventtLoaded value)? loaded,
-    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
-    TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
-    TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
-    TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
-    TResult Function(AuthEventConfirmSignUp value)? confirmSignUp,
-    required TResult orElse(),
-  }) {
-    if (onCodeDelivery != null) {
-      return onCodeDelivery(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AuthEventCodeDelivery implements AuthEvent {
-  const factory AuthEventCodeDelivery(
-          final AuthCodeDeliveryDetails codeDeliveryDetails) =
-      _$AuthEventCodeDeliveryImpl;
-
-  AuthCodeDeliveryDetails get codeDeliveryDetails;
-  @JsonKey(ignore: true)
-  _$$AuthEventCodeDeliveryImplCopyWith<_$AuthEventCodeDeliveryImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -837,8 +613,6 @@ class _$AuthEventSignUpSuccessImpl
     required TResult Function(String e) error,
     required TResult Function() loading,
     required TResult Function() loaded,
-    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
-        onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
     required TResult Function() onConfirmUserSuccess,
@@ -853,8 +627,6 @@ class _$AuthEventSignUpSuccessImpl
     TResult? Function(String e)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
-    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
     TResult? Function()? onConfirmUserSuccess,
@@ -869,8 +641,6 @@ class _$AuthEventSignUpSuccessImpl
     TResult Function(String e)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
-    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
     TResult Function()? onConfirmUserSuccess,
@@ -889,7 +659,6 @@ class _$AuthEventSignUpSuccessImpl
     required TResult Function(AuthEventError value) error,
     required TResult Function(AuthEventLoading value) loading,
     required TResult Function(AuthEventtLoaded value) loaded,
-    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
     required TResult Function(AuthEventConfirmUserSuccess value)
@@ -905,7 +674,6 @@ class _$AuthEventSignUpSuccessImpl
     TResult? Function(AuthEventError value)? error,
     TResult? Function(AuthEventLoading value)? loading,
     TResult? Function(AuthEventtLoaded value)? loaded,
-    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -920,7 +688,6 @@ class _$AuthEventSignUpSuccessImpl
     TResult Function(AuthEventError value)? error,
     TResult Function(AuthEventLoading value)? loading,
     TResult Function(AuthEventtLoaded value)? loaded,
-    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -990,8 +757,6 @@ class _$AuthEventSignInSuccessImpl
     required TResult Function(String e) error,
     required TResult Function() loading,
     required TResult Function() loaded,
-    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
-        onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
     required TResult Function() onConfirmUserSuccess,
@@ -1006,8 +771,6 @@ class _$AuthEventSignInSuccessImpl
     TResult? Function(String e)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
-    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
     TResult? Function()? onConfirmUserSuccess,
@@ -1022,8 +785,6 @@ class _$AuthEventSignInSuccessImpl
     TResult Function(String e)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
-    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
     TResult Function()? onConfirmUserSuccess,
@@ -1042,7 +803,6 @@ class _$AuthEventSignInSuccessImpl
     required TResult Function(AuthEventError value) error,
     required TResult Function(AuthEventLoading value) loading,
     required TResult Function(AuthEventtLoaded value) loaded,
-    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
     required TResult Function(AuthEventConfirmUserSuccess value)
@@ -1058,7 +818,6 @@ class _$AuthEventSignInSuccessImpl
     TResult? Function(AuthEventError value)? error,
     TResult? Function(AuthEventLoading value)? loading,
     TResult? Function(AuthEventtLoaded value)? loaded,
-    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -1073,7 +832,6 @@ class _$AuthEventSignInSuccessImpl
     TResult Function(AuthEventError value)? error,
     TResult Function(AuthEventLoading value)? loading,
     TResult Function(AuthEventtLoaded value)? loaded,
-    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -1144,8 +902,6 @@ class _$AuthEventConfirmUserSuccessImpl
     required TResult Function(String e) error,
     required TResult Function() loading,
     required TResult Function() loaded,
-    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
-        onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
     required TResult Function() onConfirmUserSuccess,
@@ -1160,8 +916,6 @@ class _$AuthEventConfirmUserSuccessImpl
     TResult? Function(String e)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
-    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
     TResult? Function()? onConfirmUserSuccess,
@@ -1176,8 +930,6 @@ class _$AuthEventConfirmUserSuccessImpl
     TResult Function(String e)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
-    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
     TResult Function()? onConfirmUserSuccess,
@@ -1196,7 +948,6 @@ class _$AuthEventConfirmUserSuccessImpl
     required TResult Function(AuthEventError value) error,
     required TResult Function(AuthEventLoading value) loading,
     required TResult Function(AuthEventtLoaded value) loaded,
-    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
     required TResult Function(AuthEventConfirmUserSuccess value)
@@ -1212,7 +963,6 @@ class _$AuthEventConfirmUserSuccessImpl
     TResult? Function(AuthEventError value)? error,
     TResult? Function(AuthEventLoading value)? loading,
     TResult? Function(AuthEventtLoaded value)? loaded,
-    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -1227,7 +977,6 @@ class _$AuthEventConfirmUserSuccessImpl
     TResult Function(AuthEventError value)? error,
     TResult Function(AuthEventLoading value)? loading,
     TResult Function(AuthEventtLoaded value)? loaded,
-    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -1298,8 +1047,6 @@ class _$AuthEventConfirmSignUpImpl
     required TResult Function(String e) error,
     required TResult Function() loading,
     required TResult Function() loaded,
-    required TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)
-        onCodeDelivery,
     required TResult Function() onSignUpSuccess,
     required TResult Function() onSignInSuccess,
     required TResult Function() onConfirmUserSuccess,
@@ -1314,8 +1061,6 @@ class _$AuthEventConfirmSignUpImpl
     TResult? Function(String e)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
-    TResult? Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult? Function()? onSignUpSuccess,
     TResult? Function()? onSignInSuccess,
     TResult? Function()? onConfirmUserSuccess,
@@ -1330,8 +1075,6 @@ class _$AuthEventConfirmSignUpImpl
     TResult Function(String e)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
-    TResult Function(AuthCodeDeliveryDetails codeDeliveryDetails)?
-        onCodeDelivery,
     TResult Function()? onSignUpSuccess,
     TResult Function()? onSignInSuccess,
     TResult Function()? onConfirmUserSuccess,
@@ -1350,7 +1093,6 @@ class _$AuthEventConfirmSignUpImpl
     required TResult Function(AuthEventError value) error,
     required TResult Function(AuthEventLoading value) loading,
     required TResult Function(AuthEventtLoaded value) loaded,
-    required TResult Function(AuthEventCodeDelivery value) onCodeDelivery,
     required TResult Function(AuthEventSignUpSuccess value) onSignUpSuccess,
     required TResult Function(AuthEventSignInSuccess value) onSignInSuccess,
     required TResult Function(AuthEventConfirmUserSuccess value)
@@ -1366,7 +1108,6 @@ class _$AuthEventConfirmSignUpImpl
     TResult? Function(AuthEventError value)? error,
     TResult? Function(AuthEventLoading value)? loading,
     TResult? Function(AuthEventtLoaded value)? loaded,
-    TResult? Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult? Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult? Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult? Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,
@@ -1381,7 +1122,6 @@ class _$AuthEventConfirmSignUpImpl
     TResult Function(AuthEventError value)? error,
     TResult Function(AuthEventLoading value)? loading,
     TResult Function(AuthEventtLoaded value)? loaded,
-    TResult Function(AuthEventCodeDelivery value)? onCodeDelivery,
     TResult Function(AuthEventSignUpSuccess value)? onSignUpSuccess,
     TResult Function(AuthEventSignInSuccess value)? onSignInSuccess,
     TResult Function(AuthEventConfirmUserSuccess value)? onConfirmUserSuccess,

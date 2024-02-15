@@ -165,6 +165,7 @@ class AppImageProvider with ChangeNotifier {
       }
 
       pagingController.itemList!.removeAt(_state.currentImageIndex!);
+      _state = _state.copyWith(currentImageIndex: newCurrentImageIndex);
 
       _imageEventController.sink.add(const ImageEvent.onImageDeleteSuccess());
     } on Exception catch (err) {

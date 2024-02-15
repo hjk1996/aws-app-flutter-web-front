@@ -24,10 +24,14 @@ class K8sImageRepository implements ImageRepository {
     int? cursor,
     bool? bookmark,
   }) async {
-    apiHttpClient.options.headers['Content-Type'] = 'application/json';
     final tokenManager = TokenManager();
-    final idToken = tokenManager.getDecodedToken(TokenType.id);
-    final String userId = idToken['cognito:username'];
+
+    if (tokenManager.userId == null) {
+      throw Exception("userId is null");
+    }
+
+    apiHttpClient.options.headers['Content-Type'] = 'application/json';
+    final String userId = tokenManager.userId!;
     final response = await apiHttpClient.get(
       "/users/$userId/pictures",
       queryParameters: {
@@ -187,6 +191,5 @@ class K8sImageRepository implements ImageRepository {
         response: response,
       );
     }
-
   }
 }

@@ -51,7 +51,10 @@ class AppImageProvider with ChangeNotifier {
                 pagingController.itemList!.isNotEmpty
             ? pagingController.itemList!.last.imageMetadata.pictureId
             : null,
+        bookmark: false,
       );
+
+      print("newImageMetadataList: $newImageMetadataList");
 
       if (newImageMetadataList == null) {
         throw Exception("get images failed");

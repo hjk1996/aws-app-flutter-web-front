@@ -23,18 +23,23 @@ class FaceSearchProvider extends ChangeNotifier {
     try {
       _state = _state.copyWith(loading: true);
       notifyListeners();
+      print("search face");
       final searchResult = await searchRepository.searchFaces(file);
-      print("searchResult: $searchResult");
+      print("get search result");
       final thumbnailImageDataList =
           await imageRepository.getThumbnailImageDataList(
         imageUrls: searchResult.map((e) => e.imageUrl).toList(),
       );
 
       if (thumbnailImageDataList == null) {
+        print('thumbnailImageDataList is null');
         _state = _state.copyWith(loading: false);
         notifyListeners();
+
         return;
       }
+
+      print('thumbnailImageDataList: $thumbnailImageDataList');
 
       final imageItemList = List.generate(
         searchResult.length,
@@ -45,11 +50,14 @@ class FaceSearchProvider extends ChangeNotifier {
       );
 
       _state = _state.copyWith(loading: false, searchResult: imageItemList);
+
       notifyListeners();
     } on DioException catch (err) {
+      print('DioException: $err');
       _state = _state.copyWith(loading: false);
       notifyListeners();
     } on Exception catch (err) {
+      print('Exception: $err');
       _state = _state.copyWith(loading: false);
       notifyListeners();
     }

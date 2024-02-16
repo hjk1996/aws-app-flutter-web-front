@@ -61,8 +61,9 @@ class AppImageProvider with ChangeNotifier {
       }
 
       // image data list 가져오기
-      final newImageDataList = await _imageRepository.getThumbnailImageDataList(
+      final newImageDataList = await _imageRepository.getImageDataList(
         imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
+        isThumbnail: true
       );
 
       if (newImageDataList == null) {
@@ -118,8 +119,9 @@ class AppImageProvider with ChangeNotifier {
         throw Exception("upload failed");
       }
 
-      final newImageDataList = await _imageRepository.getThumbnailImageDataList(
+      final newImageDataList = await _imageRepository.getImageDataList(
         imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
+        isThumbnail: false
       );
 
       if (newImageDataList == null) {

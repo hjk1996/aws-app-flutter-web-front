@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web/event/search_event.dart';
 import 'package:flutter_web/providers/face_search_provider.dart';
 import 'package:flutter_web/screen/gallery/widgets/thumbnail_widget.dart';
 import 'package:flutter_web/screen/search/widgets/chat_message_widget.dart';
@@ -17,8 +19,28 @@ class FaceSearchScreen extends StatefulWidget {
 }
 
 class _FaceSearchScreenState extends State<FaceSearchScreen> {
+  late StreamSubscription<SearchEvent> _eventStreamSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _eventStreamSubscription =
+        context.read<FaceSearchProvider>().eventStream.listen((event) {
+      event.whenOrNull(
+        error: (message) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+            ),
+          );
+        },
+      );
+    });
+  }
+
   @override
   void dispose() {
+    _eventStreamSubscription.cancel();
     super.dispose();
   }
 
@@ -36,7 +58,7 @@ class _FaceSearchScreenState extends State<FaceSearchScreen> {
                 onPressed: () async {
                   var picked = await FilePicker.platform.pickFiles(
                     type: FileType.custom,
-                    allowedExtensions: ['jpg', 'png', 'jpeg', 'zip'],
+                    allowedExtensions: ['jpg', 'png', 'zip'],
                   );
                   if (picked == null) {
                     return;

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web/event/search_event.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/repository/search_repository.dart';
 import 'package:flutter_web/model/state_model/app_image_data.dart';
@@ -17,6 +20,9 @@ class FaceSearchProvider extends ChangeNotifier {
   final ImageRepository imageRepository;
   final SearchRepository searchRepository;
   late FaceSearchState _state;
+  final StreamController<SearchEvent> _eventController =
+      StreamController<SearchEvent>.broadcast();
+  Stream<SearchEvent> get eventStream => _eventController.stream;
   FaceSearchState get state => _state;
 
   Future<void> searchFaces(PlatformFile file) async {
@@ -27,8 +33,9 @@ class FaceSearchProvider extends ChangeNotifier {
       final searchResult = await searchRepository.searchFaces(file);
       print("get search result");
       final thumbnailImageDataList =
-          await imageRepository.getThumbnailImageDataList(
+          await imageRepository.getImageDataList(
         imageUrls: searchResult.map((e) => e.imageUrl).toList(),
+        isThumbnail: true
       );
 
       if (thumbnailImageDataList == null) {
@@ -49,15 +56,21 @@ class FaceSearchProvider extends ChangeNotifier {
         ),
       );
 
-      _state = _state.copyWith(loading: false, searchResult: imageItemList);
-
-      notifyListeners();
+      _state = _state.copyWith(searchResult: imageItemList);
     } on DioException catch (err) {
-      print('DioException: $err');
-      _state = _state.copyWith(loading: false);
-      notifyListeners();
+      final String errorType = err.response?.data['error_type'] ?? '';
+
+      if (errorType == "InvalidParameterException") {
+        _eventController.add(
+          const SearchEvent.error("No face detected in the image"),
+        );
+      } else {
+        _eventController
+            .add(SearchEvent.error(err.response?.data['error'] ?? ''));
+      }
     } on Exception catch (err) {
-      print('Exception: $err');
+      _eventController.add(SearchEvent.error(err.toString()));
+    } finally {
       _state = _state.copyWith(loading: false);
       notifyListeners();
     }

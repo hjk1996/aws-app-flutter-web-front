@@ -59,13 +59,15 @@ class K8sImageRepository implements ImageRepository {
   }
 
   @override
-  Future<List<AppImageData>?> getThumbnailImageDataList({
+  Future<List<AppImageData>?> getImageDataList({
     required List<String> imageUrls,
+    required bool isThumbnail,
   }) async {
     final responses = await Future.wait(
       imageUrls.map((imageUrl) {
         return s3HttpClient
-            .get("/thumbnail/${tokenManager.userId}/$imageUrl")
+            .get(
+                "/${isThumbnail ? "thumbnail" : "original"}/${tokenManager.userId}/$imageUrl")
             .then((response) => response)
             .catchError((error) {
           // 오류 로깅 또는 기본 데이터 처리
@@ -80,7 +82,9 @@ class K8sImageRepository implements ImageRepository {
           (response) => AppImageData(
             selected: false,
             thumbnail: response.statusCode == 200 ? response.data : null,
-            original: null,
+            original: response.statusCode == 200 && !isThumbnail
+                ? response.data
+                : null,
           ),
         )
         .toList();

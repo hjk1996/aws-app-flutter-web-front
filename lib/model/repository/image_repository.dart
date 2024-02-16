@@ -11,8 +11,9 @@ abstract class ImageRepository {
     bool? bookmark,
   });
 
-  Future<List<AppImageData>?> getThumbnailImageDataList({
+  Future<List<AppImageData>?> getImageDataList({
     required List<String> imageUrls,
+    required bool isThumbnail,
   });
 
   Future<Uint8List?> getOriginalImageBytes({

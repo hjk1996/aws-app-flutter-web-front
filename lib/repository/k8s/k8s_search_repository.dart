@@ -38,10 +38,11 @@ class K8sSearchRepository implements SearchRepository {
     }
 
     if (response.data["error"] != null) {
-      throw DioException(requestOptions: response.requestOptions, response: response);
+      throw DioException(
+          requestOptions: response.requestOptions, response: response);
     }
 
-
+    print(response.data["result"].length);
 
     return (response.data["result"] as List)
         .map((e) => AppImageMetadata.fromJson(e))

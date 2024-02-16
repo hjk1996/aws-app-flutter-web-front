@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web/event/search_event.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/repository/search_repository.dart';
-import 'package:flutter_web/model/state_model/app_image_data.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/model/state_model/face_search_state.dart';
 
@@ -29,14 +28,10 @@ class FaceSearchProvider extends ChangeNotifier {
     try {
       _state = _state.copyWith(loading: true);
       notifyListeners();
-      print("search face");
       final searchResult = await searchRepository.searchFaces(file);
-      print("get search result");
-      final thumbnailImageDataList =
-          await imageRepository.getImageDataList(
-        imageUrls: searchResult.map((e) => e.imageUrl).toList(),
-        isThumbnail: true
-      );
+      final thumbnailImageDataList = await imageRepository.getImageDataList(
+          imageUrls: searchResult.map((e) => e.imageUrl).toList(),
+          isThumbnail: true);
 
       if (thumbnailImageDataList == null) {
         print('thumbnailImageDataList is null');
@@ -45,8 +40,6 @@ class FaceSearchProvider extends ChangeNotifier {
 
         return;
       }
-
-      print('thumbnailImageDataList: $thumbnailImageDataList');
 
       final imageItemList = List.generate(
         searchResult.length,

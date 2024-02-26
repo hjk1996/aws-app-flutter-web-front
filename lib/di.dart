@@ -3,8 +3,10 @@ import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/repository/search_repository.dart';
 import 'package:flutter_web/model/state_model/auth_state.dart';
 import 'package:flutter_web/model/state_model/gallery_state.dart';
+import 'package:flutter_web/model/state_model/search_state.dart';
 import 'package:flutter_web/providers/app_auth_provider.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
+import 'package:flutter_web/providers/search_provider.dart';
 import 'package:flutter_web/repository/k8s/k8s_auth_repository.dart';
 import 'package:flutter_web/repository/k8s/k8s_image_repository.dart';
 import 'package:flutter_web/repository/k8s/k8s_search_repository.dart';
@@ -79,12 +81,24 @@ Future<List<SingleChildWidget>> getProviders() async {
   imageProvider.init();
   await authProvider.checkUserSignedIn();
 
+  final searchProvider = SearchProvider(
+    imageRepository: k8sRemoteImageRepo,
+    searchRepository: k8sSearchRepo,
+    initialState: SearchState(
+      loading: false,
+      showQueryTypes: false,
+      queryType: QueryType.normal,
+      chatList: [],
+    ),
+  );
+
   return [
     ChangeNotifierProvider<AppAuthProvider>(
       create: (_) => authProvider,
     ),
     ChangeNotifierProvider<AppImageProvider>(
       create: (_) => imageProvider,
-    )
+    ),
+    ChangeNotifierProvider(create: (_) => searchProvider)
   ];
 }

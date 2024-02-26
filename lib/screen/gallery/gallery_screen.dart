@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_web/event/image_event.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
 import 'package:flutter_web/screen/gallery/widgets/image_delete_button.dart';
 import 'package:flutter_web/screen/gallery/widgets/image_upload_button.dart';
+import 'package:flutter_web/screen/gallery/widgets/select_all_button.dart';
 import 'package:flutter_web/screen/gallery/widgets/select_toggle_button.dart';
 import 'package:flutter_web/screen/gallery/widgets/thumbnail_widget.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -89,6 +89,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
           SizedBox(
             width: 10,
           ),
+          SelectAllButton(),
           GallerySelectToggleButton()
         ],
         title: const Text("Gallery"),

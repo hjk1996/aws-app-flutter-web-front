@@ -309,6 +309,26 @@ class AppImageProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void deselectAllImages() {
+    _selectedImageIndexes = {};
+    notifyListeners();
+  }
+
+  void selectAllImages() {
+    if (_selectedImageIndexes.length == pagingController.itemList!.length) {
+      _selectedImageIndexes = {};
+    } else {
+      _selectedImageIndexes = Set<int>.from(
+        List.generate(
+          pagingController.itemList!.length,
+          (index) => index,
+        ),
+      );
+    }
+    notifyListeners();
+  }
+
+
   Future<void> toggleBookmark() async {
     if (pagingController.itemList == null ||
         pagingController.itemList!.isEmpty ||

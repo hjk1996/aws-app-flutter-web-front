@@ -25,6 +25,13 @@ class CustomInterceptor extends Interceptor {
           return handler.next(err);
         }
         await tokenManager.renewTokens();
+      case 403:
+        var tokenManager = TokenManager();
+        if (tokenManager.refreshToken == null || tokenManager.idToken == null) {
+          return handler.next(err);
+        }
+        await tokenManager.renewTokens();
+
       default:
         print("에러 헤더: ${err.response?.headers}");
         print("에러 발생: [${err.response?.statusCode}]");

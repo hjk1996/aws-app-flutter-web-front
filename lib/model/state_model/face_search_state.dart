@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'face_search_state.freezed.dart';
 
+
 @freezed
 class FaceSearchState with _$FaceSearchState {
   factory FaceSearchState({

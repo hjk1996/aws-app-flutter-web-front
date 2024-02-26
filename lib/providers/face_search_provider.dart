@@ -24,6 +24,19 @@ class FaceSearchProvider extends ChangeNotifier {
   Stream<SearchEvent> get eventStream => _eventController.stream;
   FaceSearchState get state => _state;
 
+  // void showQueryTypes() {
+  //   _state = _state.copyWith(showQueryTypes: true);
+  // }
+
+  // void hideQueryTypes() {
+  //   _state = _state.copyWith(showQueryTypes: false);
+  // }
+
+  // void setQueryType(QueryType queryType) {
+  //   _state = _state.copyWith(queryType: queryType);
+  //   notifyListeners();
+  // }
+
   Future<void> searchFaces(PlatformFile file) async {
     try {
       _state = _state.copyWith(loading: true);
@@ -51,15 +64,19 @@ class FaceSearchProvider extends ChangeNotifier {
 
       _state = _state.copyWith(searchResult: imageItemList);
     } on DioException catch (err) {
-      final String errorType = err.response?.data['error_type'] ?? '';
+      final String errorType = err.response?.data['detail'] ?? '';
 
       if (errorType == "InvalidParameterException") {
         _eventController.add(
           const SearchEvent.error("No face detected in the image"),
         );
+      } else if (errorType == "NoMatchesFoundInDB") {
+        _eventController.add(
+          const SearchEvent.error(
+              "Found faces in Rekognition Index, but no matches in the database"),
+        );
       } else {
-        _eventController
-            .add(SearchEvent.error(err.response?.data['error'] ?? ''));
+        _eventController.add(SearchEvent.error(errorType));
       }
     } on Exception catch (err) {
       _eventController.add(SearchEvent.error(err.toString()));

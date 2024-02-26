@@ -78,8 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   create: (context) => FaceSearchProvider(
                       imageRepository: getIt<ImageRepository>(),
                       searchRepository: getIt<SearchRepository>(),
-                      initialState:
-                          FaceSearchState(loading: false, searchResult: null)),
+                      initialState: FaceSearchState(
+                        loading: false,
+                        searchResult: null,
+                      )),
                   child: const FaceSearchScreen(),
                 ),
               ),

@@ -7,6 +7,7 @@ import 'package:flutter_web/providers/face_search_provider.dart';
 import 'package:flutter_web/screen/face_search/face_search_screen.dart';
 import 'package:flutter_web/screen/gallery/gallery_screen.dart';
 import 'package:flutter_web/screen/search/search_screen.dart';
+import 'package:flutter_web/screen/setting/setting_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -99,7 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
         Align(
           alignment: Alignment.center,
           child: ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () =>
+                Navigator.of(context).pushNamed(SettingScreen.routeName),
             icon: const Icon(Icons.settings),
             label: const Text("Setting"),
             style: ElevatedButton.styleFrom(

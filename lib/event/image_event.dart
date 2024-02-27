@@ -13,4 +13,5 @@ abstract class ImageEvent with _$ImageEvent {
   const factory ImageEvent.loaded() = ImageEventLoaded;
   const factory ImageEvent.onImageUploadSuccess() = ImageEventOnImageUploadSuccess;
   const factory ImageEvent.onImageDeleteSuccess() = ImageEventOnImageDeleteSuccess;
+  const factory ImageEvent.onImageDeleteFailure(Exception e) = ImageEventOnImageDeleteFailure;
 }

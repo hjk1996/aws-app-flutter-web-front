@@ -20,6 +20,8 @@ QueryResponse _$QueryResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$QueryResponse {
+  @JsonKey(
+      name: 'created_at', fromJson: _datetimeFromJson, toJson: _datetimeToJson)
   DateTime get createdAt => throw _privateConstructorUsedError;
   List<String> get imageUrls => throw _privateConstructorUsedError;
 
@@ -35,7 +37,13 @@ abstract class $QueryResponseCopyWith<$Res> {
           QueryResponse value, $Res Function(QueryResponse) then) =
       _$QueryResponseCopyWithImpl<$Res, QueryResponse>;
   @useResult
-  $Res call({DateTime createdAt, List<String> imageUrls});
+  $Res call(
+      {@JsonKey(
+          name: 'created_at',
+          fromJson: _datetimeFromJson,
+          toJson: _datetimeToJson)
+      DateTime createdAt,
+      List<String> imageUrls});
 }
 
 /// @nodoc
@@ -75,7 +83,13 @@ abstract class _$$QueryResponseImplCopyWith<$Res>
       __$$QueryResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime createdAt, List<String> imageUrls});
+  $Res call(
+      {@JsonKey(
+          name: 'created_at',
+          fromJson: _datetimeFromJson,
+          toJson: _datetimeToJson)
+      DateTime createdAt,
+      List<String> imageUrls});
 }
 
 /// @nodoc
@@ -109,13 +123,20 @@ class __$$QueryResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$QueryResponseImpl implements _QueryResponse {
   _$QueryResponseImpl(
-      {required this.createdAt, required final List<String> imageUrls})
+      {@JsonKey(
+          name: 'created_at',
+          fromJson: _datetimeFromJson,
+          toJson: _datetimeToJson)
+      required this.createdAt,
+      required final List<String> imageUrls})
       : _imageUrls = imageUrls;
 
   factory _$QueryResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$QueryResponseImplFromJson(json);
 
   @override
+  @JsonKey(
+      name: 'created_at', fromJson: _datetimeFromJson, toJson: _datetimeToJson)
   final DateTime createdAt;
   final List<String> _imageUrls;
   @override
@@ -162,13 +183,19 @@ class _$QueryResponseImpl implements _QueryResponse {
 
 abstract class _QueryResponse implements QueryResponse {
   factory _QueryResponse(
-      {required final DateTime createdAt,
+      {@JsonKey(
+          name: 'created_at',
+          fromJson: _datetimeFromJson,
+          toJson: _datetimeToJson)
+      required final DateTime createdAt,
       required final List<String> imageUrls}) = _$QueryResponseImpl;
 
   factory _QueryResponse.fromJson(Map<String, dynamic> json) =
       _$QueryResponseImpl.fromJson;
 
   @override
+  @JsonKey(
+      name: 'created_at', fromJson: _datetimeFromJson, toJson: _datetimeToJson)
   DateTime get createdAt;
   @override
   List<String> get imageUrls;

@@ -184,10 +184,24 @@ class K8sImageRepository implements ImageRepository {
     final response = await apiHttpClient
         .post('/pictures/bookmark/${imageMetadata.pictureId}', data: null);
 
-    print(response.data);
 
     if (response.statusCode != 200) {
       print("bookmark status code: ${response.statusCode}");
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+      );
+    }
+  }
+
+  @override
+  Future<void> deleteAllImages() async {
+    final response =
+        await apiHttpClient.delete('/users/reset', queryParameters: {
+      "user_id": tokenManager.userId,
+    });
+
+    if (response.statusCode != 200) {
       throw DioException(
         requestOptions: response.requestOptions,
         response: response,

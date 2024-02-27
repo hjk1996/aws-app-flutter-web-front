@@ -84,7 +84,19 @@ class _GalleryScreenState extends State<GalleryScreen> {
             }
           },
         ),
-        actions: const [
+        actions: [
+          Selector<AppImageProvider, bool>(
+            selector: (_, provider) =>
+                provider.pagingController.itemList != null &&
+                provider.pagingController.itemList!.isEmpty &&
+                provider.state.selectMode,
+            builder: (context, isEmpty, child) {
+              return Visibility(
+                  visible: isEmpty,
+                  child: ElevatedButton(
+                      onPressed: () {}, child: Text("Load New Images")));
+            },
+          ),
           ImageDeleteButton(),
           SizedBox(
             width: 10,

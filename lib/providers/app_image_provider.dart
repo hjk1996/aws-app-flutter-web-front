@@ -62,9 +62,8 @@ class AppImageProvider with ChangeNotifier {
 
       // image data list 가져오기
       final newImageDataList = await _imageRepository.getImageDataList(
-        imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
-        isThumbnail: true
-      );
+          imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
+          isThumbnail: true);
 
       if (newImageDataList == null) {
         throw Exception("get images failed");
@@ -120,9 +119,8 @@ class AppImageProvider with ChangeNotifier {
       }
 
       final newImageDataList = await _imageRepository.getImageDataList(
-        imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
-        isThumbnail: false
-      );
+          imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
+          isThumbnail: false);
 
       if (newImageDataList == null) {
         throw Exception("get images failed");
@@ -328,7 +326,6 @@ class AppImageProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   Future<void> toggleBookmark() async {
     if (pagingController.itemList == null ||
         pagingController.itemList!.isEmpty ||
@@ -363,6 +360,25 @@ class AppImageProvider with ChangeNotifier {
       );
       _imageEventController.sink.add(ImageEvent.error(err));
     } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteAllImages() async {
+    try {
+      _state = _state.copyWith(loading: true);
+      notifyListeners();
+      await _imageRepository.deleteAllImages();
+      pagingController.itemList = [];
+      _selectedImageIndexes = {};
+      _imageEventController.sink.add(const ImageEvent.onImageDeleteSuccess());
+      notifyListeners();
+    } on DioException catch (err) {
+      _imageEventController.sink.add(ImageEvent.onImageDeleteFailure(err));
+    } on Exception catch (err) {
+      _imageEventController.sink.add(ImageEvent.onImageDeleteFailure(err));
+    } finally {
+      _state = _state.copyWith(loading: false);
       notifyListeners();
     }
   }

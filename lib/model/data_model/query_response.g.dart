@@ -8,13 +8,13 @@ part of 'query_response.dart';
 
 _$QueryResponseImpl _$$QueryResponseImplFromJson(Map<String, dynamic> json) =>
     _$QueryResponseImpl(
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: _datetimeFromJson(json['created_at']),
       imageUrls:
           (json['imageUrls'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$QueryResponseImplToJson(_$QueryResponseImpl instance) =>
     <String, dynamic>{
-      'createdAt': instance.createdAt.toIso8601String(),
+      'created_at': _datetimeToJson(instance.createdAt),
       'imageUrls': instance.imageUrls,
     };

@@ -31,4 +31,10 @@ abstract class ImageRepository {
   Future<void> toggleBookmark({
     required AppImageMetadata imageMetadata,
   });
+
+
+  Future<void> deleteAllImages();
+
+
+
 }

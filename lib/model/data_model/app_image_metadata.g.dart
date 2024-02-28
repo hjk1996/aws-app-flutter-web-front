@@ -14,6 +14,7 @@ _$AppImageMetadataImpl _$$AppImageMetadataImplFromJson(
       imageUrl: json['image_url'] as String,
       bookmarked: _bookmarkedFromJson(json['bookmarked'] as int?),
       createdAt: _datetimeFromJson(json['created_at']),
+      caption: json['caption'] as String?,
     );
 
 Map<String, dynamic> _$$AppImageMetadataImplToJson(
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$AppImageMetadataImplToJson(
       'image_url': instance.imageUrl,
       'bookmarked': _bookmarkedToJson(instance.bookmarked),
       'created_at': _datetimeToJson(instance.createdAt),
+      'caption': instance.caption,
     };

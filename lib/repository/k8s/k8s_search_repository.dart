@@ -16,7 +16,7 @@ class K8sSearchRepository implements SearchRepository {
   final TokenManager tokenManager;
 
   @override
-  Future<QueryResponse> semanticSearch({
+  Future<List<AppImageMetadata>> semanticSearch({
     required String query,
   }) async {
     final response = await apiHttpClient.get(
@@ -32,12 +32,9 @@ class K8sSearchRepository implements SearchRepository {
       );
     }
 
-    if (response.data["error"] != null) {
-      throw DioException(
-          requestOptions: response.requestOptions, response: response);
-    }
-
-    return QueryResponse.fromJson(response.data);
+    return (response.data["result"] as List)
+        .map((e) => AppImageMetadata.fromJson(e))
+        .toList();
   }
 
   @override
@@ -68,5 +65,33 @@ class K8sSearchRepository implements SearchRepository {
     return (response.data["result"] as List)
         .map((e) => AppImageMetadata.fromJson(e))
         .toList();
+  }
+
+  @override
+  Future<void> resetFaceIndex() async {
+    final response = await apiHttpClient.post(
+      "search/faces/reset",
+    );
+
+    if (response.statusCode != 200) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+      );
+    }
+  }
+
+  @override
+  Future<void> resetImageCaptions() async {
+    final response = await apiHttpClient.post(
+      "search/semantic/reset",
+    );
+
+    if (response.statusCode != 200) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+      );
+    }
   }
 }

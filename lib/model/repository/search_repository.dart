@@ -13,10 +13,15 @@ abstract class SearchRepository {
     required this.tokenManager,
   });
 
-  Future<QueryResponse> semanticSearch({
+  Future<List<AppImageMetadata>> semanticSearch({
     required String query,
   });
 
 
   Future<List<AppImageMetadata>> searchFaces(PlatformFile file);
+
+
+  Future<void> resetFaceIndex();
+
+  Future<void> resetImageCaptions(); 
 }

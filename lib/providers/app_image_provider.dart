@@ -28,6 +28,9 @@ class AppImageProvider with ChangeNotifier {
 
   Set<int> _selectedImageIndexes = {};
   Set<int> get selectedImageIndexes => _selectedImageIndexes;
+  set selectedImageIndexes(Set<int> value) {
+    _selectedImageIndexes = value;
+  }
 
   final _imageEventController = StreamController<ImageEvent>.broadcast();
   Stream<ImageEvent> get imageEventStream => _imageEventController.stream;

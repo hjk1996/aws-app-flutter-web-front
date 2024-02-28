@@ -23,7 +23,9 @@ mixin _$QueryResponse {
   @JsonKey(
       name: 'created_at', fromJson: _datetimeFromJson, toJson: _datetimeToJson)
   DateTime get createdAt => throw _privateConstructorUsedError;
-  List<String> get imageUrls => throw _privateConstructorUsedError;
+  QueryType get queryType => throw _privateConstructorUsedError;
+  List<AppImageMetadata> get imageMetadataList =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +45,8 @@ abstract class $QueryResponseCopyWith<$Res> {
           fromJson: _datetimeFromJson,
           toJson: _datetimeToJson)
       DateTime createdAt,
-      List<String> imageUrls});
+      QueryType queryType,
+      List<AppImageMetadata> imageMetadataList});
 }
 
 /// @nodoc
@@ -60,17 +63,22 @@ class _$QueryResponseCopyWithImpl<$Res, $Val extends QueryResponse>
   @override
   $Res call({
     Object? createdAt = null,
-    Object? imageUrls = null,
+    Object? queryType = null,
+    Object? imageMetadataList = null,
   }) {
     return _then(_value.copyWith(
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      imageUrls: null == imageUrls
-          ? _value.imageUrls
-          : imageUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      queryType: null == queryType
+          ? _value.queryType
+          : queryType // ignore: cast_nullable_to_non_nullable
+              as QueryType,
+      imageMetadataList: null == imageMetadataList
+          ? _value.imageMetadataList
+          : imageMetadataList // ignore: cast_nullable_to_non_nullable
+              as List<AppImageMetadata>,
     ) as $Val);
   }
 }
@@ -89,7 +97,8 @@ abstract class _$$QueryResponseImplCopyWith<$Res>
           fromJson: _datetimeFromJson,
           toJson: _datetimeToJson)
       DateTime createdAt,
-      List<String> imageUrls});
+      QueryType queryType,
+      List<AppImageMetadata> imageMetadataList});
 }
 
 /// @nodoc
@@ -104,17 +113,22 @@ class __$$QueryResponseImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? createdAt = null,
-    Object? imageUrls = null,
+    Object? queryType = null,
+    Object? imageMetadataList = null,
   }) {
     return _then(_$QueryResponseImpl(
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      imageUrls: null == imageUrls
-          ? _value._imageUrls
-          : imageUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      queryType: null == queryType
+          ? _value.queryType
+          : queryType // ignore: cast_nullable_to_non_nullable
+              as QueryType,
+      imageMetadataList: null == imageMetadataList
+          ? _value._imageMetadataList
+          : imageMetadataList // ignore: cast_nullable_to_non_nullable
+              as List<AppImageMetadata>,
     ));
   }
 }
@@ -128,8 +142,9 @@ class _$QueryResponseImpl implements _QueryResponse {
           fromJson: _datetimeFromJson,
           toJson: _datetimeToJson)
       required this.createdAt,
-      required final List<String> imageUrls})
-      : _imageUrls = imageUrls;
+      required this.queryType,
+      required final List<AppImageMetadata> imageMetadataList})
+      : _imageMetadataList = imageMetadataList;
 
   factory _$QueryResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$QueryResponseImplFromJson(json);
@@ -138,17 +153,20 @@ class _$QueryResponseImpl implements _QueryResponse {
   @JsonKey(
       name: 'created_at', fromJson: _datetimeFromJson, toJson: _datetimeToJson)
   final DateTime createdAt;
-  final List<String> _imageUrls;
   @override
-  List<String> get imageUrls {
-    if (_imageUrls is EqualUnmodifiableListView) return _imageUrls;
+  final QueryType queryType;
+  final List<AppImageMetadata> _imageMetadataList;
+  @override
+  List<AppImageMetadata> get imageMetadataList {
+    if (_imageMetadataList is EqualUnmodifiableListView)
+      return _imageMetadataList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_imageUrls);
+    return EqualUnmodifiableListView(_imageMetadataList);
   }
 
   @override
   String toString() {
-    return 'QueryResponse(createdAt: $createdAt, imageUrls: $imageUrls)';
+    return 'QueryResponse(createdAt: $createdAt, queryType: $queryType, imageMetadataList: $imageMetadataList)';
   }
 
   @override
@@ -158,14 +176,16 @@ class _$QueryResponseImpl implements _QueryResponse {
             other is _$QueryResponseImpl &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.queryType, queryType) ||
+                other.queryType == queryType) &&
             const DeepCollectionEquality()
-                .equals(other._imageUrls, _imageUrls));
+                .equals(other._imageMetadataList, _imageMetadataList));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, createdAt, const DeepCollectionEquality().hash(_imageUrls));
+  int get hashCode => Object.hash(runtimeType, createdAt, queryType,
+      const DeepCollectionEquality().hash(_imageMetadataList));
 
   @JsonKey(ignore: true)
   @override
@@ -183,12 +203,14 @@ class _$QueryResponseImpl implements _QueryResponse {
 
 abstract class _QueryResponse implements QueryResponse {
   factory _QueryResponse(
-      {@JsonKey(
-          name: 'created_at',
-          fromJson: _datetimeFromJson,
-          toJson: _datetimeToJson)
-      required final DateTime createdAt,
-      required final List<String> imageUrls}) = _$QueryResponseImpl;
+          {@JsonKey(
+              name: 'created_at',
+              fromJson: _datetimeFromJson,
+              toJson: _datetimeToJson)
+          required final DateTime createdAt,
+          required final QueryType queryType,
+          required final List<AppImageMetadata> imageMetadataList}) =
+      _$QueryResponseImpl;
 
   factory _QueryResponse.fromJson(Map<String, dynamic> json) =
       _$QueryResponseImpl.fromJson;
@@ -198,7 +220,9 @@ abstract class _QueryResponse implements QueryResponse {
       name: 'created_at', fromJson: _datetimeFromJson, toJson: _datetimeToJson)
   DateTime get createdAt;
   @override
-  List<String> get imageUrls;
+  QueryType get queryType;
+  @override
+  List<AppImageMetadata> get imageMetadataList;
   @override
   @JsonKey(ignore: true)
   _$$QueryResponseImplCopyWith<_$QueryResponseImpl> get copyWith =>

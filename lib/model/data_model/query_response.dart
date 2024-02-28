@@ -1,3 +1,5 @@
+import 'package:flutter_web/model/data_model/app_image_metadata.dart';
+import 'package:flutter_web/model/state_model/search_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'query_response.freezed.dart';
@@ -12,7 +14,8 @@ class QueryResponse with _$QueryResponse {
         toJson: _datetimeToJson,
       )
       required DateTime createdAt,
-      required List<String> imageUrls}) = _QueryResponse;
+      required QueryType queryType,
+      required List<AppImageMetadata> imageMetadataList}) = _QueryResponse;
   factory QueryResponse.fromJson(Map<String, dynamic> json) =>
       _$QueryResponseFromJson(json);
 }

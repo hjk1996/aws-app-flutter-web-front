@@ -4,9 +4,11 @@ import 'package:flutter_web/model/repository/search_repository.dart';
 import 'package:flutter_web/model/state_model/auth_state.dart';
 import 'package:flutter_web/model/state_model/gallery_state.dart';
 import 'package:flutter_web/model/state_model/search_state.dart';
+import 'package:flutter_web/model/state_model/setting_state.dart';
 import 'package:flutter_web/providers/app_auth_provider.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
 import 'package:flutter_web/providers/search_provider.dart';
+import 'package:flutter_web/providers/setting_provider.dart';
 import 'package:flutter_web/repository/k8s/k8s_auth_repository.dart';
 import 'package:flutter_web/repository/k8s/k8s_image_repository.dart';
 import 'package:flutter_web/repository/k8s/k8s_search_repository.dart';
@@ -92,6 +94,13 @@ Future<List<SingleChildWidget>> getProviders() async {
     ),
   );
 
+  final settingProvider = SettingProvider(
+    imageRepository: k8sRemoteImageRepo,
+    searchRepository: k8sSearchRepo,
+    appImageProvider: imageProvider,
+    initialState: SettingState(loading: false),
+  );
+
   return [
     ChangeNotifierProvider<AppAuthProvider>(
       create: (_) => authProvider,
@@ -99,6 +108,7 @@ Future<List<SingleChildWidget>> getProviders() async {
     ChangeNotifierProvider<AppImageProvider>(
       create: (_) => imageProvider,
     ),
-    ChangeNotifierProvider(create: (_) => searchProvider)
+    ChangeNotifierProvider<SearchProvider>(create: (_) => searchProvider),
+    ChangeNotifierProvider<SettingProvider>(create: (_) => settingProvider)
   ];
 }

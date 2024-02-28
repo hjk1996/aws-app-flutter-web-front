@@ -31,6 +31,7 @@ mixin _$AppImageMetadata {
   @JsonKey(
       name: 'created_at', fromJson: _datetimeFromJson, toJson: _datetimeToJson)
   DateTime get createdAt => throw _privateConstructorUsedError;
+  String? get caption => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,7 +55,8 @@ abstract class $AppImageMetadataCopyWith<$Res> {
           name: 'created_at',
           fromJson: _datetimeFromJson,
           toJson: _datetimeToJson)
-      DateTime createdAt});
+      DateTime createdAt,
+      String? caption});
 }
 
 /// @nodoc
@@ -75,6 +77,7 @@ class _$AppImageMetadataCopyWithImpl<$Res, $Val extends AppImageMetadata>
     Object? imageUrl = null,
     Object? bookmarked = null,
     Object? createdAt = null,
+    Object? caption = freezed,
   }) {
     return _then(_value.copyWith(
       pictureId: null == pictureId
@@ -97,6 +100,10 @@ class _$AppImageMetadataCopyWithImpl<$Res, $Val extends AppImageMetadata>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      caption: freezed == caption
+          ? _value.caption
+          : caption // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -119,7 +126,8 @@ abstract class _$$AppImageMetadataImplCopyWith<$Res>
           name: 'created_at',
           fromJson: _datetimeFromJson,
           toJson: _datetimeToJson)
-      DateTime createdAt});
+      DateTime createdAt,
+      String? caption});
 }
 
 /// @nodoc
@@ -138,6 +146,7 @@ class __$$AppImageMetadataImplCopyWithImpl<$Res>
     Object? imageUrl = null,
     Object? bookmarked = null,
     Object? createdAt = null,
+    Object? caption = freezed,
   }) {
     return _then(_$AppImageMetadataImpl(
       pictureId: null == pictureId
@@ -160,6 +169,10 @@ class __$$AppImageMetadataImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      caption: freezed == caption
+          ? _value.caption
+          : caption // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -177,7 +190,8 @@ class _$AppImageMetadataImpl implements _AppImageMetadata {
           name: 'created_at',
           fromJson: _datetimeFromJson,
           toJson: _datetimeToJson)
-      required this.createdAt});
+      required this.createdAt,
+      this.caption});
 
   factory _$AppImageMetadataImpl.fromJson(Map<String, dynamic> json) =>
       _$$AppImageMetadataImplFromJson(json);
@@ -198,10 +212,12 @@ class _$AppImageMetadataImpl implements _AppImageMetadata {
   @JsonKey(
       name: 'created_at', fromJson: _datetimeFromJson, toJson: _datetimeToJson)
   final DateTime createdAt;
+  @override
+  final String? caption;
 
   @override
   String toString() {
-    return 'AppImageMetadata(pictureId: $pictureId, userId: $userId, imageUrl: $imageUrl, bookmarked: $bookmarked, createdAt: $createdAt)';
+    return 'AppImageMetadata(pictureId: $pictureId, userId: $userId, imageUrl: $imageUrl, bookmarked: $bookmarked, createdAt: $createdAt, caption: $caption)';
   }
 
   @override
@@ -217,13 +233,14 @@ class _$AppImageMetadataImpl implements _AppImageMetadata {
             (identical(other.bookmarked, bookmarked) ||
                 other.bookmarked == bookmarked) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.caption, caption) || other.caption == caption));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, pictureId, userId, imageUrl, bookmarked, createdAt);
+      runtimeType, pictureId, userId, imageUrl, bookmarked, createdAt, caption);
 
   @JsonKey(ignore: true)
   @override
@@ -251,7 +268,8 @@ abstract class _AppImageMetadata implements AppImageMetadata {
           name: 'created_at',
           fromJson: _datetimeFromJson,
           toJson: _datetimeToJson)
-      required final DateTime createdAt}) = _$AppImageMetadataImpl;
+      required final DateTime createdAt,
+      final String? caption}) = _$AppImageMetadataImpl;
 
   factory _AppImageMetadata.fromJson(Map<String, dynamic> json) =
       _$AppImageMetadataImpl.fromJson;
@@ -272,6 +290,8 @@ abstract class _AppImageMetadata implements AppImageMetadata {
   @JsonKey(
       name: 'created_at', fromJson: _datetimeFromJson, toJson: _datetimeToJson)
   DateTime get createdAt;
+  @override
+  String? get caption;
   @override
   @JsonKey(ignore: true)
   _$$AppImageMetadataImplCopyWith<_$AppImageMetadataImpl> get copyWith =>

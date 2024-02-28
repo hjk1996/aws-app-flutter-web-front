@@ -29,6 +29,7 @@ class AppImageMetadata with _$AppImageMetadata {
       toJson: _datetimeToJson,
     )
     required DateTime createdAt,
+    String? caption,
   }) = _AppImageMetadata;
   factory AppImageMetadata.fromJson(Map<String, dynamic> json) =>
       _$AppImageMetadataFromJson(json);

@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_web/event/image_event.dart';
+import 'package:flutter_web/event/setting_event.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
+import 'package:flutter_web/providers/face_search_provider.dart';
+import 'package:flutter_web/providers/setting_provider.dart';
 import 'package:provider/provider.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -14,13 +17,13 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  late StreamSubscription<ImageEvent> _imageEventstreamSubscription;
+  late StreamSubscription<SettingEvent> _imageEventstreamSubscription;
 
   @override
   void initState() {
     super.initState();
     _imageEventstreamSubscription =
-        context.read<AppImageProvider>().imageEventStream.listen((event) {
+        context.read<SettingProvider>().eventStream.listen((event) {
       event.whenOrNull(
         onImageDeleteSuccess: () => ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -33,6 +36,38 @@ class _SettingScreenState extends State<SettingScreen> {
           SnackBar(
             backgroundColor: Colors.red,
             content: Text(e.toString()),
+          ),
+        ),
+        onFaceIndexResetFailure: (e) =>
+            ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(e.toString()),
+          ),
+        ),
+        onFaceIndexResetSuccess: () =>
+            ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              'Face index reset success',
+            ),
+          ),
+        ),
+        onImageCaptionResetFailure: (e) =>
+            ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(e.toString()),
+          ),
+        ),
+        onImageCaptionResetSuccess: () =>
+            ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              'Image caption reset success',
+            ),
           ),
         ),
       );
@@ -75,6 +110,35 @@ class _SettingScreenState extends State<SettingScreen> {
                         context.read<AppImageProvider>().deleteAllImages(),
                     icon: const Icon(Icons.delete_forever),
                     label: const Text('Delete All Images'));
+              },
+            ),
+            const SizedBox(height: 20),
+            Selector<SettingProvider, bool>(
+              selector: (_, provider) => provider.state.loading,
+              builder: (context, loading, child) {
+                if (loading) {
+                  return const CircularProgressIndicator();
+                }
+                return ElevatedButton.icon(
+                    onPressed: () async =>
+                        await context.read<SettingProvider>().resetFaceIndex(),
+                    icon: const Icon(Icons.face),
+                    label: const Text('Delete Face Index'));
+              },
+            ),
+            const SizedBox(height: 20),
+            Selector<SettingProvider, bool>(
+              selector: (_, provider) => provider.state.loading,
+              builder: (context, loading, child) {
+                if (loading) {
+                  return const CircularProgressIndicator();
+                }
+                return ElevatedButton.icon(
+                    onPressed: () async => await context
+                        .read<SettingProvider>()
+                        .deleteAllImageCaptions(),
+                    icon: const Icon(Icons.analytics),
+                    label: const Text('Delete Image Captions'));
               },
             ),
           ],

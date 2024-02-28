@@ -37,6 +37,21 @@ class FaceSearchProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  Future<void> resetFaceIndex() async {
+    try {
+      _state = _state.copyWith(loading: true);
+      notifyListeners();
+      await searchRepository.resetFaceIndex();
+    } on DioException catch (err) {
+      _eventController.add(SearchEvent.error(err.toString()));
+    } on Exception catch (err) {
+      _eventController.add(SearchEvent.error(err.toString()));
+    } finally {
+      _state = _state.copyWith(loading: false);
+      notifyListeners();
+    }
+  }
+
   Future<void> searchFaces(PlatformFile file) async {
     try {
       _state = _state.copyWith(loading: true);

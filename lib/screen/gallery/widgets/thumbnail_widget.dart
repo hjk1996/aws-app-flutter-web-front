@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
@@ -40,7 +42,7 @@ class _ThumbnailWidgetState extends State<ThumbnailWidget> {
                       ),
                     ),
                     child: Image.memory(
-                      widget.imageItem.imageData.thumbnail!,
+                      widget.imageItem.imageData.thumbnail ?? Uint8List(0),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -77,7 +79,7 @@ class _ThumbnailWidgetState extends State<ThumbnailWidget> {
                 ),
               ),
               child: Image.memory(
-                widget.imageItem.imageData.thumbnail!,
+                widget.imageItem.imageData.thumbnail ?? Uint8List(0),
                 fit: BoxFit.cover,
               ),
             ),

@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web/event/search_event.dart';
 import 'package:flutter_web/providers/face_search_provider.dart';
-import 'package:flutter_web/screen/common/image_grid.dart';
-import 'package:flutter_web/screen/gallery/widgets/thumbnail_widget.dart';
-import 'package:flutter_web/screen/search/widgets/chat_message_widget.dart';
+import 'package:flutter_web/screen/face_search/widgets/face_search_image_grid.dart';
 import 'package:provider/provider.dart';
 
 class FaceSearchScreen extends StatefulWidget {
@@ -73,16 +70,12 @@ class _FaceSearchScreenState extends State<FaceSearchScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Consumer<FaceSearchProvider>(
         builder: (context, provider, child) {
-          if (provider.state.searchResult == null) {
-            return const Center(
-              child: Text("Please upload an image"),
-            );
-          } else if (provider.state.searchResult!.isEmpty) {
+          if (provider.imageItemList.isEmpty) {
             return const Center(
               child: Text("No result found"),
             );
           } else {
-            return ImageGrid(imageList: provider.state.searchResult!);
+            return const FaceSearchImageGrid();
           }
         },
       ),

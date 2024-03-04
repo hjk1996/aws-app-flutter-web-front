@@ -30,6 +30,7 @@ class AppImageMetadata with _$AppImageMetadata {
     )
     required DateTime createdAt,
     String? caption,
+    double? score,
   }) = _AppImageMetadata;
   factory AppImageMetadata.fromJson(Map<String, dynamic> json) =>
       _$AppImageMetadataFromJson(json);

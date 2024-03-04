@@ -82,8 +82,9 @@ class _QueryResponseWidgetState extends State<QueryResponseWidget> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => SearchResultAlbumScreen(
-                              imageMetadataList:
-                                  widget.queryResponse.imageMetadataList),
+                            imageMetadataList:
+                                widget.queryResponse.imageMetadataList,
+                          ),
                         ),
                       ),
                     )

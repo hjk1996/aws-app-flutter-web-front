@@ -8,7 +8,7 @@ import 'package:flutter_web/screen/gallery/widgets/image_delete_button.dart';
 import 'package:flutter_web/screen/gallery/widgets/image_upload_button.dart';
 import 'package:flutter_web/screen/gallery/widgets/select_all_button.dart';
 import 'package:flutter_web/screen/gallery/widgets/select_toggle_button.dart';
-import 'package:flutter_web/screen/gallery/widgets/thumbnail_widget.dart';
+import 'package:flutter_web/screen/gallery/widgets/main_album_thumbnail_widget.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
@@ -129,7 +129,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
             ),
             itemBuilder: (context, item, index) => Hero(
               tag: item.imageMetadata.pictureId,
-              child: ThumbnailWidget(
+              child: MainAlbumThumbnailWidget(
                 key: ValueKey(item.imageMetadata.pictureId),
                 index: index,
                 imageItem: item,

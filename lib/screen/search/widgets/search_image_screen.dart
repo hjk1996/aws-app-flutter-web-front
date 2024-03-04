@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web/model/data_model/app_image_metadata.dart';
 import 'package:flutter_web/model/state_model/app_image_data.dart';
-import 'package:flutter_web/providers/app_image_provider.dart';
+import 'package:flutter_web/providers/search_result_album_provider.dart';
 import 'package:flutter_web/screen/image/widgets/image_info_modal.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class ImageScreen extends StatefulWidget {
+class SearchImageScreen extends StatefulWidget {
   final int index;
-
-  const ImageScreen({super.key, required this.index});
+  const SearchImageScreen({
+    super.key,
+    required this.index,
+  });
 
   @override
-  State<ImageScreen> createState() => _ImageScreenState();
+  State<SearchImageScreen> createState() => _SearchImageScreenState();
 }
 
-class _ImageScreenState extends State<ImageScreen> {
+class _SearchImageScreenState extends State<SearchImageScreen> {
   late final PageController _pageController;
+  late int currentIndex;
 
   @override
   void initState() {
     super.initState();
+    currentIndex = widget.index;
     _pageController = PageController(initialPage: widget.index);
   }
 
@@ -32,9 +36,9 @@ class _ImageScreenState extends State<ImageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppImageProvider>(
+    return Consumer<SearchResultAlbumProvider>(
       builder: (context, provider, child) {
-        final images = provider.pagingController.itemList ?? [];
+        final images = provider.imageItemList;
         final currentIndex = provider.state.currentImageIndex;
         final currentMetadata = images.isNotEmpty && currentIndex != null
             ? images[currentIndex].imageMetadata
@@ -44,11 +48,6 @@ class _ImageScreenState extends State<ImageScreen> {
           appBar: AppBar(
             title: Text(_formatDate(currentMetadata?.createdAt)),
             actions: <Widget>[
-              if (currentMetadata != null)
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: provider.deleteCurrentImage,
-                ),
               if (currentMetadata != null)
                 _infoButton(context, currentMetadata),
             ],
@@ -82,8 +81,8 @@ class _ImageScreenState extends State<ImageScreen> {
     return date != null ? DateFormat.yMd().add_jm().format(date) : "";
   }
 
-  Widget _imageViewer(
-      AppImageProvider provider, List<dynamic> images, BuildContext context) {
+  Widget _imageViewer(SearchResultAlbumProvider provider, List<dynamic> images,
+      BuildContext context) {
     if (images.isEmpty) {
       return const Expanded(child: Center(child: Text("No images")));
     }
@@ -97,10 +96,10 @@ class _ImageScreenState extends State<ImageScreen> {
     );
   }
 
-  Widget _imageWidget(AppImageProvider provider, int index) {
-    var imageData = provider.pagingController.itemList![index].imageData;
+  Widget _imageWidget(SearchResultAlbumProvider provider, int index) {
+    var imageData = provider.imageItemList[index].imageData;
     return Hero(
-      tag: provider.pagingController.itemList![index].imageMetadata.pictureId,
+      tag: provider.imageItemList[index].imageMetadata.pictureId,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: _buildImage(imageData, index),
@@ -120,7 +119,7 @@ class _ImageScreenState extends State<ImageScreen> {
   }
 
   Widget _actionBar(
-      AppImageProvider provider, AppImageMetadata? currentMetadata) {
+      SearchResultAlbumProvider provider, AppImageMetadata? currentMetadata) {
     return Container(
       color: Colors.amber,
       child: Row(

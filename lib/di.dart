@@ -2,12 +2,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/repository/search_repository.dart';
 import 'package:flutter_web/model/state_model/auth_state.dart';
+import 'package:flutter_web/model/state_model/face_search_result_album_state.dart';
+import 'package:flutter_web/model/state_model/face_search_state.dart';
 import 'package:flutter_web/model/state_model/gallery_state.dart';
+import 'package:flutter_web/model/state_model/search_result_album_state.dart';
 import 'package:flutter_web/model/state_model/search_state.dart';
 import 'package:flutter_web/model/state_model/setting_state.dart';
 import 'package:flutter_web/providers/app_auth_provider.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
+import 'package:flutter_web/providers/face_search_provider.dart';
+import 'package:flutter_web/providers/face_search_result_album_provider.dart';
 import 'package:flutter_web/providers/search_provider.dart';
+import 'package:flutter_web/providers/search_result_album_provider.dart';
 import 'package:flutter_web/providers/setting_provider.dart';
 import 'package:flutter_web/repository/k8s/k8s_auth_repository.dart';
 import 'package:flutter_web/repository/k8s/k8s_image_repository.dart';
@@ -101,6 +107,20 @@ Future<List<SingleChildWidget>> getProviders() async {
     initialState: SettingState(loading: false),
   );
 
+  final faceSearchProvider = FaceSearchProvider(
+      imageRepository: k8sRemoteImageRepo,
+      searchRepository: k8sSearchRepo,
+      initialState: FaceSearchState(loading: false));
+
+
+  final searchResultAlbumProvider = SearchResultAlbumProvider(
+    imageRepository: k8sRemoteImageRepo,
+    initialState: SearchResultAlbumState(
+      loading: false,
+    ),
+    imageItemList: [],
+  );
+
   return [
     ChangeNotifierProvider<AppAuthProvider>(
       create: (_) => authProvider,
@@ -109,6 +129,10 @@ Future<List<SingleChildWidget>> getProviders() async {
       create: (_) => imageProvider,
     ),
     ChangeNotifierProvider<SearchProvider>(create: (_) => searchProvider),
-    ChangeNotifierProvider<SettingProvider>(create: (_) => settingProvider)
+    ChangeNotifierProvider<SettingProvider>(create: (_) => settingProvider),
+    ChangeNotifierProvider<SearchResultAlbumProvider>(
+        create: (_) => searchResultAlbumProvider),
+    ChangeNotifierProvider<FaceSearchProvider>(
+        create: (_) => faceSearchProvider),
   ];
 }

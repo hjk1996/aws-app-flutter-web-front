@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web/model/repository/image_repository.dart';
-import 'package:flutter_web/model/repository/search_repository.dart';
-import 'package:flutter_web/model/state_model/face_search_state.dart';
 import 'package:flutter_web/providers/app_auth_provider.dart';
-import 'package:flutter_web/providers/face_search_provider.dart';
 import 'package:flutter_web/screen/face_search/face_search_screen.dart';
 import 'package:flutter_web/screen/gallery/gallery_screen.dart';
 import 'package:flutter_web/screen/search/search_screen.dart';
 import 'package:flutter_web/screen/setting/setting_screen.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,8 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size buttonSize = const Size(400, 100);
-
-    final getIt = GetIt.instance;
 
     return Scaffold(
         body: Column(
@@ -75,16 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ElevatedButton.icon(
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => ChangeNotifierProvider(
-                  create: (context) => FaceSearchProvider(
-                      imageRepository: getIt<ImageRepository>(),
-                      searchRepository: getIt<SearchRepository>(),
-                      initialState: FaceSearchState(
-                        loading: false,
-                        searchResult: null,
-                      )),
-                  child: const FaceSearchScreen(),
-                ),
+                builder: (context) => const FaceSearchScreen(),
               ),
             ),
             icon: const Icon(Icons.face_5_outlined),

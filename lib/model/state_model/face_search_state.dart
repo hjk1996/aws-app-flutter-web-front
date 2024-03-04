@@ -8,6 +8,6 @@ part 'face_search_state.freezed.dart';
 class FaceSearchState with _$FaceSearchState {
   factory FaceSearchState({
     required bool loading,
-    List<AppImageItem>? searchResult,
+    int? currentImageIndex,
   }) = _FaceSearchState;
 }

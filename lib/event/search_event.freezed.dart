@@ -21,6 +21,7 @@ mixin _$SearchEvent {
     required TResult Function(String message) error,
     required TResult Function() loading,
     required TResult Function() loaded,
+    required TResult Function() onCurrentImageDeleteSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$SearchEvent {
     TResult? Function(String message)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
+    TResult? Function()? onCurrentImageDeleteSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$SearchEvent {
     TResult Function(String message)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
+    TResult Function()? onCurrentImageDeleteSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,8 @@ mixin _$SearchEvent {
     required TResult Function(SearchEventError value) error,
     required TResult Function(SearchEventLoading value) loading,
     required TResult Function(SearchEventLoaded value) loaded,
+    required TResult Function(SearchEventOnCurrentImageDeleteSuccess value)
+        onCurrentImageDeleteSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +55,8 @@ mixin _$SearchEvent {
     TResult? Function(SearchEventError value)? error,
     TResult? Function(SearchEventLoading value)? loading,
     TResult? Function(SearchEventLoaded value)? loaded,
+    TResult? Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +64,8 @@ mixin _$SearchEvent {
     TResult Function(SearchEventError value)? error,
     TResult Function(SearchEventLoading value)? loading,
     TResult Function(SearchEventLoaded value)? loaded,
+    TResult Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -148,6 +157,7 @@ class _$SearchEventErrorImpl implements SearchEventError {
     required TResult Function(String message) error,
     required TResult Function() loading,
     required TResult Function() loaded,
+    required TResult Function() onCurrentImageDeleteSuccess,
   }) {
     return error(message);
   }
@@ -158,6 +168,7 @@ class _$SearchEventErrorImpl implements SearchEventError {
     TResult? Function(String message)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
+    TResult? Function()? onCurrentImageDeleteSuccess,
   }) {
     return error?.call(message);
   }
@@ -168,6 +179,7 @@ class _$SearchEventErrorImpl implements SearchEventError {
     TResult Function(String message)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
+    TResult Function()? onCurrentImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -182,6 +194,8 @@ class _$SearchEventErrorImpl implements SearchEventError {
     required TResult Function(SearchEventError value) error,
     required TResult Function(SearchEventLoading value) loading,
     required TResult Function(SearchEventLoaded value) loaded,
+    required TResult Function(SearchEventOnCurrentImageDeleteSuccess value)
+        onCurrentImageDeleteSuccess,
   }) {
     return error(this);
   }
@@ -192,6 +206,8 @@ class _$SearchEventErrorImpl implements SearchEventError {
     TResult? Function(SearchEventError value)? error,
     TResult? Function(SearchEventLoading value)? loading,
     TResult? Function(SearchEventLoaded value)? loaded,
+    TResult? Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
   }) {
     return error?.call(this);
   }
@@ -202,6 +218,8 @@ class _$SearchEventErrorImpl implements SearchEventError {
     TResult Function(SearchEventError value)? error,
     TResult Function(SearchEventLoading value)? loading,
     TResult Function(SearchEventLoaded value)? loaded,
+    TResult Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -261,6 +279,7 @@ class _$SearchEventLoadingImpl implements SearchEventLoading {
     required TResult Function(String message) error,
     required TResult Function() loading,
     required TResult Function() loaded,
+    required TResult Function() onCurrentImageDeleteSuccess,
   }) {
     return loading();
   }
@@ -271,6 +290,7 @@ class _$SearchEventLoadingImpl implements SearchEventLoading {
     TResult? Function(String message)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
+    TResult? Function()? onCurrentImageDeleteSuccess,
   }) {
     return loading?.call();
   }
@@ -281,6 +301,7 @@ class _$SearchEventLoadingImpl implements SearchEventLoading {
     TResult Function(String message)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
+    TResult Function()? onCurrentImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -295,6 +316,8 @@ class _$SearchEventLoadingImpl implements SearchEventLoading {
     required TResult Function(SearchEventError value) error,
     required TResult Function(SearchEventLoading value) loading,
     required TResult Function(SearchEventLoaded value) loaded,
+    required TResult Function(SearchEventOnCurrentImageDeleteSuccess value)
+        onCurrentImageDeleteSuccess,
   }) {
     return loading(this);
   }
@@ -305,6 +328,8 @@ class _$SearchEventLoadingImpl implements SearchEventLoading {
     TResult? Function(SearchEventError value)? error,
     TResult? Function(SearchEventLoading value)? loading,
     TResult? Function(SearchEventLoaded value)? loaded,
+    TResult? Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
   }) {
     return loading?.call(this);
   }
@@ -315,6 +340,8 @@ class _$SearchEventLoadingImpl implements SearchEventLoading {
     TResult Function(SearchEventError value)? error,
     TResult Function(SearchEventLoading value)? loading,
     TResult Function(SearchEventLoaded value)? loaded,
+    TResult Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -369,6 +396,7 @@ class _$SearchEventLoadedImpl implements SearchEventLoaded {
     required TResult Function(String message) error,
     required TResult Function() loading,
     required TResult Function() loaded,
+    required TResult Function() onCurrentImageDeleteSuccess,
   }) {
     return loaded();
   }
@@ -379,6 +407,7 @@ class _$SearchEventLoadedImpl implements SearchEventLoaded {
     TResult? Function(String message)? error,
     TResult? Function()? loading,
     TResult? Function()? loaded,
+    TResult? Function()? onCurrentImageDeleteSuccess,
   }) {
     return loaded?.call();
   }
@@ -389,6 +418,7 @@ class _$SearchEventLoadedImpl implements SearchEventLoaded {
     TResult Function(String message)? error,
     TResult Function()? loading,
     TResult Function()? loaded,
+    TResult Function()? onCurrentImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -403,6 +433,8 @@ class _$SearchEventLoadedImpl implements SearchEventLoaded {
     required TResult Function(SearchEventError value) error,
     required TResult Function(SearchEventLoading value) loading,
     required TResult Function(SearchEventLoaded value) loaded,
+    required TResult Function(SearchEventOnCurrentImageDeleteSuccess value)
+        onCurrentImageDeleteSuccess,
   }) {
     return loaded(this);
   }
@@ -413,6 +445,8 @@ class _$SearchEventLoadedImpl implements SearchEventLoaded {
     TResult? Function(SearchEventError value)? error,
     TResult? Function(SearchEventLoading value)? loading,
     TResult? Function(SearchEventLoaded value)? loaded,
+    TResult? Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
   }) {
     return loaded?.call(this);
   }
@@ -423,6 +457,8 @@ class _$SearchEventLoadedImpl implements SearchEventLoaded {
     TResult Function(SearchEventError value)? error,
     TResult Function(SearchEventLoading value)? loading,
     TResult Function(SearchEventLoaded value)? loaded,
+    TResult Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -434,4 +470,127 @@ class _$SearchEventLoadedImpl implements SearchEventLoaded {
 
 abstract class SearchEventLoaded implements SearchEvent {
   const factory SearchEventLoaded() = _$SearchEventLoadedImpl;
+}
+
+/// @nodoc
+abstract class _$$SearchEventOnCurrentImageDeleteSuccessImplCopyWith<$Res> {
+  factory _$$SearchEventOnCurrentImageDeleteSuccessImplCopyWith(
+          _$SearchEventOnCurrentImageDeleteSuccessImpl value,
+          $Res Function(_$SearchEventOnCurrentImageDeleteSuccessImpl) then) =
+      __$$SearchEventOnCurrentImageDeleteSuccessImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$SearchEventOnCurrentImageDeleteSuccessImplCopyWithImpl<$Res>
+    extends _$SearchEventCopyWithImpl<$Res,
+        _$SearchEventOnCurrentImageDeleteSuccessImpl>
+    implements _$$SearchEventOnCurrentImageDeleteSuccessImplCopyWith<$Res> {
+  __$$SearchEventOnCurrentImageDeleteSuccessImplCopyWithImpl(
+      _$SearchEventOnCurrentImageDeleteSuccessImpl _value,
+      $Res Function(_$SearchEventOnCurrentImageDeleteSuccessImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$SearchEventOnCurrentImageDeleteSuccessImpl
+    implements SearchEventOnCurrentImageDeleteSuccess {
+  const _$SearchEventOnCurrentImageDeleteSuccessImpl();
+
+  @override
+  String toString() {
+    return 'SearchEvent.onCurrentImageDeleteSuccess()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchEventOnCurrentImageDeleteSuccessImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) error,
+    required TResult Function() loading,
+    required TResult Function() loaded,
+    required TResult Function() onCurrentImageDeleteSuccess,
+  }) {
+    return onCurrentImageDeleteSuccess();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String message)? error,
+    TResult? Function()? loading,
+    TResult? Function()? loaded,
+    TResult? Function()? onCurrentImageDeleteSuccess,
+  }) {
+    return onCurrentImageDeleteSuccess?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? error,
+    TResult Function()? loading,
+    TResult Function()? loaded,
+    TResult Function()? onCurrentImageDeleteSuccess,
+    required TResult orElse(),
+  }) {
+    if (onCurrentImageDeleteSuccess != null) {
+      return onCurrentImageDeleteSuccess();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SearchEventError value) error,
+    required TResult Function(SearchEventLoading value) loading,
+    required TResult Function(SearchEventLoaded value) loaded,
+    required TResult Function(SearchEventOnCurrentImageDeleteSuccess value)
+        onCurrentImageDeleteSuccess,
+  }) {
+    return onCurrentImageDeleteSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SearchEventError value)? error,
+    TResult? Function(SearchEventLoading value)? loading,
+    TResult? Function(SearchEventLoaded value)? loaded,
+    TResult? Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
+  }) {
+    return onCurrentImageDeleteSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SearchEventError value)? error,
+    TResult Function(SearchEventLoading value)? loading,
+    TResult Function(SearchEventLoaded value)? loaded,
+    TResult Function(SearchEventOnCurrentImageDeleteSuccess value)?
+        onCurrentImageDeleteSuccess,
+    required TResult orElse(),
+  }) {
+    if (onCurrentImageDeleteSuccess != null) {
+      return onCurrentImageDeleteSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SearchEventOnCurrentImageDeleteSuccess implements SearchEvent {
+  const factory SearchEventOnCurrentImageDeleteSuccess() =
+      _$SearchEventOnCurrentImageDeleteSuccessImpl;
 }

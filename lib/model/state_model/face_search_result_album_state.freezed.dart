@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'face_search_state.dart';
+part of 'face_search_result_album_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,29 +14,37 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-/// @nodoc
-mixin _$FaceSearchState {
-  bool get loading => throw _privateConstructorUsedError;
-  int? get currentImageIndex => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $FaceSearchStateCopyWith<FaceSearchState> get copyWith =>
-      throw _privateConstructorUsedError;
+FaceSearchResultAlbumState _$FaceSearchResultAlbumStateFromJson(
+    Map<String, dynamic> json) {
+  return _FaceSearchResultAlbumState.fromJson(json);
 }
 
 /// @nodoc
-abstract class $FaceSearchStateCopyWith<$Res> {
-  factory $FaceSearchStateCopyWith(
-          FaceSearchState value, $Res Function(FaceSearchState) then) =
-      _$FaceSearchStateCopyWithImpl<$Res, FaceSearchState>;
+mixin _$FaceSearchResultAlbumState {
+  bool get loading => throw _privateConstructorUsedError;
+  int? get currentImageIndex => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FaceSearchResultAlbumStateCopyWith<FaceSearchResultAlbumState>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FaceSearchResultAlbumStateCopyWith<$Res> {
+  factory $FaceSearchResultAlbumStateCopyWith(FaceSearchResultAlbumState value,
+          $Res Function(FaceSearchResultAlbumState) then) =
+      _$FaceSearchResultAlbumStateCopyWithImpl<$Res,
+          FaceSearchResultAlbumState>;
   @useResult
   $Res call({bool loading, int? currentImageIndex});
 }
 
 /// @nodoc
-class _$FaceSearchStateCopyWithImpl<$Res, $Val extends FaceSearchState>
-    implements $FaceSearchStateCopyWith<$Res> {
-  _$FaceSearchStateCopyWithImpl(this._value, this._then);
+class _$FaceSearchResultAlbumStateCopyWithImpl<$Res,
+        $Val extends FaceSearchResultAlbumState>
+    implements $FaceSearchResultAlbumStateCopyWith<$Res> {
+  _$FaceSearchResultAlbumStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -63,22 +71,25 @@ class _$FaceSearchStateCopyWithImpl<$Res, $Val extends FaceSearchState>
 }
 
 /// @nodoc
-abstract class _$$FaceSearchStateImplCopyWith<$Res>
-    implements $FaceSearchStateCopyWith<$Res> {
-  factory _$$FaceSearchStateImplCopyWith(_$FaceSearchStateImpl value,
-          $Res Function(_$FaceSearchStateImpl) then) =
-      __$$FaceSearchStateImplCopyWithImpl<$Res>;
+abstract class _$$FaceSearchResultAlbumStateImplCopyWith<$Res>
+    implements $FaceSearchResultAlbumStateCopyWith<$Res> {
+  factory _$$FaceSearchResultAlbumStateImplCopyWith(
+          _$FaceSearchResultAlbumStateImpl value,
+          $Res Function(_$FaceSearchResultAlbumStateImpl) then) =
+      __$$FaceSearchResultAlbumStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool loading, int? currentImageIndex});
 }
 
 /// @nodoc
-class __$$FaceSearchStateImplCopyWithImpl<$Res>
-    extends _$FaceSearchStateCopyWithImpl<$Res, _$FaceSearchStateImpl>
-    implements _$$FaceSearchStateImplCopyWith<$Res> {
-  __$$FaceSearchStateImplCopyWithImpl(
-      _$FaceSearchStateImpl _value, $Res Function(_$FaceSearchStateImpl) _then)
+class __$$FaceSearchResultAlbumStateImplCopyWithImpl<$Res>
+    extends _$FaceSearchResultAlbumStateCopyWithImpl<$Res,
+        _$FaceSearchResultAlbumStateImpl>
+    implements _$$FaceSearchResultAlbumStateImplCopyWith<$Res> {
+  __$$FaceSearchResultAlbumStateImplCopyWithImpl(
+      _$FaceSearchResultAlbumStateImpl _value,
+      $Res Function(_$FaceSearchResultAlbumStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +98,7 @@ class __$$FaceSearchStateImplCopyWithImpl<$Res>
     Object? loading = null,
     Object? currentImageIndex = freezed,
   }) {
-    return _then(_$FaceSearchStateImpl(
+    return _then(_$FaceSearchResultAlbumStateImpl(
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -101,9 +112,14 @@ class __$$FaceSearchStateImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$FaceSearchResultAlbumStateImpl implements _FaceSearchResultAlbumState {
+  _$FaceSearchResultAlbumStateImpl(
+      {required this.loading, this.currentImageIndex});
 
-class _$FaceSearchStateImpl implements _FaceSearchState {
-  _$FaceSearchStateImpl({required this.loading, this.currentImageIndex});
+  factory _$FaceSearchResultAlbumStateImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$FaceSearchResultAlbumStateImplFromJson(json);
 
   @override
   final bool loading;
@@ -112,34 +128,46 @@ class _$FaceSearchStateImpl implements _FaceSearchState {
 
   @override
   String toString() {
-    return 'FaceSearchState(loading: $loading, currentImageIndex: $currentImageIndex)';
+    return 'FaceSearchResultAlbumState(loading: $loading, currentImageIndex: $currentImageIndex)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FaceSearchStateImpl &&
+            other is _$FaceSearchResultAlbumStateImpl &&
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.currentImageIndex, currentImageIndex) ||
                 other.currentImageIndex == currentImageIndex));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, loading, currentImageIndex);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FaceSearchStateImplCopyWith<_$FaceSearchStateImpl> get copyWith =>
-      __$$FaceSearchStateImplCopyWithImpl<_$FaceSearchStateImpl>(
-          this, _$identity);
+  _$$FaceSearchResultAlbumStateImplCopyWith<_$FaceSearchResultAlbumStateImpl>
+      get copyWith => __$$FaceSearchResultAlbumStateImplCopyWithImpl<
+          _$FaceSearchResultAlbumStateImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FaceSearchResultAlbumStateImplToJson(
+      this,
+    );
+  }
 }
 
-abstract class _FaceSearchState implements FaceSearchState {
-  factory _FaceSearchState(
+abstract class _FaceSearchResultAlbumState
+    implements FaceSearchResultAlbumState {
+  factory _FaceSearchResultAlbumState(
       {required final bool loading,
-      final int? currentImageIndex}) = _$FaceSearchStateImpl;
+      final int? currentImageIndex}) = _$FaceSearchResultAlbumStateImpl;
+
+  factory _FaceSearchResultAlbumState.fromJson(Map<String, dynamic> json) =
+      _$FaceSearchResultAlbumStateImpl.fromJson;
 
   @override
   bool get loading;
@@ -147,6 +175,6 @@ abstract class _FaceSearchState implements FaceSearchState {
   int? get currentImageIndex;
   @override
   @JsonKey(ignore: true)
-  _$$FaceSearchStateImplCopyWith<_$FaceSearchStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$FaceSearchResultAlbumStateImplCopyWith<_$FaceSearchResultAlbumStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

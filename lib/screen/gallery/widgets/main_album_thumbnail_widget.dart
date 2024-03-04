@@ -3,21 +3,22 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/providers/app_image_provider.dart';
-import 'package:flutter_web/screen/image/image_screen.dart';
+import 'package:flutter_web/screen/image/main_album_image_screen.dart';
 import 'package:provider/provider.dart';
 
-class ThumbnailWidget extends StatefulWidget {
-  const ThumbnailWidget(
+class MainAlbumThumbnailWidget extends StatefulWidget {
+  const MainAlbumThumbnailWidget(
       {super.key, required this.index, required this.imageItem});
 
   final int index;
   final AppImageItem imageItem;
 
   @override
-  State<ThumbnailWidget> createState() => _ThumbnailWidgetState();
+  State<MainAlbumThumbnailWidget> createState() =>
+      _MainAlbumThumbnailWidgetState();
 }
 
-class _ThumbnailWidgetState extends State<ThumbnailWidget> {
+class _MainAlbumThumbnailWidgetState extends State<MainAlbumThumbnailWidget> {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppImageProvider>(
@@ -66,7 +67,7 @@ class _ThumbnailWidgetState extends State<ThumbnailWidget> {
             onTap: () {
               provider.setCurrentImageIndex(widget.index);
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ImageScreen(index: widget.index),
+                builder: (context) => MainAlbumImageScreen(index: widget.index),
               ));
             },
             child: Container(

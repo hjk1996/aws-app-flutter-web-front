@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web/model/data_model/app_image_metadata.dart';
+import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
+import 'package:flutter_web/model/state_model/search_result_album_state.dart';
 import 'package:flutter_web/providers/search_provider.dart';
-import 'package:flutter_web/screen/common/image_grid.dart';
+import 'package:flutter_web/providers/search_result_album_provider.dart';
+import 'package:flutter_web/screen/search/widgets/search_image_grid.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class SearchResultAlbumScreen extends StatefulWidget {
@@ -52,7 +56,9 @@ class _SearchResultAlbumScreenState extends State<SearchResultAlbumScreen> {
                 child: Text('No Image'),
               );
             } else {
-              return ImageGrid(imageList: snapshot.data!);
+              return SearchImageGrid(
+                imageItemList: snapshot.data!,
+              );
             }
           },
         ));

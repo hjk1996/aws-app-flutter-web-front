@@ -7,27 +7,22 @@ import 'package:flutter_web/event/image_event.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/app_image_data.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
-import 'package:flutter_web/model/state_model/search_result_album_state.dart';
+import 'package:flutter_web/model/state_model/face_search_result_album_state.dart';
 
-class SearchResultAlbumProvider with ChangeNotifier {
-  SearchResultAlbumProvider({
+class FaceSearchResultAlbumProvider with ChangeNotifier {
+  FaceSearchResultAlbumProvider({
     required ImageRepository imageRepository,
-    required SearchResultAlbumState initialState,
+    required FaceSearchResultAlbumState initialState,
     required List<AppImageItem> imageItemList,
-  }) {
-    _imageRepository = imageRepository;
-    _state = initialState;
-    _imageItemList = imageItemList;
-    if (initialState.currentImageIndex != null) {
-      setCurrentImageIndex(initialState.currentImageIndex!);
-    }
-  }
+  })  : _imageRepository = imageRepository,
+        _state = initialState,
+        _imageItemList = imageItemList;
 
-  late final ImageRepository _imageRepository;
-  late final List<AppImageItem> _imageItemList;
+  final ImageRepository _imageRepository;
+  late List<AppImageItem> _imageItemList;
   List<AppImageItem> get imageItemList => _imageItemList;
-  late SearchResultAlbumState _state;
-  SearchResultAlbumState get state => _state;
+  late FaceSearchResultAlbumState _state;
+  FaceSearchResultAlbumState get state => _state;
 
   final _imageEventController = StreamController<ImageEvent>.broadcast();
   Stream<ImageEvent> get imageEventStream => _imageEventController.stream;

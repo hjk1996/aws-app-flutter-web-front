@@ -21,7 +21,7 @@ class _QueryTypeSelectButtonState extends State<QueryTypeSelectButton> {
         switch (provider.state.queryType) {
           case QueryType.normal:
             backgroundColor = Colors.white;
-            buttonIcon = Icons.text_fields;
+            buttonIcon = Icons.tag;
             break;
           case QueryType.semantic:
             backgroundColor = Colors.blue;

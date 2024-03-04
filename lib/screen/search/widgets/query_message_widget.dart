@@ -52,12 +52,12 @@ class _QueryMessageWidgetState extends State<QueryMessageWidget> {
                 softWrap: true,
               ),
               SizedBox(height: 4), // 텍스트 사이의 간격 조정
-              Text(
-                "Query Type: ${widget.queryRequest.queryType.name}",
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white.withOpacity(0.8)), // 스타일 조정
-              ),
+            // Text(
+            //   "Query Type: ${widget.queryRequest.queryType.name}",
+            //   style: TextStyle(
+            //       fontSize: 12,
+            //       color: Colors.white.withOpacity(0.8)), // 스타일 조정
+            // ),
               Text(
                 formattedDate,
                 style: TextStyle(

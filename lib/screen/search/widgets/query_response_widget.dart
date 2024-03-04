@@ -59,11 +59,11 @@ class _QueryResponseWidgetState extends State<QueryResponseWidget> {
                       softWrap: true,
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      "Query Type: ${widget.queryResponse.queryType.name}",
-                      style: TextStyle(
-                          fontSize: 12, color: Colors.white.withOpacity(0.8)),
-                    ),
+                    // Text(
+                    //   "Query Type: ${widget.queryResponse.queryType.name}",
+                    //   style: TextStyle(
+                    //       fontSize: 12, color: Colors.white.withOpacity(0.8)),
+                    // ),
                     Text(
                       formattedDate,
                       style: TextStyle(

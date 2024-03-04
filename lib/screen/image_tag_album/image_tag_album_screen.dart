@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web/model/data_model/app_image_metadata.dart';
+import 'package:flutter_web/model/data_model/tag_info.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/model/state_model/search_result_album_state.dart';
-import 'package:flutter_web/providers/search_provider.dart';
 import 'package:flutter_web/providers/search_result_album_provider.dart';
 import 'package:flutter_web/screen/search/widgets/search_image_grid.dart';
 import 'package:flutter_web/screen/search/widgets/search_image_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
-class SearchResultAlbumScreen extends StatefulWidget {
-  const SearchResultAlbumScreen({
+class ImageTagAlbumScreen extends StatefulWidget {
+  const ImageTagAlbumScreen({
     super.key,
-    required this.imageMetadataList,
+    required this.tagInfo,
   });
-
-  final List<AppImageMetadata> imageMetadataList;
+  final TagInfo tagInfo;
 
   @override
-  State<SearchResultAlbumScreen> createState() =>
-      _SearchResultAlbumScreenState();
+  State<ImageTagAlbumScreen> createState() => _ImageTagAlbumScreenState();
 }
 
-class _SearchResultAlbumScreenState extends State<SearchResultAlbumScreen> {
+class _ImageTagAlbumScreenState extends State<ImageTagAlbumScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +38,8 @@ class _SearchResultAlbumScreenState extends State<SearchResultAlbumScreen> {
           title: const Text('Search Result'),
         ),
         body: FutureBuilder<List<AppImageItem>?>(
-          future: context.read<SearchProvider>().getImageThumbnailList(
-              imageMetadataList: widget.imageMetadataList),
+          // todo
+          future: Future.value([]),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

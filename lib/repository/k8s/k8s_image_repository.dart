@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_web/model/data_model/app_image_metadata.dart';
+import 'package:flutter_web/model/data_model/tag_info.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/app_image_data.dart';
 import 'package:flutter_web/utils/token_manager.dart';
@@ -100,8 +101,6 @@ class K8sImageRepository implements ImageRepository {
       "/original/${tokenManager.userId}/$imageUrl",
     );
 
-
-
     if (response.statusCode != 200) {
       throw DioException(
         requestOptions: response.requestOptions,
@@ -186,7 +185,6 @@ class K8sImageRepository implements ImageRepository {
     final response = await apiHttpClient
         .post('/pictures/bookmark/${imageMetadata.pictureId}', data: null);
 
-
     if (response.statusCode != 200) {
       print("bookmark status code: ${response.statusCode}");
       throw DioException(
@@ -209,5 +207,26 @@ class K8sImageRepository implements ImageRepository {
         response: response,
       );
     }
+  }
+
+  @override
+  Future<List<TagInfo>> loadUserTags() async {
+    final response = await apiHttpClient.get(
+      '/pictures/tagrank',
+      queryParameters: {
+        "user_id": tokenManager.userId,
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+      );
+    }
+
+    return (response.data["topTags"] as List)
+        .map((e) => TagInfo.fromJson(e))
+        .toList();
   }
 }

@@ -21,8 +21,8 @@ class _QueryTypeButtonState extends State<QueryTypeButton> {
     switch (widget.queryType) {
       case QueryType.normal:
         backgroundColor = Colors.white;
-        buttonIcon = Icons.text_fields;
-        buttonText = "Normal Search";
+        buttonIcon = Icons.tag;
+        buttonText = "Tag Search";
         break;
       case QueryType.semantic:
         backgroundColor = Colors.blue;

@@ -9,8 +9,13 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class SearchImageGrid extends StatefulWidget {
-  const SearchImageGrid({super.key, required this.imageItemList});
+  const SearchImageGrid({
+    super.key,
+    required this.imageItemList,
+    required this.onTap,
+  });
   final List<AppImageItem> imageItemList;
+  final void Function(int index, List<AppImageItem> imageItemList) onTap;
 
   @override
   State<SearchImageGrid> createState() => _SearchImageGridState();
@@ -39,23 +44,12 @@ class _SearchImageGridState extends State<SearchImageGrid> {
                   ValueKey(widget.imageItemList[index].imageMetadata.pictureId),
               index: index,
               imageItem: widget.imageItemList[index],
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ChangeNotifierProvider<SearchResultAlbumProvider>(
-                          create: (context) => SearchResultAlbumProvider(
-                            imageRepository:
-                                GetIt.instance.get<ImageRepository>(),
-                            initialState: SearchResultAlbumState(
-                                loading: false, currentImageIndex: index),
-                            imageItemList: widget.imageItemList,
-                          ),
-                          child: SearchImageScreen(
-                            index: index,
-                          ),
-                        )),
-              ),
+              onTap: () {
+                widget.onTap(
+                  index,
+                  widget.imageItemList,
+                );
+              },
             ));
       },
     );

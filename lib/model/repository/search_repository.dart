@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_web/model/data_model/app_image_metadata.dart';
 import 'package:flutter_web/model/data_model/query_response.dart';
+import 'package:flutter_web/model/data_model/tag_info.dart';
 import 'package:flutter_web/utils/token_manager.dart';
 
 abstract class SearchRepository {
@@ -24,4 +25,10 @@ abstract class SearchRepository {
   Future<void> resetFaceIndex();
 
   Future<void> resetImageCaptions(); 
+
+
+
+
+
+
 }

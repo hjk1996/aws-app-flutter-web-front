@@ -74,71 +74,63 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           )),
-
-          Row(
-            children: [
-              const QueryTypeSelectButton(),
-              const SizedBox(width: 8.0),
-              Expanded(
-                  child: Container(
-                height: chatInputHeight,
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25.0),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 4,
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 1,
-                    ),
-                  ],
+          Container(
+            height: chatInputHeight,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25.0),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 4,
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1,
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _queryController,
-                        decoration: const InputDecoration(
-                          hintText: "Enter your message...",
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    Selector<SearchProvider, bool>(
-                      selector: (_, provider) => provider.state.loading,
-                      builder: (context, loading, child) => loading
-                          ? const CircularProgressIndicator()
-                          : IconButton(
-                              icon: const Icon(Icons.send),
-                              onPressed: () async {
-                                final query = _queryController.text;
-                                print(query);
-                                if (query.isNotEmpty) {
-                                  await context
-                                      .read<SearchProvider>()
-                                      .hanldleQuery(query: query);
-                                  _queryController.clear();
-                                }
-                              },
-                            ),
-                    ),
-                  ],
-                ),
-              ))
-            ],
-          ),
-          Visibility(
-            visible: context.select<SearchProvider, bool>(
-              (provider) => provider.state.showQueryTypes,
+              ],
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: QueryType.values
-                  .map((queryType) => QueryTypeButton(queryType: queryType))
-                  .toList(),
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _queryController,
+                    decoration: const InputDecoration(
+                      hintText: "Enter your message...",
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                Selector<SearchProvider, bool>(
+                  selector: (_, provider) => provider.state.loading,
+                  builder: (context, loading, child) => loading
+                      ? const CircularProgressIndicator()
+                      : IconButton(
+                          icon: const Icon(Icons.send),
+                          onPressed: () async {
+                            final query = _queryController.text;
+                            print(query);
+                            if (query.isNotEmpty) {
+                              await context
+                                  .read<SearchProvider>()
+                                  .hanldleQuery(query: query);
+                              _queryController.clear();
+                            }
+                          },
+                        ),
+                ),
+              ],
             ),
           ),
+          // Visibility(
+          //   visible: context.select<SearchProvider, bool>(
+          //     (provider) => provider.state.showQueryTypes,
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: QueryType.values
+          //         .map((queryType) => QueryTypeButton(queryType: queryType))
+          //         .toList(),
+          //   ),
+          // ),
         ],
       ),
     );

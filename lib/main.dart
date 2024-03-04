@@ -8,6 +8,7 @@ import 'package:flutter_web/screen/email_verification/email_verification_screen.
 import 'package:flutter_web/screen/face_search/face_search_screen.dart';
 import 'package:flutter_web/screen/gallery/gallery_screen.dart';
 import 'package:flutter_web/screen/home/home_screen.dart';
+import 'package:flutter_web/screen/image_tag_list/image_tag_list_screen.dart';
 import 'package:flutter_web/screen/search/search_screen.dart';
 import 'package:flutter_web/screen/setting/setting_screen.dart';
 import 'package:flutter_web/screen/sign_in/sign_in_screen.dart';
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
         SearchScreen.routeName: (context) => const SearchScreen(),
         SettingScreen.routeName: (context) => const SettingScreen(),
         FaceSearchScreen.routeName: (context) => const FaceSearchScreen(),
+        ImageTagListScreen.routeName: (context) => const ImageTagListScreen(),
       },
       home: const AuthWrapper(),
       builder: EasyLoading.init(),

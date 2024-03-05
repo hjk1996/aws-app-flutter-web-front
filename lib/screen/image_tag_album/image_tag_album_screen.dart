@@ -36,7 +36,7 @@ class _ImageTagAlbumScreenState extends State<ImageTagAlbumScreen> {
               }
             },
           ),
-          title: const Text('Search Result'),
+          title: Text('Search Result: ${widget.tagInfo.tag}'),
         ),
         body: FutureBuilder<List<AppImageItem>?>(
           // todo

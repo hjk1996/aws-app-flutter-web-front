@@ -43,7 +43,9 @@ class _MainAlbumThumbnailWidgetState extends State<MainAlbumThumbnailWidget> {
                       ),
                     ),
                     child: Image.memory(
-                      widget.imageItem.imageData.thumbnail ?? Uint8List(0),
+                      widget.imageItem.imageData.thumbnail ??
+                          widget.imageItem.imageData.original ??
+                          Uint8List(0),
                       fit: BoxFit.cover,
                     ),
                   ),

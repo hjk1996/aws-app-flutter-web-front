@@ -97,12 +97,12 @@ class _GalleryScreenState extends State<GalleryScreen> {
                       onPressed: () {}, child: Text("Load New Images")));
             },
           ),
-          ImageDeleteButton(),
-          SizedBox(
+          const ImageDeleteButton(),
+          const SizedBox(
             width: 10,
           ),
-          SelectAllButton(),
-          GallerySelectToggleButton()
+          const SelectAllButton(),
+          const GallerySelectToggleButton()
         ],
         title: const Text("Gallery"),
       ),

@@ -40,15 +40,19 @@ class ImageTagListProvider with ChangeNotifier {
     }
   }
 
-  Future<List<AppImageItem>?> getImageThumbnailList() async {
+  Future<List<AppImageItem>?> getImageThumbnailList(String tag) async {
     try {
       _state = _state.copyWith(loading: true);
       notifyListeners();
-    } on Exception catch (err) {
-      _eventController.sink.add(ImageTagListEvent.error(err.toString()));
-    } finally {
+      final imageItemList = _imageRepository.getImageByTag(tag: tag);
       _state = _state.copyWith(loading: false);
       notifyListeners();
+      return imageItemList;
+    } on Exception catch (err) {
+      _eventController.sink.add(ImageTagListEvent.error(err.toString()));
+      _state = _state.copyWith(loading: false);
+      notifyListeners();
+      return null;
     }
   }
 }

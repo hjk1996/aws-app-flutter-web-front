@@ -7,6 +7,7 @@ import 'package:flutter_web/model/data_model/app_image_metadata.dart';
 import 'package:flutter_web/model/data_model/tag_info.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/app_image_data.dart';
+import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/utils/token_manager.dart';
 
 class K8sImageRepository implements ImageRepository {
@@ -65,15 +66,28 @@ class K8sImageRepository implements ImageRepository {
     required bool isThumbnail,
   }) async {
     final responses = await Future.wait(
-      imageUrls.map((imageUrl) {
-        return s3HttpClient
-            .get(
-                "/${isThumbnail ? "thumbnail" : "original"}/${tokenManager.userId}/$imageUrl")
-            .then((response) => response)
-            .catchError((error) {
-          // 오류 로깅 또는 기본 데이터 처리
-          return null; // 실패한 경우 null 반환 또는 기본 값 설정
-        });
+      imageUrls.map((imageUrl) async {
+        // Thumbnail 이미지 요청 시도
+        if (isThumbnail) {
+          var response = await s3HttpClient
+              .get("/thumbnail/${tokenManager.userId}/$imageUrl");
+
+          if (response.statusCode != 200) {
+            // 실패 시 원본 이미지 요청
+            response = await s3HttpClient
+                .get("/original/${tokenManager.userId}/$imageUrl");
+          }
+
+          // 응답 처리
+          return response;
+        } else {
+          var response = await s3HttpClient
+              .get("/original/${tokenManager.userId}/$imageUrl");
+          // 응답 처리
+          return response;
+        }
+
+        // 응답 처리
       }).toList(),
       eagerError: false, // 하나의 Future가 실패해도 다른 Future의 결과를 기다립니다.
     );
@@ -82,7 +96,9 @@ class K8sImageRepository implements ImageRepository {
         .map(
           (response) => AppImageData(
             selected: false,
-            thumbnail: response.statusCode == 200 ? response.data : null,
+            thumbnail: response.statusCode == 200 && response.data != null
+                ? response.data
+                : null,
             original: response.statusCode == 200 && !isThumbnail
                 ? response.data
                 : null,
@@ -227,6 +243,51 @@ class K8sImageRepository implements ImageRepository {
 
     return (response.data["topTags"] as List)
         .map((e) => TagInfo.fromJson(e))
+        .toList();
+  }
+
+  @override
+  Future<List<AppImageItem>?> getImageByTag({
+    required String tag,
+  }) async {
+    final response = await apiHttpClient.get(
+      '/users/${tokenManager.userId}',
+      queryParameters: {
+        "tag": tag,
+        "last": 0,
+        "limit": 100,
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+      );
+    }
+
+    final imageMetadataList = (response.data["pictures"] as List)
+        .map((e) => AppImageMetadata.fromJson(e))
+        .toList();
+
+    final imageUrls = imageMetadataList.map((e) => e.imageUrl).toList();
+
+    final imaageDataList =
+        await getImageDataList(imageUrls: imageUrls, isThumbnail: true);
+
+    if (imaageDataList == null) {
+      return null;
+    }
+
+    return imageMetadataList
+        .asMap()
+        .entries
+        .map(
+          (e) => AppImageItem(
+            imageData: imaageDataList[e.key],
+            imageMetadata: e.value,
+          ),
+        )
         .toList();
   }
 }

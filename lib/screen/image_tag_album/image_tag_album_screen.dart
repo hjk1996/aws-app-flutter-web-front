@@ -3,6 +3,7 @@ import 'package:flutter_web/model/data_model/tag_info.dart';
 import 'package:flutter_web/model/repository/image_repository.dart';
 import 'package:flutter_web/model/state_model/app_image_item.dart';
 import 'package:flutter_web/model/state_model/search_result_album_state.dart';
+import 'package:flutter_web/providers/image_tag_list_provider.dart';
 import 'package:flutter_web/providers/search_result_album_provider.dart';
 import 'package:flutter_web/screen/search/widgets/search_image_grid.dart';
 import 'package:flutter_web/screen/search/widgets/search_image_screen.dart';
@@ -39,7 +40,9 @@ class _ImageTagAlbumScreenState extends State<ImageTagAlbumScreen> {
         ),
         body: FutureBuilder<List<AppImageItem>?>(
           // todo
-          future: Future.value([]),
+          future: context
+              .read<ImageTagListProvider>()
+              .getImageThumbnailList(widget.tagInfo.tag),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -64,7 +67,9 @@ class _ImageTagAlbumScreenState extends State<ImageTagAlbumScreen> {
                       create: (context) => SearchResultAlbumProvider(
                         imageRepository: GetIt.instance.get<ImageRepository>(),
                         initialState: SearchResultAlbumState(
-                            loading: false, currentImageIndex: index),
+                          loading: false,
+                          currentImageIndex: index,
+                        ),
                         imageItemList: imageItemList,
                       ),
                       child: SearchImageScreen(

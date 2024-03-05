@@ -122,8 +122,9 @@ class AppImageProvider with ChangeNotifier {
       }
 
       final newImageDataList = await _imageRepository.getImageDataList(
-          imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
-          isThumbnail: false);
+        imageUrls: newImageMetadataList.map((e) => e.imageUrl).toList(),
+        isThumbnail: false,
+      );
 
       if (newImageDataList == null) {
         throw Exception("get images failed");

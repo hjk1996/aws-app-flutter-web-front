@@ -26,6 +26,7 @@ class _ImageUploadButtonState extends State<ImageUploadButton> {
                 type: FileType.custom,
                 allowedExtensions: ['jpg', 'png', 'jpeg', 'zip'],
                 allowMultiple: true,
+      
               );
 
               if (picked == null) {

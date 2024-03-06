@@ -36,7 +36,7 @@ k
 ## 배포 방식
 
 ![alt text](frontend_cicd_pipeline.drawio.png)
-프로젝트의 프론트엔드 배포는 자동화된 CI/CD 파이프라인을 통해 이루어집니다.
+
 
 1. **코드 푸시**
 

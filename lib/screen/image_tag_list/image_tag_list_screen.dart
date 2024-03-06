@@ -58,7 +58,7 @@ class _ImageTagListScreenState extends State<ImageTagListScreen> {
                       ),
                     ),
                     title: Text(
-                      provider.state.tags[index].tag,
+                      "${provider.state.tags[index].tag} (${provider.state.tags[index].count})",
                       style: TextStyle(color: Colors.blue.shade800), // 타이틀 색상
                     ),
                     trailing: IconButton(

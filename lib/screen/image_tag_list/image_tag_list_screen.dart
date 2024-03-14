@@ -40,7 +40,7 @@ class _ImageTagListScreenState extends State<ImageTagListScreen> {
               builder: (context, provider, child) => ListView.builder(
                 itemCount: provider.state.tags.length,
                 itemBuilder: (context, index) => Card(
-                  elevation: 4.0, // 그림자 효과를 위한 높이 설정
+                  elevation: 4.0, // 그림자 효과를 위한 높이
                   margin: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 4.0), // 카드 간격 설정
                   shape: RoundedRectangleBorder(
